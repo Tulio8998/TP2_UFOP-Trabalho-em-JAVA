@@ -31,7 +31,7 @@ public class Controle {
 		filmes = new ArrayList<Filme>();
 	}
 	
-	public int addCliente(String nome, String end, int codigo){
+	public int cadastrarCliente(String nome, String end, int codigo){
 		/**
 		 * Para cada uma das verificações abaixo o método irá retornar um inteiro indicando um erro
 		 * caso ele aconteça. Caso nenhum dado inválido seja digitado o cadastro será realizado
@@ -53,6 +53,11 @@ public class Controle {
 	public int getQtdClientes(){
 		return clientes.size();
 	}
+	public int getQtdFilmes(){
+		return filmes.size();
+	}
+	
+	
 	/**
 	 * Método para retornar um cliente em uma determinada posição. É importante que as classes de interface gráfica não tenham
 	 * acesso a uma referncia do array utilizado para armazenar todos os clientes
@@ -67,9 +72,40 @@ public class Controle {
 		return null;
 	}
 	
+	public Filme getFilmesNaPosicao(int pos){
+		if(pos >=0 && pos < getQtdFilmes()){
+			return filmes.get(pos);
+		}
+		//Caso a posição solicitada não tenha cliente será retornado NULL
+		return null;
+	}
 	
+	public boolean verificarFilmeRepetido(Filme novoFilme) {
+		for (Filme f : filmes ) {
+			if (f.equals(novoFilme)) {
+                System.out.println("Esse filme já existe em seu cadastro.");
+                return true;
+            }
+        }
+        return false;
+		
+	}
 	
-	public void informacoesDoSitema (double locacaoDiaria, double multaPorDia, int maxFilmesAlugados) {
+	 public int cadastrarFilme(String nome, int anoLancado, String genero, int quantidadeDvds, int quantidadeBluerays,
+             String tipoFilme) {
+		Filme novofilme = new Filme(nome, anoLancado, genero, quantidadeDvds, quantidadeBluerays, tipoFilme);
+		if (verificarFilmeRepetido(novofilme)) {
+			// Retorna um código de erro indicando que o filme já existe
+			return Constantes.ERRO_CAMPO_VAZIO;
+		} else {
+			this.filmes.add(novofilme);
+			return Constantes.RESULT_OK;
+		}
+	}
+	
+	 
+	 
+	public void informacoesDoSistema (double locacaoDiaria, double multaPorDia, int maxFilmesAlugados) {
         valorLocacaoDiaria = locacaoDiaria;
         valorMultaPorDia = multaPorDia;
         quantidadeMaximaFilmesAlugados = maxFilmesAlugados;

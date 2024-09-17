@@ -3,6 +3,8 @@ package br.ufop.trabalho;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+
+
 /**
  * Esta classe tem a função de oferecer métodos úteis que poderão ser utilizados em vários momentos do código. Por isso, os métodos
  * serão estáticos de forma que possam ser acessados sem a necessidade de instanciar um Objeto da classe Util.
@@ -10,6 +12,7 @@ import java.util.Scanner;
  *
  */
 public class Util {
+	
 	
 	/**
 	 * Este méodo verifica se uma String recebida como parâmetro está preenchida com algum valor. Caso tenha pelo menos um caracter
@@ -37,6 +40,8 @@ public class Util {
 		return true;
 	}
 	
+	
+	
 	/**
 	 * Método que verifica se a senha tem pelo menos um número
 	 * @param senha
@@ -56,7 +61,7 @@ public class Util {
 				continua = false;		
 			}
 			catch(InputMismatchException e){
-				System.out.println("Erro ao ler n�mero! Digite novamente:");
+				System.out.println("Erro ao ler número!\nDigite novamente:");
 				in.nextLine();
 				continua = true;
 			}

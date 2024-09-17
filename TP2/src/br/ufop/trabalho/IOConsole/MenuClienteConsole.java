@@ -36,7 +36,7 @@ public class MenuClienteConsole {
 				case 10:
 					return;
 				default:
-					System.out.println("Op��o Inv�lida!");
+					System.out.println("Opção Inválida!");
 			}		
 		}while(continua == true);
 	}
@@ -57,7 +57,7 @@ public class MenuClienteConsole {
 		System.out.println("Digite o codigo do cliente");		
 		codigo = Util.leInteiroConsole(input);
 		input.nextLine();
-		int retorno = controle.addCliente(nome, end, codigo);
+		int retorno = controle.cadastrarCliente(nome, end, codigo);
 		String msg = "";
 		switch(retorno){
 		//Verificação do retorno do método de adição de cliente

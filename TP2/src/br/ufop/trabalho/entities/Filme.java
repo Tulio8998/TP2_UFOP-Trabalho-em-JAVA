@@ -1,5 +1,7 @@
 package br.ufop.trabalho.entities;
 
+import java.util.Objects;
+
 /***
  * Falta implementar
  * @author filipe
@@ -71,6 +73,30 @@ public class Filme {
 
 	public void setTipoFilme(String tipoFilme) {
 		this.tipoFilme = tipoFilme;
+	}
+
+	@Override
+	public String toString() {
+		return getNome();
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(anoLancado, genero, nome, quantidadeBluerays, quantidadeDvds, tipoFilme);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Filme other = (Filme) obj;
+		return anoLancado == other.anoLancado && Objects.equals(genero, other.genero)
+				&& Objects.equals(nome, other.nome) && quantidadeBluerays == other.quantidadeBluerays
+				&& quantidadeDvds == other.quantidadeDvds && Objects.equals(tipoFilme, other.tipoFilme);
 	}
 	
 	
