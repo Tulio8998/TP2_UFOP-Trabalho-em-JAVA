@@ -1,8 +1,12 @@
 package br.ufop.trabalho.controle;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 import br.ufop.trabalho.Util;
+import br.ufop.trabalho.IOConsole.MenuClienteConsole;
+import br.ufop.trabalho.IOConsole.MenuFilmesConsole;
 import br.ufop.trabalho.entities.Cliente;
 import br.ufop.trabalho.entities.Filme;
 
@@ -21,7 +25,10 @@ public class Controle {
 	//Array de clientes
 	private ArrayList <Cliente> clientes;
 	private ArrayList <Filme> filmes;
+	private MenuClienteConsole menuCliente;
+	private MenuFilmesConsole menuFilmes;
 	
+	private Scanner input = new Scanner(System.in);;
 	private double valorLocacaoDiaria;
 	private double valorMultaPorDia;
 	private int quantidadeMaximaFilmesAlugados;
@@ -95,7 +102,6 @@ public class Controle {
              String tipoFilme) {
 		Filme novofilme = new Filme(nome, anoLancado, genero, quantidadeDvds, quantidadeBluerays, tipoFilme);
 		if (verificarFilmeRepetido(novofilme)) {
-			// Retorna um código de erro indicando que o filme já existe
 			return Constantes.ERRO_CAMPO_VAZIO;
 		} else {
 			this.filmes.add(novofilme);
@@ -103,7 +109,28 @@ public class Controle {
 		}
 	}
 	
+	public List<Filme> buscarFilme(Object busca) {
+		List<Filme> resultado =  new ArrayList<>();
+		for(Filme f : filmes) {
+			if(busca instanceof Integer) {
+				int quantidade = (Integer) busca;
+				if(f.getQuantidadeBluerays() == quantidade || f.getQuantidadeDvds() == quantidade) {
+					resultado.add(f);
+				}
+			} else if (busca instanceof String) {
+				String filme = (String) busca;
+				if (f.getNome().equalsIgnoreCase(filme) || f.getGenero().equalsIgnoreCase(filme)) {
+					resultado.add(f);
+				}
+			}
+		}
+		return resultado;
+	
+	}
 	 
+	public void modificarFilmes(Filme filme) {
+		System.out.println("Ainda não fiz");
+	}
 	 
 	public void informacoesDoSistema (double locacaoDiaria, double multaPorDia, int maxFilmesAlugados) {
         valorLocacaoDiaria = locacaoDiaria;
