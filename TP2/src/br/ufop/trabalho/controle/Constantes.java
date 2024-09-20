@@ -29,6 +29,12 @@ public interface Constantes {
 	
 	public static final int ERRO_CAMPO_VAZIO = 2;
 	
+	public static final int ERROR_lIMITE_DEPENDENTE = 3;
 	
+	public static final int ERRO_CLIENTE = 4;
+	
+	public static final int FILME_REPETIDO = 5;
+	
+	public static final int CLIENTE_REPETIDO = 6;
 }
 

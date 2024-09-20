@@ -1,16 +1,17 @@
 package br.ufop.trabalho.entities;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class Dependentes extends Pessoa{
 
 	private String cpf;
-	private Date dataNacimento;
+	private LocalDate dataNacimento;
 	
-	public Dependentes(String nome, String endereco, String cpf, Date dataNacimento) {
+	public Dependentes(String nome, String endereco, String cpf, LocalDate data) {
 		super(nome, endereco);
 		this.cpf = cpf;
-		this.dataNacimento = dataNacimento;
+		this.dataNacimento = data;
 	}
 	
 	public Dependentes(){}
@@ -21,10 +22,10 @@ public class Dependentes extends Pessoa{
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	public Date getDataNacimento() {
+	public LocalDate getDataNacimento() {
 		return dataNacimento;
 	}
-	public void setDataNacimento(Date dataNacimento) {
+	public void setDataNacimento(LocalDate dataNacimento) {
 		this.dataNacimento = dataNacimento;
 	}
 	

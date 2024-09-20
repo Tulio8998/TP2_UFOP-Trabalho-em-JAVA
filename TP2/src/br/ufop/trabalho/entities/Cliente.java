@@ -1,24 +1,25 @@
 package br.ufop.trabalho.entities;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Cliente extends Pessoa{
 
 	private int codigo; 
 	private String cpf;
-	private Date dataNacimento;
+	private LocalDate dataNacimento;
 	private double multa;
 	
 	private ArrayList<Dependentes> dependentes;
 	private ArrayList<Filme> filmes;
 
-	public Cliente(String nome, String endereco, int codigo, String cpf, Date dataNacimento, double multa) {
+	public Cliente(String nome, String endereco, int codigo, String cpf, LocalDate dataNacimento) {
 		super(nome, endereco);
 		this.codigo = codigo;
 		this.cpf = cpf;
 		this.dataNacimento = dataNacimento;
-		this.multa = multa;
+		this.multa = 0;
 		filmes = new ArrayList<Filme>();
 		dependentes =  new ArrayList<Dependentes>();
 	}
@@ -37,10 +38,10 @@ public class Cliente extends Pessoa{
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	public Date getDataNacimento() {
+	public LocalDate getDataNacimento() {
 		return dataNacimento;
 	}
-	public void setDataNacimento(Date dataNacimento) {
+	public void setDataNacimento(LocalDate dataNacimento) {
 		this.dataNacimento = dataNacimento;
 	}
 	public double getMulta() {
@@ -62,8 +63,24 @@ public class Cliente extends Pessoa{
 		this.dependentes = dependentes;
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(codigo, cpf);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cliente other = (Cliente) obj;
+		return codigo == other.codigo && Objects.equals(cpf, other.cpf);
+	}
+
 	public boolean adicionarDependentes(Dependentes dependente) {
-		
 		if (dependentes.size() < 3) {
 			dependentes.add(dependente);
 			return true;

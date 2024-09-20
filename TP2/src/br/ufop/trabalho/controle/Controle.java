@@ -1,13 +1,12 @@
 package br.ufop.trabalho.controle;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import br.ufop.trabalho.Util;
-import br.ufop.trabalho.IOConsole.MenuClienteConsole;
-import br.ufop.trabalho.IOConsole.MenuFilmesConsole;
 import br.ufop.trabalho.entities.Cliente;
+import br.ufop.trabalho.entities.Dependentes;
 import br.ufop.trabalho.entities.Filme;
 
 
@@ -25,38 +24,55 @@ public class Controle {
 	//Array de clientes
 	private ArrayList <Cliente> clientes;
 	private ArrayList <Filme> filmes;
-	private MenuClienteConsole menuCliente;
-	private MenuFilmesConsole menuFilmes;
-	
-	private Scanner input = new Scanner(System.in);;
+
 	private double valorLocacaoDiaria;
 	private double valorMultaPorDia;
 	private int quantidadeMaximaFilmesAlugados;
+	private Cliente cliente;
 	
 	public Controle(){
 		clientes = new ArrayList<Cliente>();
 		filmes = new ArrayList<Filme>();
 	}
 	
-	public int cadastrarCliente(String nome, String end, int codigo){
-		/**
-		 * Para cada uma das verificações abaixo o método irá retornar um inteiro indicando um erro
-		 * caso ele aconteça. Caso nenhum dado inválido seja digitado o cadastro será realizado
-		 * e será retornado um inteiro indicando que o cadastro foi realizado corretamente
-		 */
-		//Verifica se os campos estão preenchidos
-		if(Util.verificaListaStringPreenchida(nome, end) == false ){
+	public boolean verificarClienteRepetido(Cliente cliete) {
+		for (Cliente c : clientes ) {
+			if (c.equals(cliente)) {
+                
+                return true;
+            }
+        }
+        return false;
+	}
+	
+	public int cadastrarCliente(String nome, String end, int codigo, String cpf, LocalDate data){
+		if(Util.verificaListaStringPreenchida(nome, end, cpf) == false ){
 			return Constantes.ERRO_CAMPO_VAZIO;
 		}
-
-		Cliente cliente = new Cliente(nome, end, codigo, end, null, codigo);
-		this.clientes.add(cliente);
+		cliente = new Cliente(nome, end, codigo, cpf, null);
+		if (verificarClienteRepetido(cliente)) {
+			return Constantes.CLIENTE_REPETIDO;
+		}
 		
+		this.clientes.add(cliente);
 		return Constantes.RESULT_OK;
 	}
-	/**
-	 * Método que retornar a quantidade de clientes cadastrados
-	 */
+	
+	public int cadastrarDependente(String nome, String end, String cpf, LocalDate data){
+		if(Util.verificaListaStringPreenchida(nome, end, cpf) == false ){
+			return Constantes.ERRO_CAMPO_VAZIO;
+		}
+		if (cliente == null) {
+	        return Constantes.ERRO_CLIENTE;
+	    } else if (cliente.getDependentes().size() >= 3) {
+		        return Constantes.ERROR_lIMITE_DEPENDENTE;
+		    }
+		    Dependentes dependente = new Dependentes(nome, end, cpf, data);
+		    cliente.adicionarDependentes(dependente);
+		    return Constantes.RESULT_OK;
+		    
+	}
+	
 	public int getQtdClientes(){
 		return clientes.size();
 	}
@@ -64,18 +80,10 @@ public class Controle {
 		return filmes.size();
 	}
 	
-	
-	/**
-	 * Método para retornar um cliente em uma determinada posição. É importante que as classes de interface gráfica não tenham
-	 * acesso a uma referncia do array utilizado para armazenar todos os clientes
-	 * @param pos
-	 * @return
-	 */
 	public Cliente getClienteNaPosicao(int pos){
 		if(pos >=0 && pos < getQtdClientes()){
 			return clientes.get(pos);
 		}
-		//Caso a posição solicitada não tenha cliente será retornado NULL
 		return null;
 	}
 	
@@ -83,14 +91,13 @@ public class Controle {
 		if(pos >=0 && pos < getQtdFilmes()){
 			return filmes.get(pos);
 		}
-		//Caso a posição solicitada não tenha cliente será retornado NULL
 		return null;
 	}
 	
-	public boolean verificarFilmeRepetido(Filme novoFilme) {
+	public boolean verificarFilmeRepetido(Filme filme) {
 		for (Filme f : filmes ) {
-			if (f.equals(novoFilme)) {
-                System.out.println("Esse filme já existe em seu cadastro.");
+			if (f.equals(filme)) {
+                
                 return true;
             }
         }
@@ -102,6 +109,8 @@ public class Controle {
              String tipoFilme) {
 		Filme novofilme = new Filme(nome, anoLancado, genero, quantidadeDvds, quantidadeBluerays, tipoFilme);
 		if (verificarFilmeRepetido(novofilme)) {
+			return Constantes.FILME_REPETIDO;
+		} else if (nome.isBlank() || genero.isBlank() ||  tipoFilme.isBlank()) {
 			return Constantes.ERRO_CAMPO_VAZIO;
 		} else {
 			this.filmes.add(novofilme);
@@ -127,9 +136,32 @@ public class Controle {
 		return resultado;
 	
 	}
-	 
-	public void modificarFilmes(Filme filme) {
-		System.out.println("Ainda não fiz");
+	
+	public List<Cliente> buscaCliente(Object busca) {
+		List<Cliente> resultado = new ArrayList<>();
+		for(Cliente c : clientes) {
+			if(busca instanceof Integer) {
+				int codigo = (Integer) busca;
+				if(c.getCodigo() == codigo) {
+					resultado.add(c);
+				}
+			} else if(busca instanceof String) {
+				String cliente = (String) busca;
+				if(c.getNome().equalsIgnoreCase(cliente)) {
+					resultado.add(c);
+				}
+
+			}
+		}
+
+		return resultado;
+
+		}
+	
+	public void exluirFilmes(Filme filme) {
+			if(!filmes.isEmpty()) {
+				filmes.remove(filme);
+			}
 	}
 	 
 	public void informacoesDoSistema (double locacaoDiaria, double multaPorDia, int maxFilmesAlugados) {

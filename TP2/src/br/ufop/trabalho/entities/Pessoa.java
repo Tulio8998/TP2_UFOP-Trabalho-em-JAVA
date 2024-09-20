@@ -1,5 +1,7 @@
 package br.ufop.trabalho.entities;
 
+import java.util.Objects;
+
 /**
  * Classe para armazenar os dados de uma Pessoa. Como o sistema deverá controlar clientes e funcionários os dados comuns serão
  * armazenadona superClassePessoa.
@@ -36,6 +38,7 @@ public class Pessoa {
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
-
-
+	
+	
+	
 }

@@ -44,18 +44,7 @@ public class MenuFilmesConsole {
 		}while(continua == true);
 	}
 
-	/**
-	 * this.nome = nome;
-		this.anoLancado = anoLancado;
-		this.genero = genero;
-		this.quantidadeDvds = quantidadeDvds;
-		this.quantidadeBluerays = quantidadeBluerays;
-		this.tipoFilme = tipoFilme;
-	 * Este método permitirá a entrada dos dados de um cliente. 
-	 * 		MÉTODO INCOMPLETO. NÃO CADASTRA TODOS OS DADOS.
-	 */
 	private void leDadosFilmes(){
-		//Limpa o buffer já que leu um inteiro
 		input.nextLine();
 		String nome, genero, tipoFilme;  
 		int anoLancado, quantidadeDvds, quantidadeBluerays;
@@ -75,7 +64,9 @@ public class MenuFilmesConsole {
 		int retorno = controle.cadastrarFilme(nome, anoLancado, genero, quantidadeDvds, quantidadeBluerays, tipoFilme);
 		String msg = "";
 		switch(retorno){
-		//Verificação do retorno do método de adição de cliente
+			case Constantes.FILME_REPETIDO:
+				msg = "Esse filme já existe em seu cadastro!";
+				break;
 			case Constantes.ERRO_CAMPO_VAZIO:
 					msg = "Todos os campos devem ser preenchidos!";
 					break;
@@ -93,7 +84,6 @@ public class MenuFilmesConsole {
 		int op  = 0, disponibilidade;
 		String nome, genero;
 		do{	
-			// A opção 5 não é necessária. Foi inserida apenas para teste.
 			System.out.println("Digite a opção de busca:\n\t1 - Buscar filme por nome\n\t2 - Buscar filme por genero\n\t3 - Buscar filme por disponibilidade\n\t4 - Voltar\n");
 			op = Util.leInteiroConsole(input);
 			List<Filme> resultado = new ArrayList<>();
@@ -125,7 +115,7 @@ public class MenuFilmesConsole {
 		
 	private void exibirFilmes(List<Filme> filmes) {
         if (filmes.isEmpty()) {
-            System.out.println("Nenhum filme encontrado.");
+            System.out.println("Não existe esse filme em seu cadastro");
         } else {
             int i = 1;
             for (Filme f : filmes) {
@@ -141,15 +131,73 @@ public class MenuFilmesConsole {
         if (!filmes.isEmpty()) {
             System.out.println("Escolha o n° do filme que deseja modificar: ");
             int op = input.nextInt();
-            input.nextLine();
             if (op >= 1 && op <= filmes.size()) {
                 Filme filmeEscolhido = filmes.get(op - 1);
-                controle.modificarFilmes(filmeEscolhido);
+                modificarFilmes(filmeEscolhido);
             } else {
                 System.out.println("Opção inválida.");
             }
         }
     }
+	
+	public void modificarFilmes(Filme filme) {
+		input.nextLine();
+		boolean continua = true;
+		int op  = 0;
+		do{	
+			System.out.println("Digite a opção de busca:\n\t1 - Editar filme\n\t2 - Excluir filme\n\t3 - Locar para cliente\n\t4 - Voltar\n");
+			op = Util.leInteiroConsole(input);
+			switch(op){
+				case 1:
+					input.nextLine();
+					String nome, genero, tipoFilme;  
+					int anoLancado, quantidadeDvds, quantidadeBluerays;
+					System.out.println("Digite o nome do filme: ");
+					nome = input.nextLine();
+					System.out.println("Digite o genero do filme: ");
+					genero = input.nextLine();
+					System.out.println("Digite o tipo do filme: ");
+					tipoFilme = input.nextLine();
+					System.out.println("Digite o ano lançado do filme: ");
+					anoLancado = Util.leInteiroConsole(input);
+					System.out.println("Digite a quantidade de DVD's do filme: ");
+					quantidadeDvds = Util.leInteiroConsole(input);
+					System.out.println("Digite a quantidade de Bluerays do filme: ");
+					quantidadeBluerays = Util.leInteiroConsole(input);
+					input.nextLine();
+					
+					if (nome.isBlank() || genero.isBlank() || tipoFilme.isBlank()) {
+	                    System.out.println("Todos os campos devem ser preenchidos!");
+	                } else {
+	                	Filme atualizarFilme = new Filme(nome, anoLancado, genero, quantidadeDvds, quantidadeBluerays, tipoFilme);
+	                	if (controle.verificarFilmeRepetido(atualizarFilme)) {
+	                        System.out.println("Esse filme já existe em seu cadastro!");
+	                    	} else {
+		                        filme.setNome(nome);
+		                        filme.setGenero(genero);
+		                        filme.setTipoFilme(tipoFilme);
+		                        filme.setAnoLancado(anoLancado);
+		                        filme.setQuantidadeDvds(quantidadeDvds);
+		                        filme.setQuantidadeBluerays(quantidadeBluerays);
+		                        System.out.println("Filme atualizado com sucesso!");
+		                    }
+	                }
+								
+					break;
+				case 2:
+					controle.exluirFilmes(filme);
+					System.out.println("Filme removido com sucesso!");
+					return;
+				case 3:
+					System.out.println("Ainda não fiz");
+					break;
+				case 4:
+					return;
+				default:
+					System.out.println("Opção Inválida!");
+			}
+		}while(continua == true);
+	}
 	
 
 	private void imprimeListaFilmes() {

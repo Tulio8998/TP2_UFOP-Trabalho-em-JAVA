@@ -1,5 +1,8 @@
 package br.ufop.trabalho.IOConsole;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 import br.ufop.trabalho.Util;
@@ -48,8 +51,9 @@ public class MenuClienteConsole {
 	private void leDadosCliente(){
 		//Limpa o buffer já que leu um inteiro
 		input.nextLine();
-		String nome, end;
+		String nome, end, cpf;
 		int codigo;
+		LocalDate data;
 		System.out.println("Digite o nome do cliente");
 		nome = input.nextLine();
 		System.out.println("Digite o endereco do cliente");
@@ -57,13 +61,31 @@ public class MenuClienteConsole {
 		System.out.println("Digite o codigo do cliente");		
 		codigo = Util.leInteiroConsole(input);
 		input.nextLine();
-		int retorno = controle.cadastrarCliente(nome, end, codigo);
+		System.out.println("Digite o CPF do cliente");
+		cpf = input.nextLine();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        while (true) {
+            System.out.println("Digite a data de nascimento do cliente (dd/MM/yyyy)");
+            String dataString = input.nextLine();
+            try {
+                data = LocalDate.parse(dataString, formatter);
+                break;
+            } catch (DateTimeParseException e) {
+                System.out.println("Formato de data inválido. Tente novamente.");
+            }
+        } 
+		int retorno = controle.cadastrarCliente(nome, end, codigo, cpf, data);
+	    leDadosDependente(); 
+	    
 		String msg = "";
 		switch(retorno){
 		//Verificação do retorno do método de adição de cliente
+			case Constantes.CLIENTE_REPETIDO:
+				msg = "Já exite um cliente com esse cadastro";
+				break;
 			case Constantes.ERRO_CAMPO_VAZIO:
-					msg = "Todos os campos devem ser preenchidos!";
-					break;
+				msg = "Todos os campos devem ser preenchidos!";
+				break;
 			case Constantes.RESULT_OK:
 				msg = "Cliente cadastrado com sucesso!";
 				break;
@@ -72,7 +94,58 @@ public class MenuClienteConsole {
 
 	}
 	
-
+	private void leDadosDependente() {
+		
+		boolean continua = true;
+		do {
+			System.out.println("Deseja cadastrar dependente? \n\t1 - Cadastrar dependente\n\t2 - Não cadastrar dependente\n");
+			int resp =  input.nextInt();
+			input.nextLine();
+			switch (resp) {
+				case 1:
+					String nome, end, cpf;
+					LocalDate data;
+					System.out.println("Digite o nome do cliente");
+					nome = input.nextLine();
+					System.out.println("Digite o endereco do cliente");
+					end = input.nextLine();
+					System.out.println("Digite o CPF do cliente");
+					cpf = input.nextLine();
+					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+			        while (true) {
+			            System.out.println("Digite a data de nascimento do cliente (dd/MM/yyyy)");
+			            String dataString = input.nextLine();
+			            try {
+			                data = LocalDate.parse(dataString, formatter);
+			                break;
+			            } catch (DateTimeParseException e) {
+			                System.out.println("Formato de data inválido. Tente novamente.");
+			            }
+			        } 
+					int retorno = controle.cadastrarDependente(nome, end, cpf, data);
+					String msg = "";
+					switch(retorno){
+						case Constantes.ERRO_CLIENTE:
+							msg = "Nenhum cliente cadastrado para cadastar dependente";
+							break;
+						case Constantes.ERROR_lIMITE_DEPENDENTE:
+							msg = "Não é possível adicionar mais de 3 dependentes.";
+							return;
+						case Constantes.ERRO_CAMPO_VAZIO:
+							msg = "Todos os campos devem ser preenchidos!";
+							break;
+					}
+					System.out.println(msg);
+					break;
+				case 2: 
+					return;
+				default:
+					System.out.println("Opção Inválida!");
+				}
+		} while (continua == true);
+	}
+	
+	
 	private void imprimeListaClientes() {
 		System.out.println("******** LISTA DE CLIENTES CADASTRADOS *********");
 		for(int i = 0; i < controle.getQtdClientes(); i++){
