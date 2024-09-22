@@ -1,11 +1,11 @@
 package br.ufop.trabalho.controle;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.ufop.trabalho.Util;
 import br.ufop.trabalho.entities.Cliente;
+import br.ufop.trabalho.entities.Data;
 import br.ufop.trabalho.entities.Dependentes;
 import br.ufop.trabalho.entities.Filme;
 
@@ -35,7 +35,7 @@ public class Controle {
 		filmes = new ArrayList<Filme>();
 	}
 	
-	public boolean verificarClienteRepetido(Cliente cliete) {
+	public boolean verificarClienteRepetido(Cliente cliente) {
 		for (Cliente c : clientes ) {
 			if (c.equals(cliente)) {
                 
@@ -45,33 +45,34 @@ public class Controle {
         return false;
 	}
 	
-	public int cadastrarCliente(String nome, String end, int codigo, String cpf, LocalDate data){
-		if(Util.verificaListaStringPreenchida(nome, end, cpf) == false ){
-			return Constantes.ERRO_CAMPO_VAZIO;
-		}
-		cliente = new Cliente(nome, end, codigo, cpf, null);
-		if (verificarClienteRepetido(cliente)) {
-			return Constantes.CLIENTE_REPETIDO;
-		}
-		
-		this.clientes.add(cliente);
-		return Constantes.RESULT_OK;
-	}
-	
-	public int cadastrarDependente(String nome, String end, String cpf, LocalDate data){
-		if(Util.verificaListaStringPreenchida(nome, end, cpf) == false ){
-			return Constantes.ERRO_CAMPO_VAZIO;
-		}
-		if (cliente == null) {
-	        return Constantes.ERRO_CLIENTE;
-	    } else if (cliente.getDependentes().size() >= 3) {
-		        return Constantes.ERROR_lIMITE_DEPENDENTE;
-		    }
-		    Dependentes dependente = new Dependentes(nome, end, cpf, data);
-		    cliente.adicionarDependentes(dependente);
-		    return Constantes.RESULT_OK;
-		    
-	}
+	public int cadastrarCliente(String nome, String end, int codigo, String cpf, Data data){
+        if(Util.verificaListaStringPreenchida(nome, end, cpf) == false ){
+            return Constantes.ERRO_CAMPO_VAZIO;
+        }
+        cliente = new Cliente(nome, end, codigo, cpf, data);
+        if (verificarClienteRepetido(cliente)) {
+            return Constantes.CLIENTE_REPETIDO;
+        }
+
+        this.clientes.add(cliente);
+        //salvarClientes();
+        return Constantes.RESULT_OK;
+    }
+
+    public int cadastrarDependente(String nome, String end, String cpf, Data data){
+        if(Util.verificaListaStringPreenchida(nome, end, cpf) == false ){
+            return Constantes.ERRO_CAMPO_VAZIO;
+        }
+        if (cliente == null) {
+            return Constantes.ERRO_CLIENTE;
+        } else if (cliente.getDependentes().size() >= 2) {
+                return Constantes.ERROR_lIMITE_DEPENDENTE;
+            }
+            Dependentes dependente = new Dependentes(nome, end, cpf, data);
+            cliente.adicionarDependentes(dependente);
+            return Constantes.RESULT_OK;
+
+    }
 	
 	public int getQtdClientes(){
 		return clientes.size();
@@ -85,6 +86,10 @@ public class Controle {
 			return clientes.get(pos);
 		}
 		return null;
+	}
+	
+	public List<Cliente> getCliente(){
+		return clientes;
 	}
 	
 	public Filme getFilmesNaPosicao(int pos){
@@ -128,7 +133,7 @@ public class Controle {
 				}
 			} else if (busca instanceof String) {
 				String filme = (String) busca;
-				if (f.getNome().equalsIgnoreCase(filme) || f.getGenero().equalsIgnoreCase(filme)) {
+				if (f.getTitulo().equalsIgnoreCase(filme) || f.getGenero().equalsIgnoreCase(filme)) {
 					resultado.add(f);
 				}
 			}
@@ -158,6 +163,10 @@ public class Controle {
 
 		}
 	
+	public List<Filme> getFilmes(){
+		return filmes;
+	}
+	
 	public void exluirFilmes(Filme filme) {
 			if(!filmes.isEmpty()) {
 				filmes.remove(filme);
@@ -179,9 +188,4 @@ public class Controle {
 	public int getQuantidadeMaximaFilmesAlugados() {
 		return quantidadeMaximaFilmesAlugados;
 	}
-
-	
-  
-	
 }
-

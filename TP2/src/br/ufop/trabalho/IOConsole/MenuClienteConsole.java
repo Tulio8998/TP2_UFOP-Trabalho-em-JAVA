@@ -8,6 +8,7 @@ import java.util.Scanner;
 import br.ufop.trabalho.Util;
 import br.ufop.trabalho.controle.Constantes;
 import br.ufop.trabalho.controle.Controle;
+import br.ufop.trabalho.entities.Data;
 
 public class MenuClienteConsole {
 	private Controle controle;
@@ -23,7 +24,8 @@ public class MenuClienteConsole {
 		int op  = 0;
 		do{	
 			// A opção 5 não é necessária. Foi inserida apenas para teste.
-			System.out.println("Digite a opção:\n\t1 - Cadastrar Cliente\n\t2 - Buscar clientes\n\t5 - imprime Lista de Clientes\n\t10 - Voltar\n");
+			System.out.println("\nDigite a opção:\n\t1 - Cadastrar Cliente\n\t2 - Buscar clientes\n\t3 - imprime Lista de Clientes\n\t4 - Voltar\n");
+			System.out.print("Informe o que você deseja: ");
 			op = Util.leInteiroConsole(input);
 			switch(op){
 				case 1:
@@ -32,14 +34,14 @@ public class MenuClienteConsole {
 				case 2:
 					System.out.println("Falta implementar!");
 					break;
-				case 5:
+				case 3:
 					//Esta opção não foi solicitada no enunciado. É apenas para testes
 					imprimeListaClientes();
 					break;
-				case 10:
+				case 4:
 					return;
 				default:
-					System.out.println("Opção Inválida!");
+					System.out.println("Opção Inválida!\n");
 			}		
 		}while(continua == true);
 	}
@@ -51,30 +53,31 @@ public class MenuClienteConsole {
 	private void leDadosCliente(){
 		//Limpa o buffer já que leu um inteiro
 		input.nextLine();
-		String nome, end, cpf;
-		int codigo;
-		LocalDate data;
-		System.out.println("Digite o nome do cliente");
-		nome = input.nextLine();
-		System.out.println("Digite o endereco do cliente");
-		end = input.nextLine();
-		System.out.println("Digite o codigo do cliente");		
-		codigo = Util.leInteiroConsole(input);
-		input.nextLine();
-		System.out.println("Digite o CPF do cliente");
-		cpf = input.nextLine();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String nome, end, cpf;
+        int codigo;
+        LocalDate dataNascimento;
+        System.out.println("Digite o nome do cliente");
+        nome = input.nextLine();
+        System.out.println("Digite o endereco do cliente");
+        end = input.nextLine();
+        System.out.println("Digite o codigo do cliente");
+        codigo = Util.leInteiroConsole(input);
+        input.nextLine();
+        System.out.println("Digite o CPF do cliente");
+        cpf = input.nextLine();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         while (true) {
             System.out.println("Digite a data de nascimento do cliente (dd/MM/yyyy)");
             String dataString = input.nextLine();
             try {
-                data = LocalDate.parse(dataString, formatter);
+                dataNascimento = LocalDate.parse(dataString, formatter);
                 break;
             } catch (DateTimeParseException e) {
                 System.out.println("Formato de data inválido. Tente novamente.");
             }
         } 
-		int retorno = controle.cadastrarCliente(nome, end, codigo, cpf, data);
+        Data data = new Data(dataNascimento.getDayOfMonth(), dataNascimento.getMonthValue(), dataNascimento.getYear());
+        int retorno = controle.cadastrarCliente(nome, end, codigo, cpf, data);
 	    leDadosDependente(); 
 	    
 		String msg = "";
@@ -100,29 +103,30 @@ public class MenuClienteConsole {
 		do {
 			System.out.println("Deseja cadastrar dependente? \n\t1 - Cadastrar dependente\n\t2 - Não cadastrar dependente\n");
 			int resp =  input.nextInt();
-			input.nextLine();
 			switch (resp) {
 				case 1:
-					String nome, end, cpf;
-					LocalDate data;
-					System.out.println("Digite o nome do cliente");
-					nome = input.nextLine();
-					System.out.println("Digite o endereco do cliente");
-					end = input.nextLine();
-					System.out.println("Digite o CPF do cliente");
-					cpf = input.nextLine();
-					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+					input.nextLine();
+			        String nome, end, cpf;
+			        LocalDate dataNascimento;
+			        System.out.println("Digite o nome do cliente");
+			        nome = input.nextLine();
+			        System.out.println("Digite o endereco do cliente");
+			        end = input.nextLine();
+			        System.out.println("Digite o CPF do cliente");
+			        cpf = input.nextLine();
+			        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 			        while (true) {
 			            System.out.println("Digite a data de nascimento do cliente (dd/MM/yyyy)");
 			            String dataString = input.nextLine();
 			            try {
-			                data = LocalDate.parse(dataString, formatter);
+			                dataNascimento = LocalDate.parse(dataString, formatter);
 			                break;
 			            } catch (DateTimeParseException e) {
 			                System.out.println("Formato de data inválido. Tente novamente.");
 			            }
 			        } 
-					int retorno = controle.cadastrarDependente(nome, end, cpf, data);
+			        Data data = new Data(dataNascimento.getDayOfMonth(), dataNascimento.getMonthValue(), dataNascimento.getYear());
+			        int retorno = controle.cadastrarDependente(nome, end, cpf, data);
 					String msg = "";
 					switch(retorno){
 						case Constantes.ERRO_CLIENTE:

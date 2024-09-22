@@ -1,7 +1,10 @@
 package br.ufop.trabalho.entities;
+
+
 // Fig. 8.7: Date.java -- Adaptado
 // Declara��o da classe Date.
 public class Data {
+	
 	private int mes; // 1-12
 	private int dia; // 1-31 conforme o m�s
 	private int ano; // qualquer ano
@@ -32,7 +35,7 @@ public class Data {
 	 * @return
 	 */
 	private int checarDia(int diaTeste) {
-		int diasNoMes[] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+		int diasNoMes[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 		// verifica se dia est� no intervalo para o mes
 		if (diaTeste > 0 && diaTeste <= diasNoMes[mes])
 			return diaTeste;
@@ -40,7 +43,7 @@ public class Data {
 		if (mes == 2 && diaTeste == 29
 				&& (ano % 400 == 0 || (ano % 4 == 0 && ano % 100 != 0)))
 			return diaTeste;
-		System.out.printf("Dia invalido (%d) alterado para 1.", diaTeste);
+		System.out.printf("Dia invalido (%d) alterado para 1.\n\n", diaTeste);
 		return 1; 
 	}
 	// retorna uma String no formato m�s/dia/ano

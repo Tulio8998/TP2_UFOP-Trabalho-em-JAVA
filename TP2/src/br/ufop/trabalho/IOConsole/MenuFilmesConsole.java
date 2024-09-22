@@ -23,23 +23,31 @@ public class MenuFilmesConsole {
 		int op  = 0;
 		do{	
 			// A opção 5 não é necessária. Foi inserida apenas para teste.
-			System.out.println("Digite a opção:\n\t1 - Cadastrar filme\n\t2 - Buscar filme\n\t5 - imprime Lista de filmes\n\t10 - Voltar\n");
+			System.out.println("\nDigite a opção:\n\t1 - Cadastrar filme\n\t2 - Buscar filme\n\t3 - imprime Lista de filmes\n\t4 - Voltar\n");
+			System.out.print("Informe o que você deseja: ");
 			op = Util.leInteiroConsole(input);
 			switch(op){
 				case 1:
 					leDadosFilmes();
-					break;
+				break;
+				
 				case 2:
 					leDadosBuscaFilmes();
-					break;
-				case 5:
+				break;
+				
+				case 3:
 					//Esta opção não foi solicitada no enunciado. É apenas para testes
 					imprimeListaFilmes();
-					break;
-				case 10:
-					return;
+				break;
+				
+				case 4:
+					System.out.println("Você está saindo da área de Filmes...\n");
+					continua = false;
+				break;
+				
 				default:
-					System.out.println("Opção Inválida!");
+					System.out.println("Opção Inválida!\n");
+				break;
 			}		
 		}while(continua == true);
 	}
@@ -48,7 +56,7 @@ public class MenuFilmesConsole {
 		input.nextLine();
 		String nome, genero, tipoFilme;  
 		int anoLancado, quantidadeDvds, quantidadeBluerays;
-		System.out.println("Digite o nome do filme: ");
+		System.out.println("\nDigite o nome do filme: ");
 		nome = input.nextLine();
 		System.out.println("Digite o genero do filme: ");
 		genero = input.nextLine();
@@ -65,7 +73,7 @@ public class MenuFilmesConsole {
 		String msg = "";
 		switch(retorno){
 			case Constantes.FILME_REPETIDO:
-				msg = "Esse filme já existe em seu cadastro!";
+				msg = "\nEsse filme já existe em seu cadastro!";
 				break;
 			case Constantes.ERRO_CAMPO_VAZIO:
 					msg = "Todos os campos devem ser preenchidos!";
@@ -119,7 +127,7 @@ public class MenuFilmesConsole {
         } else {
             int i = 1;
             for (Filme f : filmes) {
-                System.out.println(i + " - Nome: " + f.getNome() +
+                System.out.println(i + " - Nome: " + f.getTitulo() +
                         " | Genero: " + f.getGenero() +
                         " | Tipo: " + f.getTipoFilme() +
                         " | Ano: " + f.getAnoLancado() +

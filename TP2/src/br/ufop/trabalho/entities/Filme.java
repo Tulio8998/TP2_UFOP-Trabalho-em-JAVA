@@ -1,3 +1,4 @@
+
 package br.ufop.trabalho.entities;
 
 import java.util.Objects;
@@ -9,17 +10,17 @@ import java.util.Objects;
  */
 public class Filme {
 
-	private String nome;
+	private String titulo;
 	private int anoLancado;
 	private String genero;
 	private int quantidadeDvds;
 	private int quantidadeBluerays;
 	private String tipoFilme;
 	
-	public Filme(String nome, int anoLancado, String genero, int quantidadeDvds, int quantidadeBluerays,
+	public Filme(String titulo, int anoLancado, String genero, int quantidadeDvds, int quantidadeBluerays,
 			String tipoFilme) {
 		super();
-		this.nome = nome;
+		this.titulo = titulo;
 		this.anoLancado = anoLancado;
 		this.genero = genero;
 		this.quantidadeDvds = quantidadeDvds;
@@ -27,12 +28,12 @@ public class Filme {
 		this.tipoFilme = tipoFilme;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getTitulo() {
+		return titulo;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setNome(String titulo) {
+		this.titulo = titulo;
 	}
 
 	public int getAnoLancado() {
@@ -77,12 +78,12 @@ public class Filme {
 
 	@Override
 	public String toString() {
-		return getNome();
+		return getTitulo();
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(anoLancado, genero, nome, quantidadeBluerays, quantidadeDvds, tipoFilme);
+		return Objects.hash(anoLancado, genero, titulo, quantidadeBluerays, quantidadeDvds, tipoFilme);
 	}
 
 	@Override
@@ -95,7 +96,7 @@ public class Filme {
 			return false;
 		Filme other = (Filme) obj;
 		return anoLancado == other.anoLancado && Objects.equals(genero, other.genero)
-				&& Objects.equals(nome, other.nome) && quantidadeBluerays == other.quantidadeBluerays
+				&& Objects.equals(titulo, other.titulo) && quantidadeBluerays == other.quantidadeBluerays
 				&& quantidadeDvds == other.quantidadeDvds && Objects.equals(tipoFilme, other.tipoFilme);
 	}
 	

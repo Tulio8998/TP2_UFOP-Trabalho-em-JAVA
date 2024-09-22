@@ -16,6 +16,7 @@ public class MenuConsole {
 	 */
 	private MenuClienteConsole menuCliente;
 	private MenuFilmesConsole menuFilmes;
+	private MenuRelatorioConsole menuRelatorio;
 	//pode-se criar outras classes para a exibição dos outros submenus
 	/**
 	 * Objeto responsável por fazer a leitura dos dados (Scanner). Deverá ser instanciado apenas uma vez e passado como parâmetro
@@ -35,6 +36,7 @@ public class MenuConsole {
 		//Inicialização da classe de acessoFuncionario. Deverá ser passado como parâmetro o objeto de controle e o objeto de entrada de dados
 		menuCliente = new MenuClienteConsole(controle, input);
 		menuFilmes = new MenuFilmesConsole(controle, input);
+		menuRelatorio = new MenuRelatorioConsole(controle, input);
 	}
 	
 	public void inicioExecucao() {
@@ -46,9 +48,10 @@ public class MenuConsole {
 	}
 	
 	private boolean exibeMenuPrincipal(){
-		System.out.println("Digite a opção de Aceso:\n\t1 - Filme:\n\t2 - Clientes\n\t3 - Relatórios\n\t4 - Sair ");
+		System.out.println("Seja bem vindo a Locadora de Filmes.\nEscolha uma das opções abaixo.\n\t1 - Filme\n\t2 - Clientes\n\t3 - Relatórios\n\t4 - Sair ");
 		//Toda a vez que for ler um inteiro devo chamar o método leInteiroConsole que é estático da classe Util.
 		//Dessa forma, a entrada inválida será sempre tratada e não irá quebrar a aplicação
+		System.out.print("Informe o que você deseja: ");
 		int op = Util.leInteiroConsole(input);
 		switch (op) {
 		case 1:
@@ -57,13 +60,13 @@ public class MenuConsole {
 		case 2:
 			menuCliente.exibeMenuClientes();		
 			break;
-		case 3:	
-			System.out.println("Falta implementar!");
+		case 3:
+			menuRelatorio.exibeMenuRelatorio();
 			break;		
 		case 4:
 			return false;		
 		default:
-				System.out.println("Opção Inválida");
+				System.out.println("\nOpção Inválida");
 		}
 		return true;
 	}

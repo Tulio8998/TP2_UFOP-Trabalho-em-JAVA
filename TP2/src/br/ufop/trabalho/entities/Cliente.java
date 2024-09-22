@@ -1,6 +1,5 @@
 package br.ufop.trabalho.entities;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -8,17 +7,17 @@ public class Cliente extends Pessoa{
 
 	private int codigo; 
 	private String cpf;
-	private LocalDate dataNacimento;
+	private Data data;
 	private double multa;
 	
 	private ArrayList<Dependentes> dependentes;
 	private ArrayList<Filme> filmes;
 
-	public Cliente(String nome, String endereco, int codigo, String cpf, LocalDate dataNacimento) {
+	public Cliente(String nome, String endereco, int codigo, String cpf, Data data) {
 		super(nome, endereco);
 		this.codigo = codigo;
 		this.cpf = cpf;
-		this.dataNacimento = dataNacimento;
+		this.data = data;
 		this.multa = 0;
 		filmes = new ArrayList<Filme>();
 		dependentes =  new ArrayList<Dependentes>();
@@ -38,11 +37,11 @@ public class Cliente extends Pessoa{
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	public LocalDate getDataNacimento() {
-		return dataNacimento;
+	public Data getDataNascimento() {
+		return data;
 	}
-	public void setDataNacimento(LocalDate dataNacimento) {
-		this.dataNacimento = dataNacimento;
+	public void setDataNascimento(Data data) {
+		this.data = data;
 	}
 	public double getMulta() {
 		return multa;
@@ -85,20 +84,13 @@ public class Cliente extends Pessoa{
 			dependentes.add(dependente);
 			return true;
 		} else {
-			System.out.println("Não é possivel adicionar mais de 3 dependentes.");
 			return false;
 		}
 		
 	}
 	
-	
-	
 	@Override
 	public String toString(){
 		return getNome();
 	}
-	
-	
-
-	
 }

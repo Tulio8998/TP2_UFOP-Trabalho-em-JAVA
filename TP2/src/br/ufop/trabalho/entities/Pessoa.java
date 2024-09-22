@@ -1,6 +1,5 @@
 package br.ufop.trabalho.entities;
 
-import java.util.Objects;
 
 /**
  * Classe para armazenar os dados de uma Pessoa. Como o sistema deverá controlar clientes e funcionários os dados comuns serão
