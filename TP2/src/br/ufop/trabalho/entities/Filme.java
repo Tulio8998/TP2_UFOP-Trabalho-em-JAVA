@@ -16,6 +16,10 @@ public class Filme {
 	private int quantidadeDvds;
 	private int quantidadeBluerays;
 	private String tipoFilme;
+	public static final String LANCAMENTOS = "Lançamento";
+	public static final String NOVOS = "Novo";
+	public static final String ANTIGOS = "Antigo";
+	
 	
 	public Filme(String titulo, int anoLancado, String genero, int quantidadeDvds, int quantidadeBluerays,
 			String tipoFilme) {
@@ -25,14 +29,14 @@ public class Filme {
 		this.genero = genero;
 		this.quantidadeDvds = quantidadeDvds;
 		this.quantidadeBluerays = quantidadeBluerays;
-		this.tipoFilme = tipoFilme;
+		setTipoFilme(tipoFilme);
 	}
 
 	public String getTitulo() {
 		return titulo;
 	}
 
-	public void setNome(String titulo) {
+	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
 
@@ -72,13 +76,15 @@ public class Filme {
 		return tipoFilme;
 	}
 
-	public void setTipoFilme(String tipoFilme) {
+	public boolean setTipoFilme(String tipoFilme) {
 		this.tipoFilme = tipoFilme;
+			return tipoFilme.equals(LANCAMENTOS) || tipoFilme.equals(NOVOS) || tipoFilme.equals(ANTIGOS);
 	}
 
 	@Override
 	public String toString() {
-		return getTitulo();
+		return "Filme titulo=" + titulo + ", anoLancado=" + anoLancado + ", genero=" + genero + ", quantidadeDvds="
+				+ quantidadeDvds + ", quantidadeBluerays=" + quantidadeBluerays + ", tipoFilme=" + getTipoFilme();
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package br.ufop.trabalho.entities;
 
+import java.util.Objects;
 
 public class Dependentes extends Pessoa{
 
@@ -25,6 +26,23 @@ public class Dependentes extends Pessoa{
 	}
 	public void setDataNacimento(Data data) {
 		this.data = data;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(cpf);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Dependentes other = (Dependentes) obj;
+		return Objects.equals(cpf, other.cpf);
 	}
 
 	@Override

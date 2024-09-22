@@ -78,7 +78,6 @@ public class MenuClienteConsole {
         } 
         Data data = new Data(dataNascimento.getDayOfMonth(), dataNascimento.getMonthValue(), dataNascimento.getYear());
         int retorno = controle.cadastrarCliente(nome, end, codigo, cpf, data);
-	    leDadosDependente(); 
 	    
 		String msg = "";
 		switch(retorno){
@@ -90,6 +89,7 @@ public class MenuClienteConsole {
 				msg = "Todos os campos devem ser preenchidos!";
 				break;
 			case Constantes.RESULT_OK:
+				leDadosDependente(); 
 				msg = "Cliente cadastrado com sucesso!";
 				break;
 		}
@@ -129,8 +129,8 @@ public class MenuClienteConsole {
 			        int retorno = controle.cadastrarDependente(nome, end, cpf, data);
 					String msg = "";
 					switch(retorno){
-						case Constantes.ERRO_CLIENTE:
-							msg = "Nenhum cliente cadastrado para cadastar dependente";
+						case Constantes.DEPENDENTE_REPETIDO:
+							msg = "Esse dependente já cadastrado para esse cliente";
 							break;
 						case Constantes.ERROR_lIMITE_DEPENDENTE:
 							msg = "Não é possível adicionar mais de 3 dependentes.";

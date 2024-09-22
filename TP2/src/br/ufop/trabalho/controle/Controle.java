@@ -46,10 +46,10 @@ public class Controle {
 	}
 	
 	public int cadastrarCliente(String nome, String end, int codigo, String cpf, Data data){
+        cliente = new Cliente(nome, end, codigo, cpf, data);
         if(Util.verificaListaStringPreenchida(nome, end, cpf) == false ){
             return Constantes.ERRO_CAMPO_VAZIO;
         }
-        cliente = new Cliente(nome, end, codigo, cpf, data);
         if (verificarClienteRepetido(cliente)) {
             return Constantes.CLIENTE_REPETIDO;
         }
@@ -59,16 +59,27 @@ public class Controle {
         return Constantes.RESULT_OK;
     }
 
+	
+	public boolean verificarDependenteRepetido(Dependentes dependente) {
+		for (Dependentes d : cliente.getDependentes() ) {
+			if (d.equals(dependente)) {
+                
+                return true;
+            }
+        }
+        return false;
+	}
     public int cadastrarDependente(String nome, String end, String cpf, Data data){
+    	Dependentes dependente =  new Dependentes(nome, end, cpf, data);
         if(Util.verificaListaStringPreenchida(nome, end, cpf) == false ){
             return Constantes.ERRO_CAMPO_VAZIO;
-        }
-        if (cliente == null) {
-            return Constantes.ERRO_CLIENTE;
-        } else if (cliente.getDependentes().size() >= 2) {
+        }        
+         if (verificarDependenteRepetido(dependente)) {
+        	 return Constantes.DEPENDENTE_REPETIDO;
+        
+    	} else if (cliente.getDependentes().size() >= 2) {
                 return Constantes.ERROR_lIMITE_DEPENDENTE;
-            }
-            Dependentes dependente = new Dependentes(nome, end, cpf, data);
+            } 
             cliente.adicionarDependentes(dependente);
             return Constantes.RESULT_OK;
 
@@ -110,12 +121,16 @@ public class Controle {
 		
 	}
 	
-	 public int cadastrarFilme(String nome, int anoLancado, String genero, int quantidadeDvds, int quantidadeBluerays,
+	 public int cadastrarFilme(String titulo, int anoLancado, String genero, int quantidadeDvds, int quantidadeBluerays,
              String tipoFilme) {
-		Filme novofilme = new Filme(nome, anoLancado, genero, quantidadeDvds, quantidadeBluerays, tipoFilme);
+		Filme novofilme = new Filme(titulo, anoLancado, genero, quantidadeDvds, quantidadeBluerays, tipoFilme);	
+		if (!novofilme.setTipoFilme(tipoFilme)) {
+			return Constantes.ERRO_TIPO_FILME;
+		} 
+		
 		if (verificarFilmeRepetido(novofilme)) {
 			return Constantes.FILME_REPETIDO;
-		} else if (nome.isBlank() || genero.isBlank() ||  tipoFilme.isBlank()) {
+		} else if (titulo.isBlank() || genero.isBlank() ||  tipoFilme.isBlank()) {
 			return Constantes.ERRO_CAMPO_VAZIO;
 		} else {
 			this.filmes.add(novofilme);

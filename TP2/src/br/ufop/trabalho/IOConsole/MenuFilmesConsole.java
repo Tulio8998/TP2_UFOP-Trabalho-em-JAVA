@@ -54,10 +54,10 @@ public class MenuFilmesConsole {
 
 	private void leDadosFilmes(){
 		input.nextLine();
-		String nome, genero, tipoFilme;  
+		String titulo, genero, tipoFilme;  
 		int anoLancado, quantidadeDvds, quantidadeBluerays;
 		System.out.println("\nDigite o nome do filme: ");
-		nome = input.nextLine();
+		titulo = input.nextLine();
 		System.out.println("Digite o genero do filme: ");
 		genero = input.nextLine();
 		System.out.println("Digite o tipo do filme: ");
@@ -69,17 +69,20 @@ public class MenuFilmesConsole {
 		System.out.println("Digite a quantidade de Bluerays do filme: ");
 		quantidadeBluerays = Util.leInteiroConsole(input);
 		input.nextLine();
-		int retorno = controle.cadastrarFilme(nome, anoLancado, genero, quantidadeDvds, quantidadeBluerays, tipoFilme);
+		int retorno = controle.cadastrarFilme(titulo, anoLancado, genero, quantidadeDvds, quantidadeBluerays, tipoFilme);
 		String msg = "";
 		switch(retorno){
+			case Constantes.ERRO_TIPO_FILME:
+				msg = "\nTipo de filme inválido. Deve ser Lançamento, Novo ou Antigo.";
+				break;
 			case Constantes.FILME_REPETIDO:
 				msg = "\nEsse filme já existe em seu cadastro!";
 				break;
 			case Constantes.ERRO_CAMPO_VAZIO:
-					msg = "Todos os campos devem ser preenchidos!";
+					msg = "\nTodos os campos devem ser preenchidos!";
 					break;
 			case Constantes.RESULT_OK:
-				msg = "Filme cadastrado com sucesso!";
+				msg = "\nFilme cadastrado com sucesso!";
 				break;
 		}
 		System.out.println(msg);
@@ -90,7 +93,7 @@ public class MenuFilmesConsole {
 		input.nextLine();
 		boolean continua = true;
 		int op  = 0, disponibilidade;
-		String nome, genero;
+		String titulo, genero;
 		do{	
 			System.out.println("Digite a opção de busca:\n\t1 - Buscar filme por nome\n\t2 - Buscar filme por genero\n\t3 - Buscar filme por disponibilidade\n\t4 - Voltar\n");
 			op = Util.leInteiroConsole(input);
@@ -99,8 +102,8 @@ public class MenuFilmesConsole {
 			switch(op){
 				case 1:
 					System.out.println("Nome: ");
-					nome = input.nextLine();
-					resultado = controle.buscarFilme(nome);
+					titulo = input.nextLine();
+					resultado = controle.buscarFilme(titulo);
 					break;
 				case 2:
 					System.out.println("Genero: ");
@@ -158,10 +161,10 @@ public class MenuFilmesConsole {
 			switch(op){
 				case 1:
 					input.nextLine();
-					String nome, genero, tipoFilme;  
+					String titulo, genero, tipoFilme;  
 					int anoLancado, quantidadeDvds, quantidadeBluerays;
 					System.out.println("Digite o nome do filme: ");
-					nome = input.nextLine();
+					titulo = input.nextLine();
 					System.out.println("Digite o genero do filme: ");
 					genero = input.nextLine();
 					System.out.println("Digite o tipo do filme: ");
@@ -174,14 +177,16 @@ public class MenuFilmesConsole {
 					quantidadeBluerays = Util.leInteiroConsole(input);
 					input.nextLine();
 					
-					if (nome.isBlank() || genero.isBlank() || tipoFilme.isBlank()) {
+					if (titulo.isBlank() || genero.isBlank() || tipoFilme.isBlank()) {
 	                    System.out.println("Todos os campos devem ser preenchidos!");
 	                } else {
-	                	Filme atualizarFilme = new Filme(nome, anoLancado, genero, quantidadeDvds, quantidadeBluerays, tipoFilme);
-	                	if (controle.verificarFilmeRepetido(atualizarFilme)) {
+	                	Filme atualizarFilme = new Filme(titulo, anoLancado, genero, quantidadeDvds, quantidadeBluerays, tipoFilme);
+	                	if (!atualizarFilme.setTipoFilme(tipoFilme)) {
+	            			System.out.println("\nTipo de filme inválido. Deve ser Lançamento, Novo ou Antigo.");
+	            		} else if (controle.verificarFilmeRepetido(atualizarFilme)) {
 	                        System.out.println("Esse filme já existe em seu cadastro!");
 	                    	} else {
-		                        filme.setNome(nome);
+		                        filme.setTitulo(titulo);
 		                        filme.setGenero(genero);
 		                        filme.setTipoFilme(tipoFilme);
 		                        filme.setAnoLancado(anoLancado);
