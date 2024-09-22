@@ -1,10 +1,15 @@
 package br.ufop.trabalho.entities;
 
+import java.io.Serializable;
 
 // Fig. 8.7: Date.java -- Adaptado
 // Declara��o da classe Date.
-public class Data {
+public class Data implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int mes; // 1-12
 	private int dia; // 1-31 conforme o m�s
 	private int ano; // qualquer ano

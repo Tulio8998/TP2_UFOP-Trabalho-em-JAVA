@@ -1,6 +1,7 @@
 
 package br.ufop.trabalho.entities;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /***
@@ -8,8 +9,12 @@ import java.util.Objects;
  * @author filipe
  *
  */
-public class Filme {
+public class Filme implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String titulo;
 	private int anoLancado;
 	private String genero;

@@ -1,10 +1,15 @@
 package br.ufop.trabalho.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Cliente extends Pessoa{
+public class Cliente extends Pessoa implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int codigo; 
 	private String cpf;
 	private Data data;
@@ -23,7 +28,37 @@ public class Cliente extends Pessoa{
 		dependentes =  new ArrayList<Dependentes>();
 	}
 
-	public Cliente(){}
+	public Cliente(){
+		super(); 
+		filmes = new ArrayList<Filme>();
+		dependentes =  new ArrayList<Dependentes>();
+	}
+	
+	public boolean adicionarFilme(Filme filme) {
+		if(filmes.size() < 5) {
+			filmes.add(filme);
+			return true;
+		}
+		return false;
+	}
+	
+	public void removerFilme(Filme filme) {
+		filmes.remove(filme);
+	}
+	
+	public double getmulta() {
+		return multa;
+	}
+	
+	public void adicionarMulta(double valor) {
+		if(valor>0) {
+			this.multa += valor;
+		}
+	}
+	
+	public void zerarMulta() {
+		this.multa = 0;
+	}
 
 	public int getCodigo() {
 		return codigo;
@@ -97,9 +132,8 @@ public class Cliente extends Pessoa{
 	
 	@Override
 	public String toString() {
-		return "Nome: " + getNome() + " | Código: " + codigo + " | CPF: " + cpf + " | Data: " + data + " | Multa: " + multa + " | Dependentes: "
+		return "Nome: " + (getNome() != null ? getNome() : "Nome não definido") + " | Código: " + codigo + " | CPF: " + cpf + " | Data: " + data + " | Multa: " + multa + " | Dependentes: "
 				+ dependentes + " | Filmes: " + filmes;
 	}
-	
 	
 }

@@ -175,6 +175,7 @@ public class MenuClienteConsole {
 	}
 
 	private void exibeOpcoesCliente(Cliente cliente){
+		controle.setCliente(cliente); // Adicione isso
 		int op = 0;
 		imprimirCliente(cliente);
 		boolean rodando=true;
@@ -333,6 +334,9 @@ public class MenuClienteConsole {
 	                    int retorno = controle.cadastrarDependente(nome, end, cpf, data);
 	                    String msg = "";
 	                    switch (retorno) {
+		                    case Constantes.ERRO_CLIENTE_NAO_SELECIONADO:
+	                            msg = "Nenhum cliente selecionado.";
+	                            break;
 	                        case Constantes.DEPENDENTE_REPETIDO:
 	                            msg = "Esse dependente já está cadastrado para este cliente";
 	                            break;

@@ -1,9 +1,14 @@
 package br.ufop.trabalho.entities;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Dependentes extends Pessoa{
+public class Dependentes extends Pessoa implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String cpf;
 	private Data data;
 	

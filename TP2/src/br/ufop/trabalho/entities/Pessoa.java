@@ -1,5 +1,6 @@
 package br.ufop.trabalho.entities;
 
+import java.io.Serializable;
 
 /**
  * Classe para armazenar os dados de uma Pessoa. Como o sistema deverá controlar clientes e funcionários os dados comuns serão
@@ -7,19 +8,18 @@ package br.ufop.trabalho.entities;
  * @author Filipe
  *
  */
-public class Pessoa {
+public class Pessoa implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String nome, endereco;
 
 	public Pessoa(String nome, String endereco) {
 		this.nome = nome;
 		this.endereco = endereco;
 	}
-	
-	/**
-	 * COnstrutor vazio. Criado apenas para a geração do código inicial DE EXEMPLO pelo professor.
-	 * NÃO DEVERÁ SER UTILIZADO
-	 */
 	public Pessoa(){}
 
 	public String getNome() {
@@ -36,6 +36,10 @@ public class Pessoa {
 
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
+	}
+	@Override
+	public String toString() {
+		return nome;
 	}
 	
 	

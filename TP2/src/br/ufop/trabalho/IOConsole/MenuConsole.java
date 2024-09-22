@@ -11,6 +11,8 @@ public class MenuConsole {
 	 * Controle - Objeto que será utilizado para acesso aos dados do sistema (classes Entidade que armazenam os dados)  
 	 */
 	private Controle controle;
+	private String arquivoClientes = "clientes.data";
+    private String arquivoFilmes = "filmes.data";
 	/**
 	 * Objetos responsáveis por exibir menus de cada um dos acessos
 	 */
@@ -33,6 +35,8 @@ public class MenuConsole {
 		controle = new Controle();
 		input = new Scanner(System.in);
 		
+		controle.carregarClientes(arquivoClientes);
+        controle.carregarFilmes(arquivoFilmes);
 		//Inicialização da classe de acessoFuncionario. Deverá ser passado como parâmetro o objeto de controle e o objeto de entrada de dados
 		menuCliente = new MenuClienteConsole(controle, input);
 		menuFilmes = new MenuFilmesConsole(controle, input);
@@ -40,12 +44,14 @@ public class MenuConsole {
 	}
 	
 	public void inicioExecucao() {
-		boolean continua = true;
-		do{
-			continua = exibeMenuPrincipal();
-		}while(continua == true);
-		System.out.println("Obrigado por usar o sistema!");
-	}
+        boolean continua = true;
+        do {
+            continua = exibeMenuPrincipal();
+        } while (continua == true);
+        controle.salvarClientes(arquivoClientes); // Salva os clientes ao finalizar
+        controle.salvarFilmes(arquivoFilmes); // Salva os filmes ao finalizar
+        System.out.println("Obrigado por usar o sistema!");
+    }
 	
 	private boolean exibeMenuPrincipal(){
 		System.out.println("Seja bem vindo a Locadora de Filmes.\nEscolha uma das opções abaixo.\n\t1 - Filme\n\t2 - Clientes\n\t3 - Relatórios\n\t4 - Sair ");

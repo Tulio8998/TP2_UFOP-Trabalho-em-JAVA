@@ -1,5 +1,10 @@
 package br.ufop.trabalho.controle;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +38,74 @@ public class Controle {
 	public Controle(){
 		clientes = new ArrayList<Cliente>();
 		filmes = new ArrayList<Filme>();
+		this.valorMultaPorDia = 5.0;
+		this.quantidadeMaximaFilmesAlugados = 5;
 	}
+	
+	public void setValorMultaPorDia(double valorMultaPorDia) {
+		if(valorMultaPorDia>0) {
+			this.valorMultaPorDia = valorMultaPorDia;
+		}
+	}
+	
+    public void setLimiteFilmesPorCliente(int limite) {
+        if (limite > 0) {
+            this.quantidadeMaximaFilmesAlugados = limite;
+        }
+    }
+
+    // Verifica se o cliente já alugou o máximo de filmes
+    public boolean podeAlugarFilme(Cliente cliente) {
+        return cliente.getFilmes().size() < quantidadeMaximaFilmesAlugados;
+    }
+
+    // Aplicar multa ao cliente
+    public void aplicarMulta(Cliente cliente, int diasAtraso) {
+        if (diasAtraso > 0) {
+            double multa = diasAtraso * valorMultaPorDia;
+            cliente.adicionarMulta(multa);
+        }
+    }
+	
+	public void salvarClientes(String nomeArquivo) {
+        try (ObjectOutputStream obj = new ObjectOutputStream(new FileOutputStream(nomeArquivo))) {
+        	obj.writeObject(clientes); // Clientes é o ArrayList que você quer salvar
+            System.out.println("Clientes salvos com sucesso!");
+        } catch (IOException e) {
+            System.out.println("Erro ao salvar clientes: " + e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public void carregarClientes(String nomeArquivo) {
+        try (ObjectInputStream obj = new ObjectInputStream(new FileInputStream(nomeArquivo))) {
+            clientes = (ArrayList<Cliente>) obj.readObject(); // Lê e atribui os clientes
+            System.out.println("Clientes carregados com sucesso!");
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Erro ao carregar clientes: " + e.getMessage());
+        }
+    }
+
+
+    public void salvarFilmes(String nomeArquivo) {
+        try (ObjectOutputStream obj = new ObjectOutputStream(new FileOutputStream(nomeArquivo))) {
+        	obj.writeObject(filmes); // Filmes é o ArrayList que você quer salvar
+            System.out.println("Filmes salvos com sucesso!");
+        } catch (IOException e) {
+            System.out.println("Erro ao salvar filmes: " + e.getMessage());
+        }
+    }
+
+
+    @SuppressWarnings("unchecked")
+	public void carregarFilmes(String nomeArquivo) {
+        try (ObjectInputStream obj = new ObjectInputStream(new FileInputStream(nomeArquivo))) {
+            filmes = (ArrayList<Filme>) obj.readObject(); // Lê e atribui os filmes
+            System.out.println("Filmes carregados com sucesso!");
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Erro ao carregar filmes: " + e.getMessage());
+        }
+    }
 	
 	public boolean verificarClienteRepetido(Cliente cliente) {
 		for (Cliente c : clientes ) {
@@ -69,21 +141,24 @@ public class Controle {
         }
         return false;
 	}
-    public int cadastrarDependente(String nome, String end, String cpf, Data data){
-    	Dependentes dependente =  new Dependentes(nome, end, cpf, data);
-        if(Util.verificaListaStringPreenchida(nome, end, cpf) == false ){
-            return Constantes.ERRO_CAMPO_VAZIO;
-        }        
-         if (verificarDependenteRepetido(dependente)) {
-        	 return Constantes.DEPENDENTE_REPETIDO;
-        
-    	} else if (cliente.getDependentes().size() >= 3) {
-                return Constantes.ERROR_LIMITE_DEPENDENTE;
-            } 
-            cliente.adicionarDependentes(dependente);
-            return Constantes.RESULT_OK;
+	
+	public int cadastrarDependente(String nome, String end, String cpf, Data data) {
+	    if (cliente == null) {
+	        return Constantes.ERRO_CLIENTE_NAO_SELECIONADO;
+	    }
 
-    }
+	    Dependentes dependente = new Dependentes(nome, end, cpf, data);
+	    if (Util.verificaListaStringPreenchida(nome, end, cpf) == false) {
+	        return Constantes.ERRO_CAMPO_VAZIO;
+	    }
+	    if (verificarDependenteRepetido(dependente)) {
+	        return Constantes.DEPENDENTE_REPETIDO;
+	    } else if (cliente.getDependentes().size() >= 3) {
+	        return Constantes.ERROR_LIMITE_DEPENDENTE;
+	    }
+	    cliente.adicionarDependentes(dependente);
+	    return Constantes.RESULT_OK;
+	}
 	
 	public int getQtdClientes(){
 		return clientes.size();
@@ -104,6 +179,10 @@ public class Controle {
 		return clientes;
 	}
 	
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
 	public Filme getFilmesNaPosicao(int pos){
 		if(pos >=0 && pos < getQtdFilmes()){
 			return filmes.get(pos);
@@ -159,25 +238,22 @@ public class Controle {
 	}
 	
 	public List<Cliente> buscaCliente(Object busca) {
-		List<Cliente> resultado = new ArrayList<>();
-		for(Cliente c : clientes) {
-			if(busca instanceof Integer) {
-				int codigo = (Integer) busca;
-				if(c.getCodigo() == codigo) {
-					resultado.add(c);
-				}
-			} else if(busca instanceof String) {
-				String cliente = (String) busca;
-				if(c.getNome().equalsIgnoreCase(cliente)) {
-					resultado.add(c);
-				}
-
-			}
-		}
-
-		return resultado;
-
-		}
+	    List<Cliente> resultado = new ArrayList<>();
+	    for (Cliente c : clientes) {
+	        if (busca instanceof Integer) {
+	            int codigo = (Integer) busca;
+	            if (c.getCodigo() == codigo) {
+	                resultado.add(c);
+	            }
+	        } else if (busca instanceof String) {
+	            String cliente = (String) busca;
+	            if (c.getNome() != null && c.getNome().equalsIgnoreCase(cliente)) {
+	                resultado.add(c);
+	            }
+	        }
+	    }
+	    return resultado;
+	}
 	
 	public List<Cliente> buscaDependentes(String dependente){
 		List<Cliente> resultado = new ArrayList<>();
@@ -190,7 +266,7 @@ public class Controle {
 				listaDependentes = c.getDependentes();
 				if(!listaDependentes.isEmpty()){
 					for(Dependentes d : listaDependentes){
-						if(d.getNome().equals(dependente))
+						if(d.getNome() != null && d.getNome().equals(dependente))
 						{
 							resultado.add(c);
 						}
