@@ -89,9 +89,15 @@ public class Cliente extends Pessoa{
 		
 	}
 
+	public void excluirDependente(Dependentes d){
+		if (!dependentes.isEmpty()) {
+			dependentes.remove(d);
+		}
+	}
+	
 	@Override
 	public String toString() {
-		return "Nome: " + getNome() +" | Código: " + codigo + " | CPF: " + cpf + " | Data: " + data + " | Multa: " + multa + " | Dependentes: "
+		return "Nome: " + getNome() + " | Código: " + codigo + " | CPF: " + cpf + " | Data: " + data + " | Multa: " + multa + " | Dependentes: "
 				+ dependentes + " | Filmes: " + filmes;
 	}
 	

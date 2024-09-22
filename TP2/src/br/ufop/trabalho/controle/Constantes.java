@@ -39,6 +39,8 @@ public interface Constantes {
 	
 	public static final int DEPENDENTE_REPETIDO = 7;
 	
-	public static final int ERRO_TIPO_FILME = 8;
+	public static final int CLIENTE_SEM_DEPENDENTES = 8;
+	
+	public static final int ERRO_TIPO_FILME = 9;
 }
 

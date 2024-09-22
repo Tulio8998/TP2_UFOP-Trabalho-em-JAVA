@@ -88,6 +88,7 @@ public class Controle {
 	public int getQtdClientes(){
 		return clientes.size();
 	}
+	
 	public int getQtdFilmes(){
 		return filmes.size();
 	}
@@ -177,6 +178,28 @@ public class Controle {
 		return resultado;
 
 		}
+	
+	public List<Cliente> buscaDependentes(String dependente){
+		List<Cliente> resultado = new ArrayList<>();
+		List<Dependentes> listaDependentes = new ArrayList<>();
+		if(dependente.isEmpty()){
+			return resultado;
+		}
+		else{
+			for(Cliente c : clientes){
+				listaDependentes = c.getDependentes();
+				if(!listaDependentes.isEmpty()){
+					for(Dependentes d : listaDependentes){
+						if(d.getNome().equals(dependente))
+						{
+							resultado.add(c);
+						}
+					}	
+				}
+			}
+		}
+		return resultado;
+	}
 	
 	public List<Filme> getFilmes(){
 		return filmes;
