@@ -77,8 +77,8 @@ public class Controle {
          if (verificarDependenteRepetido(dependente)) {
         	 return Constantes.DEPENDENTE_REPETIDO;
         
-    	} else if (cliente.getDependentes().size() >= 2) {
-                return Constantes.ERROR_lIMITE_DEPENDENTE;
+    	} else if (cliente.getDependentes().size() >= 3) {
+                return Constantes.ERROR_LIMITE_DEPENDENTE;
             } 
             cliente.adicionarDependentes(dependente);
             return Constantes.RESULT_OK;

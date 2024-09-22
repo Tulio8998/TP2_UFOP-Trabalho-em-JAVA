@@ -88,9 +88,12 @@ public class Cliente extends Pessoa{
 		}
 		
 	}
-	
+
 	@Override
-	public String toString(){
-		return getNome();
+	public String toString() {
+		return "Nome: " + getNome() +" | Código: " + codigo + " | CPF: " + cpf + " | Data: " + data + " | Multa: " + multa + " | Dependentes: "
+				+ dependentes + " | Filmes: " + filmes;
 	}
+	
+	
 }

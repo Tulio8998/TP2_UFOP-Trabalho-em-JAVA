@@ -98,57 +98,65 @@ public class MenuClienteConsole {
 	}
 	
 	private void leDadosDependente() {
-		
-		boolean continua = true;
-		do {
-			System.out.println("Deseja cadastrar dependente? \n\t1 - Cadastrar dependente\n\t2 - Não cadastrar dependente\n");
-			int resp =  input.nextInt();
-			switch (resp) {
-				case 1:
-					input.nextLine();
-			        String nome, end, cpf;
-			        LocalDate dataNascimento;
-			        System.out.println("Digite o nome do cliente");
-			        nome = input.nextLine();
-			        System.out.println("Digite o endereco do cliente");
-			        end = input.nextLine();
-			        System.out.println("Digite o CPF do cliente");
-			        cpf = input.nextLine();
-			        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-			        while (true) {
-			            System.out.println("Digite a data de nascimento do cliente (dd/MM/yyyy)");
-			            String dataString = input.nextLine();
-			            try {
-			                dataNascimento = LocalDate.parse(dataString, formatter);
-			                break;
-			            } catch (DateTimeParseException e) {
-			                System.out.println("Formato de data inválido. Tente novamente.");
-			            }
-			        } 
-			        Data data = new Data(dataNascimento.getDayOfMonth(), dataNascimento.getMonthValue(), dataNascimento.getYear());
-			        int retorno = controle.cadastrarDependente(nome, end, cpf, data);
-					String msg = "";
-					switch(retorno){
-						case Constantes.DEPENDENTE_REPETIDO:
-							msg = "Esse dependente já cadastrado para esse cliente";
-							break;
-						case Constantes.ERROR_lIMITE_DEPENDENTE:
-							msg = "Não é possível adicionar mais de 3 dependentes.";
-							return;
-						case Constantes.ERRO_CAMPO_VAZIO:
-							msg = "Todos os campos devem ser preenchidos!";
-							break;
-					}
-					System.out.println(msg);
-					break;
-				case 2: 
-					return;
-				default:
-					System.out.println("Opção Inválida!");
-				}
-		} while (continua == true);
+	    boolean continua = true;
+	    int contadorDependentes = 0; // Contador para controlar o número de dependentes cadastrados
+
+	    do {
+	        if (contadorDependentes < 3) {
+	            System.out.println("Deseja cadastrar dependente? \n\t1 - Cadastrar dependente\n\t2 - Não cadastrar dependente\n");
+	            int resp = input.nextInt();
+	            switch (resp) {
+	                case 1:
+	                    input.nextLine();
+	                    String nome, end, cpf;
+	                    LocalDate dataNascimento;
+	                    System.out.println("Digite o nome do dependente");
+	                    nome = input.nextLine();
+	                    System.out.println("Digite o endereço do dependente");
+	                    end = input.nextLine();
+	                    System.out.println("Digite o CPF do dependente");
+	                    cpf = input.nextLine();
+	                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	                    while (true) {
+	                        System.out.println("Digite a data de nascimento do dependente (dd/MM/yyyy)");
+	                        String dataString = input.nextLine();
+	                        try {
+	                            dataNascimento = LocalDate.parse(dataString, formatter);
+	                            break;
+	                        } catch (DateTimeParseException e) {
+	                            System.out.println("Formato de data inválido. Tente novamente.");
+	                        }
+	                    }
+	                    Data data = new Data(dataNascimento.getDayOfMonth(), dataNascimento.getMonthValue(), dataNascimento.getYear());
+	                    int retorno = controle.cadastrarDependente(nome, end, cpf, data);
+	                    String msg = "";
+	                    switch (retorno) {
+	                        case Constantes.DEPENDENTE_REPETIDO:
+	                            msg = "Esse dependente já está cadastrado para este cliente";
+	                            break;
+	                        case Constantes.ERROR_LIMITE_DEPENDENTE:
+	                            return;
+	                        case Constantes.ERRO_CAMPO_VAZIO:
+	                            msg = "Todos os campos devem ser preenchidos!";
+	                            break;
+	                        case Constantes.RESULT_OK:
+	                            contadorDependentes++;
+	                            msg = "Dependente cadastrado com sucesso!";
+	                            break;
+	                    }
+	                    System.out.println(msg);
+	                    break;
+	                case 2:
+	                    return;
+	                default:
+	                    System.out.println("Opção Inválida!");
+	            }
+	        } else {
+	            System.out.println("Número máximo de dependentes (3) já cadastrado para este cliente.");
+	            return;
+	        }
+	    } while (continua);
 	}
-	
 	
 	private void imprimeListaClientes() {
 		System.out.println("******** LISTA DE CLIENTES CADASTRADOS *********");

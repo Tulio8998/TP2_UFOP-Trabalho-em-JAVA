@@ -29,7 +29,7 @@ public interface Constantes {
 	
 	public static final int ERRO_CAMPO_VAZIO = 2;
 	
-	public static final int ERROR_lIMITE_DEPENDENTE = 3;
+	public static final int ERROR_LIMITE_DEPENDENTE = 3;
 	
 	public static final int ERRO_CLIENTE = 4;
 	

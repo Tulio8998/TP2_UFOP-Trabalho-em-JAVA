@@ -83,8 +83,8 @@ public class Filme {
 
 	@Override
 	public String toString() {
-		return "Filme titulo=" + titulo + ", anoLancado=" + anoLancado + ", genero=" + genero + ", quantidadeDvds="
-				+ quantidadeDvds + ", quantidadeBluerays=" + quantidadeBluerays + ", tipoFilme=" + getTipoFilme();
+		return "Titulo: " + titulo + " | Ano lançado: " + anoLancado + " | genero: " + genero + " | Quantida de DVD's: "
+				+ quantidadeDvds + " | quantidadeBluerays: " + quantidadeBluerays + " | Tipo: " + tipoFilme;
 	}
 
 	@Override
