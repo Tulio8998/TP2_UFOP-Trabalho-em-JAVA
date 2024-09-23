@@ -37,8 +37,8 @@ public class MenuRelatorioConsole {
 				
 				case 2:
 					do {
-						System.out.println("\nDigite a opção:\n\t21 - Exibir o Relatório dos Filmes por gênero\n\t22 - Exibir o Relatório dos Filmes por ano "
-								+ "de lançamento\n\t23 - Exibir o Relatório dos Filmes por ordem alfabética\n\t24 - Voltar\n");	
+						System.out.println("\nDigite a opção:\n\t1 - Exibir o Relatório dos Filmes por gênero\n\t2 - Exibir o Relatório dos Filmes por ano "
+								+ "de lançamento\n\t3 - Exibir o Relatório dos Filmes por ordem alfabética\n\t4 - Voltar\n");	
 						System.out.print("Informe o que você deseja: ");
 						op = Util.leInteiroConsole(input);
 						switch(op) {

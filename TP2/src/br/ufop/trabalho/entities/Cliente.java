@@ -11,7 +11,6 @@ public class Cliente extends Pessoa implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private int codigo; 
-	private String cpf;
 	private Data data;
 	private double multa;
 	private ArrayList<String> tipoMidiaLocada;
@@ -20,9 +19,8 @@ public class Cliente extends Pessoa implements Serializable{
 	private ArrayList<Filme> filmes;
 
 	public Cliente(String nome, String endereco, int codigo, String cpf, Data data) {
-		super(nome, endereco);
+		super(nome, endereco, cpf);
 		this.codigo = codigo;
-		this.cpf = cpf;
 		this.data = data;
 		this.multa = 0;
 		filmes = new ArrayList<Filme>();
@@ -66,12 +64,6 @@ public class Cliente extends Pessoa implements Serializable{
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
-	public String getCpf() {
-		return cpf;
-	}
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
 	public Data getDataNascimento() {
 		return data;
 	}
@@ -96,7 +88,7 @@ public class Cliente extends Pessoa implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(codigo, cpf);
+		return Objects.hash(codigo, getCpf());
 	}
 
 	@Override
@@ -108,7 +100,7 @@ public class Cliente extends Pessoa implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Cliente other = (Cliente) obj;
-		return codigo == other.codigo && Objects.equals(cpf, other.cpf);
+		return codigo == other.codigo && Objects.equals(getCpf(), other.getCpf());
 	}
 
 	public boolean adicionarFilme(Filme filme) {
@@ -141,7 +133,7 @@ public class Cliente extends Pessoa implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "Nome: " + (getNome() != null ? getNome() : "Nome não definido") + " | Código: " + codigo + " | CPF: " + cpf + " | Data: " + data + " | Multa: " + multa + " | Dependentes: "
+		return "Nome: " + getNome() + " | Código: " + codigo + " | CPF: " + getCpf() + " | Data: " + data + " | Multa: " + multa + " | Dependentes: "
 				+ dependentes + " | Filmes: " + filmes;
 	}
 	

@@ -259,9 +259,10 @@ public class MenuClienteConsole {
 		System.out.println("CPF: " + cliente.getCpf());
 		System.out.println("Data de nascimento: " + cliente.getDataNascimento());
 		System.out.println("Endereco: " + cliente.getEndereco());
-		System.out.println("Filmes locados:\n" + cliente.getFilmes());
-		System.out.println("Multa: R$" + cliente.getMulta());
-		System.out.println("Dependentes:"); 
+		System.out.println("Filmes locados:\n");
+		imprimirFilmesLocados(cliente);
+		System.out.println("\nMulta: R$" + cliente.getMulta());
+		System.out.println("Dependentes:\n"); 
 		imprimeListaDependentes(cliente);
 	}
 
@@ -495,7 +496,8 @@ public class MenuClienteConsole {
 						f.setQuantidadeBluerays(f.getQuantidadeBluerays()+1);
 					}
 					boolean rodando = true;
-					while(rodando){
+					while(rodando){						
+						System.out.println("Filme removido com sucesso!\n");
 						System.out.println("Houve atraso na devolucao?\n1 - Sim\n2 - Nao");
 						int op = Util.leInteiroConsole(input);
 						switch(op){
@@ -525,10 +527,10 @@ public class MenuClienteConsole {
 	}
 	
 	private void imprimirFilmesLocados(Cliente cliente){
-		if(!cliente.getFilmes().isEmpty()){
-			int count=1;
+		if(!cliente.getFilmes().isEmpty() && !cliente.getTipoMidiaLocada().isEmpty()){
+			int count=0;
 			for(Filme f : cliente.getFilmes()){
-				System.out.println(count + " - " + f.getTitulo() + " (" + cliente.getTipoMidiaLocada().get(count-1) + ")");
+				System.out.println(count+1 + " - " + f.getTitulo() + " (" + cliente.getTipoMidiaLocada().get(count) + ")");
 				count++;
 			}
 		}

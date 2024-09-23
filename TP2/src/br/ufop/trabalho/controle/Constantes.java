@@ -49,4 +49,3 @@ public static final int RESULT_OK = 1;
 	
 	public static final int ERRO_CLIENTE_NAO_SELECIONADO = 12;
 }
-

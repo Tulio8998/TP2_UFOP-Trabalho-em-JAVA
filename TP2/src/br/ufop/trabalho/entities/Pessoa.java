@@ -14,11 +14,12 @@ public class Pessoa implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String nome, endereco;
+	private String nome, endereco, cpf;
 
-	public Pessoa(String nome, String endereco) {
+	public Pessoa(String nome, String endereco, String cpf) {
 		this.nome = nome;
 		this.endereco = endereco;
+		this.cpf = cpf;
 	}
 	public Pessoa(){}
 
@@ -40,6 +41,13 @@ public class Pessoa implements Serializable{
 	@Override
 	public String toString() {
 		return nome;
+	}
+	
+	public String getCpf() {
+		return cpf;
+	}
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 	
 	

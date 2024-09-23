@@ -8,6 +8,7 @@ import br.ufop.trabalho.Util;
 import br.ufop.trabalho.controle.Constantes;
 import br.ufop.trabalho.controle.Controle;
 import br.ufop.trabalho.entities.Cliente;
+import br.ufop.trabalho.entities.Dependentes;
 import br.ufop.trabalho.entities.Filme;
 
 public class MenuFilmesConsole {
@@ -206,54 +207,73 @@ public class MenuFilmesConsole {
 					Filme filmeEscolhido = controle.getFilmes().get(filmeEscolhindo - 1);
 					System.out.println("Deseja locar um DVD ou Blu-ray?\n\t1 - DVD\n\t2 - Blu-ray");
 	                tipo = Util.leInteiroConsole(input);
-	                input.nextLine();	              
-	                
-	                if (tipo == 1 || tipo == 2) {
-	                	System.out.println("Digite o nome do cliente para locar o filme: ");
-		                nome = input.nextLine();
-		                List<Cliente> clientesEncontrados = new ArrayList<>();
-		                for(Cliente c : controle.getClientes()) {
-		                    if(c.getNome().equalsIgnoreCase(nome)) {
-		                        clientesEncontrados.add(c);
-		                    }
-		                }
-		                if (clientesEncontrados.isEmpty()) {
-		                    System.out.println("Cliente não encontrado.");
-		                } else if(clientesEncontrados.size() == 1) {
-		                    Cliente cliente = clientesEncontrados.get(0);
-		                    if (controle.locarFilmeCliente(cliente, filmeEscolhido, tipo) == false) {
-	    	                	System.out.println("Filme indisponivel no momento");
-	    	                } else {
-			                    controle.locarFilmeCliente(cliente, filmeEscolhido, tipo);
-			                    System.out.println("Filme locado com sucesso!");
-		                    }
-		                } else if(clientesEncontrados.size() > 1) {
-		                    System.out.println("Foram encontrados múltiplos clientes com esse nome:");
-		                    for (i = 0; i < clientesEncontrados.size(); i++) {
-		                        Cliente cliente = clientesEncontrados.get(i);
-		                        System.out.println((i + 1) + ". Nome: " + cliente.getNome() + " | Código: " + cliente.getCodigo() + " | CPF: " + cliente.getCpf());
-		                    }
-		                    System.out.println("Escolha o número do cliente que deseja locar o filme: ");
-		                    escolhaCliente = Util.leInteiroConsole(input) - 1;
-		                    
-		                    if(escolhaCliente >= 0 && escolhaCliente < clientesEncontrados.size()) {
-		                        Cliente clienteEscolhido = clientesEncontrados.get(escolhaCliente);
-		                        if (controle.locarFilmeCliente(clienteEscolhido, filmeEscolhido, tipo) == false) {
-		    	                	System.out.println("Filme indisponivel no momento");
-		    	                } else {
-			                        controle.locarFilmeCliente(clienteEscolhido, filmeEscolhido, tipo);
-			                        System.out.println("Filme locado com sucesso!");	
-		    	                }
-		                    } else {
-		                        System.out.println("Opção inválida.");
-		                    }
-		                }
-		                
-	                } else {
-                        System.out.println("Opção inválida.");
-                    }
-	                
-	                
+	                input.nextLine();	 
+	                List<Cliente> clientes = controle.getClientes();
+	                for(Cliente cl : clientes) {
+		                if(cl.getMulta() == 0){
+							if(controle.getFilmes().size() < 5){
+								if (tipo == 1 || tipo == 2) {
+				                	System.out.println("Digite o nome do cliente ou do dependete para locar o filme: ");
+					                nome = input.nextLine();
+					                List<Cliente> clientesEncontrados = new ArrayList<>();
+					                Cliente clienteEscolhido = null;
+					                Dependentes dependenteEscolhido = null;
+					                for(Cliente c : controle.getClientes()) {
+					                    if(c.getNome().equalsIgnoreCase(nome)) {
+					                        clientesEncontrados.add(c);
+					                    } else {
+					                    	List<Dependentes> dependentes = c.getDependentes();
+					                        for (Dependentes d : dependentes) {
+					                            if (d.getNome().equalsIgnoreCase(nome)) {
+					                                dependenteEscolhido = d;
+					                                clienteEscolhido = c;
+					                                clientesEncontrados.add(c);
+					                                break;
+					                            }
+					                        }
+					                    }
+					                }
+					                if (clientesEncontrados.isEmpty()) {
+					                    System.out.println("Cliente não encontrado.");
+					                } else if(clientesEncontrados.size() == 1) {
+					                    Cliente cliente = clientesEncontrados.get(0);
+					                    if (controle.locarFilmeCliente(cliente, filmeEscolhido, tipo) == false) {
+				    	                	System.out.println("Filme indisponivel no momento");
+				    	                } else {
+						                    System.out.println("Filme locado com sucesso!");
+					                    }
+					                } else if(clientesEncontrados.size() > 1) {
+					                    System.out.println("Foram encontrados múltiplos clientes com esse nome:");
+					                    for (i = 0; i < clientesEncontrados.size(); i++) {
+					                        Cliente cliente = clientesEncontrados.get(i);
+					                        System.out.println((i + 1) + ". Nome: " + cliente.getNome() + " | Código: " + cliente.getCodigo() + " | CPF: " + cliente.getCpf());
+					                    }
+					                    System.out.println("Escolha o número do cliente que deseja locar o filme: ");
+					                    escolhaCliente = Util.leInteiroConsole(input) - 1;
+					                    
+					                    if(escolhaCliente >= 0 && escolhaCliente < clientesEncontrados.size()) {
+					                        clienteEscolhido = clientesEncontrados.get(escolhaCliente);
+					                        if (controle.locarFilmeCliente(clienteEscolhido, filmeEscolhido, tipo) == false) {
+					    	                	System.out.println("Filme indisponivel no momento");
+					    	                } else {
+						                        controle.locarFilmeCliente(clienteEscolhido, filmeEscolhido, tipo);
+						                        System.out.println("Filme locado com sucesso!");	
+					    	                }
+					                    } else {
+					                        System.out.println("Opção inválida.");
+					                    }
+					                }
+					                
+				                } else {
+			                        System.out.println("Opção inválida.");
+			                    }
+							}
+							else{
+								System.out.println("O cliente atingiu o numero maximo de filmes locados!");
+							}
+						}
+		                return;
+	                }    
 					break;
 				case 4:
 					return;
@@ -266,10 +286,19 @@ public class MenuFilmesConsole {
 
 	private void imprimeListaFilmes() {
 		System.out.println("******** LISTA DE FILMES CADASTRADOS *********");
-		for(int i = 0; i < controle.getQtdFilmes(); i++){
-			//É preciso implementar o toString corretamente.
-			System.out.println(controle.getFilmesNaPosicao(i).toString());
-		}	
+		List<Filme> filmes = controle.getFilmes();
+	    boolean filmesDisponiveis = false;
+
+	    for (Filme f : filmes) {
+	        if (f.getQuantidadeBluerays() > 0 || f.getQuantidadeDvds() > 0) {
+	        	System.out.println(f.toString());
+	            filmesDisponiveis = true;
+	        }
+	    }
+
+	    if (!filmesDisponiveis) {
+	        System.out.println("Nenhum filme disponível no momento.");
+	    }
 		System.out.println("******** FIM DA LISTA DE FILMES  *********");
 	}
 }

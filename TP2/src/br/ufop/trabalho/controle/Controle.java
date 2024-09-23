@@ -25,7 +25,6 @@ public class Controle {
 	private ArrayList <Cliente> clientes;
 	private ArrayList <Filme> filmes;
 
-	private double valorLocacaoDiaria;
 	private double valorMultaPorDia;
 	private int quantidadeMaximaFilmesAlugados;
 	private Cliente cliente;
@@ -255,21 +254,24 @@ public class Controle {
 	}
 	
 	public boolean locarFilmeCliente(Cliente cliente, Filme filme, int tipo) {
-		cliente.getFilmes().add(filme);
 	    if (tipo == 1) {
 	    	if (filme.getQuantidadeDvds() == 0) {
 	    		return false;
 	    	} else {
+				cliente.getFilmes().add(filme);
 	    		int filmeLocado = filme.getQuantidadeDvds() - 1;
 		        filme.setQuantidadeDvds(filmeLocado);
+				cliente.getTipoMidiaLocada().add("DVD");
 	    	}
 	        return true;
 	    } else if (tipo == 2) {
 	    	if (filme.getQuantidadeBluerays() == 0) {
 	    		return false;
 	    	} else {
+				cliente.getFilmes().add(filme);
 		        int filmeLocado = filme.getQuantidadeBluerays() - 1;
 		        filme.setQuantidadeBluerays(filmeLocado);
+				cliente.getTipoMidiaLocada().add("Blu-ray");
 	    	}
 	        return true;
 	    }
@@ -283,7 +285,6 @@ public class Controle {
 	}
 	 
 	public void informacoesDoSistema (double locacaoDiaria, double multaPorDia, int maxFilmesAlugados) {
-        valorLocacaoDiaria = locacaoDiaria;
         valorMultaPorDia = multaPorDia;
         quantidadeMaximaFilmesAlugados = maxFilmesAlugados;
     }
