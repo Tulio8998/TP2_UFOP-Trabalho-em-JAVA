@@ -32,7 +32,7 @@ public class MenuRelatorioConsole {
 			op = Util.leInteiroConsole(input);
 			switch(op) {
 				case 1:
-					gerarRelatorioClientes(controle.getCliente());
+					gerarRelatorioClientes(controle.getClientes());
 				break;
 				
 				case 2:

@@ -175,7 +175,7 @@ public class MenuClienteConsole {
 	}
 
 	private void exibeOpcoesCliente(Cliente cliente){
-		controle.setCliente(cliente); // Adicione isso
+		controle.setCliente(cliente);
 		int op = 0;
 		imprimirCliente(cliente);
 		boolean rodando=true;

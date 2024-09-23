@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import br.ufop.trabalho.Util;
 import br.ufop.trabalho.controle.Controle;
+import br.ufop.trabalho.disco.Disco;
 
 public class MenuConsole {
 	
@@ -11,6 +12,7 @@ public class MenuConsole {
 	 * Controle - Objeto que será utilizado para acesso aos dados do sistema (classes Entidade que armazenam os dados)  
 	 */
 	private Controle controle;
+	private Disco disco;
 	private String arquivoClientes = "clientes.data";
     private String arquivoFilmes = "filmes.data";
 	/**
@@ -35,8 +37,10 @@ public class MenuConsole {
 		controle = new Controle();
 		input = new Scanner(System.in);
 		
-		controle.carregarClientes(arquivoClientes);
-        controle.carregarFilmes(arquivoFilmes);
+		disco = new Disco(controle);
+		
+		disco.carregarClientes(arquivoClientes);
+		disco.carregarFilmes(arquivoFilmes);
 		//Inicialização da classe de acessoFuncionario. Deverá ser passado como parâmetro o objeto de controle e o objeto de entrada de dados
 		menuCliente = new MenuClienteConsole(controle, input);
 		menuFilmes = new MenuFilmesConsole(controle, input);
@@ -48,8 +52,8 @@ public class MenuConsole {
         do {
             continua = exibeMenuPrincipal();
         } while (continua == true);
-        controle.salvarClientes(arquivoClientes); // Salva os clientes ao finalizar
-        controle.salvarFilmes(arquivoFilmes); // Salva os filmes ao finalizar
+        disco.salvarClientes(arquivoClientes);
+        disco.salvarFilmes(arquivoFilmes);
         System.out.println("Obrigado por usar o sistema!");
     }
 	

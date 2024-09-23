@@ -7,6 +7,7 @@ import java.util.Scanner;
 import br.ufop.trabalho.Util;
 import br.ufop.trabalho.controle.Constantes;
 import br.ufop.trabalho.controle.Controle;
+import br.ufop.trabalho.entities.Cliente;
 import br.ufop.trabalho.entities.Filme;
 
 public class MenuFilmesConsole {
@@ -141,27 +142,27 @@ public class MenuFilmesConsole {
         }
         if (!filmes.isEmpty()) {
             System.out.println("Escolha o n° do filme que deseja modificar: ");
-            int op = input.nextInt();
+            int op =  Util.leInteiroConsole(input);
             if (op >= 1 && op <= filmes.size()) {
                 Filme filmeEscolhido = filmes.get(op - 1);
-                modificarFilmes(filmeEscolhido);
+                modificarFilmes(filmeEscolhido, op);
             } else {
                 System.out.println("Opção inválida.");
             }
         }
     }
 	
-	public void modificarFilmes(Filme filme) {
+	public void modificarFilmes(Filme filme, int filmeEscolhindo) {
 		input.nextLine();
 		boolean continua = true;
-		int op  = 0;
+		int op  = 0, i = 1, escolhaCliente = 0, tipo = 0;
 		do{	
 			System.out.println("Digite a opção de busca:\n\t1 - Editar filme\n\t2 - Excluir filme\n\t3 - Locar para cliente\n\t4 - Voltar\n");
 			op = Util.leInteiroConsole(input);
 			switch(op){
 				case 1:
 					input.nextLine();
-					String titulo, genero, tipoFilme;  
+					String titulo, genero, tipoFilme, nome;  
 					int anoLancado, quantidadeDvds, quantidadeBluerays;
 					System.out.println("Digite o nome do filme: ");
 					titulo = input.nextLine();
@@ -202,7 +203,57 @@ public class MenuFilmesConsole {
 					System.out.println("Filme removido com sucesso!");
 					return;
 				case 3:
-					System.out.println("Ainda não fiz");
+					Filme filmeEscolhido = controle.getFilmes().get(filmeEscolhindo - 1);
+					System.out.println("Deseja locar um DVD ou Blu-ray?\n\t1 - DVD\n\t2 - Blu-ray");
+	                tipo = Util.leInteiroConsole(input);
+	                input.nextLine();	              
+	                
+	                if (tipo == 1 || tipo == 2) {
+	                	System.out.println("Digite o nome do cliente para locar o filme: ");
+		                nome = input.nextLine();
+		                List<Cliente> clientesEncontrados = new ArrayList<>();
+		                for(Cliente c : controle.getClientes()) {
+		                    if(c.getNome().equalsIgnoreCase(nome)) {
+		                        clientesEncontrados.add(c);
+		                    }
+		                }
+		                if (clientesEncontrados.isEmpty()) {
+		                    System.out.println("Cliente não encontrado.");
+		                } else if(clientesEncontrados.size() == 1) {
+		                    Cliente cliente = clientesEncontrados.get(0);
+		                    if (controle.locarFilmeCliente(cliente, filmeEscolhido, tipo) == false) {
+	    	                	System.out.println("Filme indisponivel no momento");
+	    	                } else {
+			                    controle.locarFilmeCliente(cliente, filmeEscolhido, tipo);
+			                    System.out.println("Filme locado com sucesso!");
+		                    }
+		                } else if(clientesEncontrados.size() > 1) {
+		                    System.out.println("Foram encontrados múltiplos clientes com esse nome:");
+		                    for (i = 0; i < clientesEncontrados.size(); i++) {
+		                        Cliente cliente = clientesEncontrados.get(i);
+		                        System.out.println((i + 1) + ". Nome: " + cliente.getNome() + " | Código: " + cliente.getCodigo() + " | CPF: " + cliente.getCpf());
+		                    }
+		                    System.out.println("Escolha o número do cliente que deseja locar o filme: ");
+		                    escolhaCliente = Util.leInteiroConsole(input) - 1;
+		                    
+		                    if(escolhaCliente >= 0 && escolhaCliente < clientesEncontrados.size()) {
+		                        Cliente clienteEscolhido = clientesEncontrados.get(escolhaCliente);
+		                        if (controle.locarFilmeCliente(clienteEscolhido, filmeEscolhido, tipo) == false) {
+		    	                	System.out.println("Filme indisponivel no momento");
+		    	                } else {
+			                        controle.locarFilmeCliente(clienteEscolhido, filmeEscolhido, tipo);
+			                        System.out.println("Filme locado com sucesso!");	
+		    	                }
+		                    } else {
+		                        System.out.println("Opção inválida.");
+		                    }
+		                }
+		                
+	                } else {
+                        System.out.println("Opção inválida.");
+                    }
+	                
+	                
 					break;
 				case 4:
 					return;

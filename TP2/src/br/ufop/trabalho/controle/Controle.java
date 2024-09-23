@@ -1,10 +1,5 @@
 package br.ufop.trabalho.controle;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,46 +59,6 @@ public class Controle {
         if (diasAtraso > 0) {
             double multa = diasAtraso * valorMultaPorDia;
             cliente.adicionarMulta(multa);
-        }
-    }
-	
-	public void salvarClientes(String nomeArquivo) {
-        try (ObjectOutputStream obj = new ObjectOutputStream(new FileOutputStream(nomeArquivo))) {
-        	obj.writeObject(clientes); // Clientes é o ArrayList que você quer salvar
-            System.out.println("Clientes salvos com sucesso!");
-        } catch (IOException e) {
-            System.out.println("Erro ao salvar clientes: " + e.getMessage());
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    public void carregarClientes(String nomeArquivo) {
-        try (ObjectInputStream obj = new ObjectInputStream(new FileInputStream(nomeArquivo))) {
-            clientes = (ArrayList<Cliente>) obj.readObject(); // Lê e atribui os clientes
-            System.out.println("Clientes carregados com sucesso!");
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Erro ao carregar clientes: " + e.getMessage());
-        }
-    }
-
-
-    public void salvarFilmes(String nomeArquivo) {
-        try (ObjectOutputStream obj = new ObjectOutputStream(new FileOutputStream(nomeArquivo))) {
-        	obj.writeObject(filmes); // Filmes é o ArrayList que você quer salvar
-            System.out.println("Filmes salvos com sucesso!");
-        } catch (IOException e) {
-            System.out.println("Erro ao salvar filmes: " + e.getMessage());
-        }
-    }
-
-
-    @SuppressWarnings("unchecked")
-	public void carregarFilmes(String nomeArquivo) {
-        try (ObjectInputStream obj = new ObjectInputStream(new FileInputStream(nomeArquivo))) {
-            filmes = (ArrayList<Filme>) obj.readObject(); // Lê e atribui os filmes
-            System.out.println("Filmes carregados com sucesso!");
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Erro ao carregar filmes: " + e.getMessage());
         }
     }
 	
@@ -175,16 +130,34 @@ public class Controle {
 		return null;
 	}
 	
-	public List<Cliente> getCliente(){
+	public ArrayList<Cliente> getClientes() {
 		return clientes;
 	}
+
+	public void setClientes(ArrayList<Cliente> clientes) {
+		this.clientes = clientes;
+	}
 	
+	public List<Filme> getFilmes(){
+		return filmes;
+	}
+	
+	public void setFilmes(ArrayList<Filme> filmes) {
+		this.filmes = filmes;
+	}
+	
+	public Cliente getCliente() {
+		return cliente;
+	}
+
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
 
+	
+	
 	public Filme getFilmesNaPosicao(int pos){
-		if(pos >=0 && pos < getQtdFilmes()){
+		if(pos >= 0 && pos < getQtdFilmes()){
 			return filmes.get(pos);
 		}
 		return null;
@@ -277,8 +250,26 @@ public class Controle {
 		return resultado;
 	}
 	
-	public List<Filme> getFilmes(){
-		return filmes;
+	public boolean locarFilmeCliente(Cliente cliente, Filme filme, int tipo) {
+		cliente.getFilmes().add(filme);
+	    if (tipo == 1) {
+	    	if (filme.getQuantidadeDvds() == 0) {
+	    		return false;
+	    	} else {
+	    		int filmeLocado = filme.getQuantidadeDvds() - 1;
+		        filme.setQuantidadeDvds(filmeLocado);
+	    	}
+	        return true;
+	    } else if (tipo == 2) {
+	    	if (filme.getQuantidadeBluerays() == 0) {
+	    		return false;
+	    	} else {
+		        int filmeLocado = filme.getQuantidadeBluerays() - 1;
+		        filme.setQuantidadeBluerays(filmeLocado);
+	    	}
+	        return true;
+	    }
+	    return false;
 	}
 	
 	public void exluirFilmes(Filme filme) {
