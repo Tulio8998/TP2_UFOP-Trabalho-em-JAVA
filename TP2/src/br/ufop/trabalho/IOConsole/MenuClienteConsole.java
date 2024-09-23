@@ -13,6 +13,7 @@ import br.ufop.trabalho.controle.Controle;
 import br.ufop.trabalho.entities.Cliente;
 import br.ufop.trabalho.entities.Data;
 import br.ufop.trabalho.entities.Dependentes;
+import br.ufop.trabalho.entities.Filme;
 
 public class MenuClienteConsole {
 	private Controle controle;
@@ -208,11 +209,26 @@ public class MenuClienteConsole {
 					break;
 
 				case 4:
-					//implementar
+					if(cliente.getMulta()==0){
+						if(cliente.getFilmes().size()<5){
+							locarFilme(cliente);
+						}
+						else{
+							System.out.println("O cliente atingiu o numero maximo de filmes locados!");
+						}
+					}
+					else{
+						System.out.println("O cliente possui debitos nao pagos. Pague as multas pendentes para poder locar mais filmes!");
+					}
 					break;
 
 				case 5:
-					//implementar
+					if(!cliente.getFilmes().isEmpty()){
+						devolverFilme(cliente);
+					}
+					else{
+						System.out.println("O cliente nao possui filmes locados.");
+					}
 					break;
 
 				case 6:
@@ -221,6 +237,7 @@ public class MenuClienteConsole {
 					}
 					else{
 						cliente.setMulta(0);
+						System.out.println("Multa paga com sucesso!");
 					}
 					break;
 
@@ -397,6 +414,129 @@ public class MenuClienteConsole {
 		}
 	}
 	
+	public void locarFilme(Cliente cliente){
+		input.nextLine();
+		System.out.println("Digite o nome do filme que deseja locar");
+		String nome = input.nextLine();
+		if(controle.buscarFilme(nome).isEmpty()){
+			System.out.println("Sem resultados disponíveis para este filme.");
+		}
+		else{
+			Filme filme = new Filme();
+			filme = controle.buscarFilme(nome).get(0);
+			if(filme.getQuantidadeBluerays()==0 && filme.getQuantidadeDvds()==0){
+				System.out.println("Desculpe. Todas copias deste filme ja estao locadas!");
+			}
+			else{
+				System.out.println("Deseja locar um DVD ou Blu-ray?\n1 - DVD\n2 - Blu-ray");
+				int op = Util.leInteiroConsole(input);
+				switch(op){
+					case 1:
+						if(filme.getQuantidadeDvds()==0){
+							System.out.println("Nao existe DVD disponiveil para este filme");
+						}
+						else{
+							//pode ser reaproveitado para a classe entradas
+							//criar uma função para impressão e chamar ela daqui
+							System.out.println("\nCliente: " + cliente.getNome());
+							System.out.println("Filme: " + filme.getTitulo());
+							System.out.println("Valor: R$" + controle.getValorLocacaoDiaria(filme));
+							//System.out.println("Data: " + funcaoQueColocaADataDeHoje());
+							filme.setQuantidadeDvds(filme.getQuantidadeDvds()-1);
+							cliente.getTipoMidiaLocada().add("DVD");
+							cliente.getFilmes().add(filme);	
+							System.out.println("Filme locado com sucesso!");
+						}
+						break;
+
+					case 2:
+						if(filme.getQuantidadeBluerays()==0){
+							System.out.println("Nao existe Blu-ray disponivel para este filme");
+						}
+						else{
+							//pode ser reaproveitado para a classe entradas
+							//criar uma função para impressão e chamar ela daqui
+							System.out.println("\nCliente: " + cliente.getNome());
+							System.out.println("Filme: " + filme.getTitulo());
+							System.out.println("Valor: R$" + controle.getValorLocacaoDiaria(filme));
+							//System.out.println("Data: " + funcaoQueColocaADataDeHoje());
+							filme.setQuantidadeBluerays(filme.getQuantidadeBluerays()-1);
+							cliente.getTipoMidiaLocada().add("Blu-ray");
+							cliente.getFilmes().add(filme);	
+							System.out.println("Filme locado com sucesso!");
+						}
+						break;
+
+					default:
+						System.out.println("Opcao invalida");
+						break;
+				}
+			}
+		}
+	}
+
+	private void devolverFilme(Cliente cliente){
+		imprimirFilmesLocados(cliente);
+		if(!cliente.getFilmes().isEmpty()){
+			input.nextLine();
+			System.out.println("Digite o nome do filme que deseja devolver:");	
+			String nome = input.nextLine();
+			int count = 0;
+			for(Filme f : cliente.getFilmes()){
+				if(nome.toLowerCase().equals(f.getTitulo().toLowerCase())){
+					if(cliente.getTipoMidiaLocada().get(count).equals("DVD")){
+						cliente.getTipoMidiaLocada().remove(count);
+						cliente.getFilmes().remove(f);
+						f.setQuantidadeDvds(f.getQuantidadeDvds()+1);
+					}
+					else{
+						cliente.getTipoMidiaLocada().remove(count);
+						cliente.getFilmes().remove(f);
+						f.setQuantidadeBluerays(f.getQuantidadeBluerays()+1);
+					}
+					boolean rodando = true;
+					while(rodando){
+						System.out.println("Houve atraso na devolucao?\n1 - Sim\n2 - Nao");
+						int op = Util.leInteiroConsole(input);
+						switch(op){
+							case 1:
+								input.nextLine();
+								System.out.println("Quantos dias de atraso?");
+								op = Util.leInteiroConsole(input);
+								controle.aplicarMulta(cliente, op);
+								rodando = false;
+								break;
+
+							case 2:
+								rodando=false;
+								break;
+
+							default:
+								System.out.println("Digite uma opcao valida.");
+								break;
+						}
+					}
+					return;
+				}
+				count++;
+			}
+			System.out.println("Voce nao possui filme correspondente locado!");
+		}
+	}
+	
+	private void imprimirFilmesLocados(Cliente cliente){
+		if(!cliente.getFilmes().isEmpty()){
+			int count=1;
+			for(Filme f : cliente.getFilmes()){
+				System.out.println(count + " - " + f.getTitulo() + " (" + cliente.getTipoMidiaLocada().get(count-1) + ")");
+				count++;
+			}
+		}
+		else{
+			System.out.println("Nenhum filme locado");
+		}
+	}
+	
 	private void imprimeListaClientes() {
 		System.out.println("******** LISTA DE CLIENTES CADASTRADOS *********");
 		for(int i = 0; i < controle.getQtdClientes(); i++){
@@ -418,7 +558,7 @@ public class MenuClienteConsole {
 			System.out.println("\n");
 		}
 		else{
-			System.out.println("Nenhum dependente");
+			System.out.println("Nenhum dependente\n");
 		}
 	}	
 	

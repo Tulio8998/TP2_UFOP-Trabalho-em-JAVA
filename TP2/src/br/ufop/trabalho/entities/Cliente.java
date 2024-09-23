@@ -14,6 +14,7 @@ public class Cliente extends Pessoa implements Serializable{
 	private String cpf;
 	private Data data;
 	private double multa;
+	private ArrayList<String> tipoMidiaLocada;
 	
 	private ArrayList<Dependentes> dependentes;
 	private ArrayList<Filme> filmes;
@@ -26,6 +27,7 @@ public class Cliente extends Pessoa implements Serializable{
 		this.multa = 0;
 		filmes = new ArrayList<Filme>();
 		dependentes =  new ArrayList<Dependentes>();
+		tipoMidiaLocada = new ArrayList<String>();
 	}
 
 	public Cliente(){
@@ -34,23 +36,21 @@ public class Cliente extends Pessoa implements Serializable{
 		dependentes =  new ArrayList<Dependentes>();
 	}
 	
-	public boolean adicionarFilme(Filme filme) {
-		if(filmes.size() < 5) {
-			filmes.add(filme);
-			return true;
-		}
-		return false;
+	
+
+	public ArrayList<String> getTipoMidiaLocada(){
+		return tipoMidiaLocada;
 	}
 	
-	public void removerFilme(Filme filme) {
-		filmes.remove(filme);
+	public void setTipoMidiaLocada(ArrayList<String> tipoMidiaLocada){
+		this.tipoMidiaLocada = tipoMidiaLocada;
 	}
 	
-	public double getmulta() {
+	public double getMulta() {
 		return multa;
 	}
 	
-	public void adicionarMulta(double valor) {
+	public void setMulta(double valor) {
 		if(valor>0) {
 			this.multa += valor;
 		}
@@ -78,18 +78,15 @@ public class Cliente extends Pessoa implements Serializable{
 	public void setDataNascimento(Data data) {
 		this.data = data;
 	}
-	public double getMulta() {
-		return multa;
-	}
-	public void setMulta(double multa) {
-		this.multa = multa;
-	}
+	
 	public ArrayList<Filme> getFilmes() {
 		return filmes;
 	}
-	public void setFilmes(ArrayList<Filme> filmes) {
+
+	public void setFilmes(ArrayList<Filme> filmes){
 		this.filmes = filmes;
 	}
+
 	public ArrayList<Dependentes> getDependentes() {
 		return dependentes;
 	}
@@ -114,6 +111,18 @@ public class Cliente extends Pessoa implements Serializable{
 		return codigo == other.codigo && Objects.equals(cpf, other.cpf);
 	}
 
+	public boolean adicionarFilme(Filme filme) {
+		if(filmes.size() < 5) {
+			filmes.add(filme);
+			return true;
+		}
+		return false;
+	}
+	
+	public void removerFilme(Filme filme) {
+		filmes.remove(filme);
+	}
+	
 	public boolean adicionarDependentes(Dependentes dependente) {
 		if (dependentes.size() < 3) {
 			dependentes.add(dependente);

@@ -43,6 +43,10 @@ public class Controle {
 		}
 	}
 	
+	public double getValorMultaPorDia() {		
+		return valorMultaPorDia;
+	}
+	
     public void setLimiteFilmesPorCliente(int limite) {
         if (limite > 0) {
             this.quantidadeMaximaFilmesAlugados = limite;
@@ -58,7 +62,7 @@ public class Controle {
     public void aplicarMulta(Cliente cliente, int diasAtraso) {
         if (diasAtraso > 0) {
             double multa = diasAtraso * valorMultaPorDia;
-            cliente.adicionarMulta(multa);
+            cliente.setMulta(multa);
         }
     }
 	
@@ -284,12 +288,20 @@ public class Controle {
         quantidadeMaximaFilmesAlugados = maxFilmesAlugados;
     }
 
-	public double getValorLocacaoDiaria() {
-		return valorLocacaoDiaria;
+	public double getValorLocacaoDiaria(Filme filme) {
+		if(filme.getTipoFilme().equals("antigo")){
+			return 5;
+		}
+		else if(filme.getTipoFilme().equals("novo")){
+			return 7.5;
+		}
+		else{
+			return 10;
+		}
 	}
-	public double getValorMultaPorDia() {		
-		return valorMultaPorDia;
-	}
+	
+	
+	
 	public int getQuantidadeMaximaFilmesAlugados() {
 		return quantidadeMaximaFilmesAlugados;
 	}
