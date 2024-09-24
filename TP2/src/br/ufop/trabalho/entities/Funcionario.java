@@ -18,6 +18,14 @@ public class Funcionario extends Pessoa implements Serializable{
         super();
     }
 
+    public int getCodigoadmissao() {
+        return codigoadmissao;
+    }
+
+    public void setCodigoadmissao(int codigoadmissao) {
+        this.codigoadmissao = codigoadmissao;
+    }
+
     public double getSalario() {
         return salario;
     }
@@ -30,15 +38,7 @@ public class Funcionario extends Pessoa implements Serializable{
             this.salario = 0;
         }
     }
-
-    public int getCodigoadmissao() {
-        return codigoadmissao;
-    }
-
-    public void setCodigoadmissao(int codigoadmissao) {
-        this.codigoadmissao = codigoadmissao;
-    }
-
+    
     @Override
     public String toString() {
         return "Funcionário: " + getNome() + " | CPF: " + getCpf() + "| Codigo de Admissão: " + codigoadmissao + "| Salário: " + salario;

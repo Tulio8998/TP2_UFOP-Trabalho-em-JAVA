@@ -64,21 +64,21 @@ public class MenuBalanceteConsole{
 			}
 			
 		}
-		while (continua ==true);
+		while(continua ==true);
 	}
 	
 	private void cadastrarEntrada() {
 		input.nextLine();
         System.out.println("--- Cadastro de Entrada ---");
         System.out.println("Nome da entrada: ");
-        String nome = input.next();
+        String nome = input.nextLine();
         System.out.println("Descrição da entrada: ");
-        String descricao = input.next();
+        String descricao = input.nextLine();
         System.out.println("Valor da entrada: ");
         double valor = Util.leDoubleConsole(input);
         System.out.println("Mês (1-12): ");
         int mes = input.nextInt();
-        if (mes >= 1 && mes <= 12 ) {
+        if(mes >= 1 && mes <= 12 ) {
         	System.out.println("Ano: ");
             int ano = Util.leInteiroConsole(input);
             controle.cadastrarEntrada(nome, descricao , valor, mes, ano);
@@ -92,7 +92,8 @@ public class MenuBalanceteConsole{
     }
 	
 	private void cadastrarSaida() {
-	    input.nextLine();	  
+	    input.nextLine();	
+        System.out.println("--- Cadastro de Saída ---");
 	    System.out.println("\nInforme o nome da saída efetuada");
 	    String nome = input.nextLine();
 	    System.out.println("\nDê uma descrição para a saída efetuada: ");
@@ -116,15 +117,15 @@ public class MenuBalanceteConsole{
 	}
 	
 	private void buscarMovimentacoes() {
-		input.nextLine();
+        input.nextLine();
         System.out.println("--- Busca de Movimentações ---");
         System.out.println("Digite o nome da movimentação: ");
-        String nome = input.next();
+        String nome = input.nextLine();
         List<Movimentacao> movimentacoes = controle.buscarMovimentacaoPorNome(nome.toLowerCase());
         if (!movimentacoes.isEmpty()) {
             System.out.println("Movimentações encontradas:");
             for (int i = 0; i < movimentacoes.size(); i++) {
-                System.out.println((i + 1) + " - " + movimentacoes.get(i).getTipo() + " - " + movimentacoes.get(i).getNome() + " - R$ " + movimentacoes.get(i).getValor());
+                System.out.println((i + 1) + " - " + movimentacoes.get(i).getTipo() + " - " + movimentacoes.get(i).getNome() + " - " + movimentacoes.get(i).getDescricao() + " - R$ " + movimentacoes.get(i).getValor());
             }
         } else {
             System.out.println("Nenhuma movimentação encontrada com esse nome.");

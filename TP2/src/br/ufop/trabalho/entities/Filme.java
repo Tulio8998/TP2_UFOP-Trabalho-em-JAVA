@@ -4,16 +4,8 @@ package br.ufop.trabalho.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
-/***
- * Falta implementar
- * @author filipe
- *
- */
 public class Filme implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private String titulo;
 	private int anoLancado;
@@ -112,7 +104,6 @@ public class Filme implements Serializable{
 				&& Objects.equals(titulo, other.titulo) && quantidadeBluerays == other.quantidadeBluerays
 				&& quantidadeDvds == other.quantidadeDvds && Objects.equals(tipoFilme, other.tipoFilme);
 	}
-	
 	
 	
 }

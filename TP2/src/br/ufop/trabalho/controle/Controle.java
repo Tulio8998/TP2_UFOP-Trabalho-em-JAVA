@@ -36,36 +36,7 @@ public class Controle {
 		funcionariosFixos();
 	}
 	
-	public void setValorMultaPorDia(double valorMultaPorDia) {
-		if(valorMultaPorDia>0) {
-			this.valorMultaPorDia = valorMultaPorDia;
-		}
-	}
-	
-	public double getValorMultaPorDia() {		
-		return valorMultaPorDia;
-	}
-	
-    public void setLimiteFilmesPorCliente(int limite) {
-        if (limite > 0) {
-            this.quantidadeMaximaFilmesAlugados = limite;
-        }
-    }
-
-    
-    public boolean podeAlugarFilme(Cliente cliente) {
-        return cliente.getFilmes().size() < quantidadeMaximaFilmesAlugados;
-    }
-
-    
-    public void aplicarMulta(Cliente cliente, int diasAtraso) {
-        if (diasAtraso > 0) {
-            double multa = diasAtraso * valorMultaPorDia;
-            cliente.setMulta(multa);
-        }
-    }
-    
-    private void funcionariosFixos() {
+	private void funcionariosFixos() {
         Funcionario funcionario1 = new Funcionario("Túlio", "Nova Era", "123.123.123-12", 10000, 01);
         Funcionario funcionario2 = new Funcionario("Chrystian", "João Monlevade", "234.234.234-23", 5000, 02);
         Funcionario funcionario3 = new Funcionario("Davi", "João Monlevade", "345.345.345-34", 5000, 03);
@@ -75,87 +46,12 @@ public class Controle {
         funcionarios.add(funcionario3);
     }
 	
-	public boolean verificarClienteRepetido(Cliente cliente) {
-		for (Cliente c : clientes ) {
-			if (c.equals(cliente)) {
-                
-                return true;
-            }
-        }
-        return false;
-	}
-	
-	public int cadastrarCliente(String nome, String end, int codigo, String cpf, Data data){
-        cliente = new Cliente(nome, end, codigo, cpf, data);
-        if(Util.verificaListaStringPreenchida(nome, end, cpf) == false ){
-            return Constantes.ERRO_CAMPO_VAZIO;
-        }
-        if (verificarClienteRepetido(cliente)) {
-            return Constantes.CLIENTE_REPETIDO;
-        }
-        this.clientes.add(cliente);
-        return Constantes.RESULT_OK;
-    }
-
-	public void cadastrarEntrada(String nome, String descricao, double valor, int mes, int ano) {
-        movimentacoes.add(new Entrada(nome, descricao, valor, mes, ano));
-    }
-
-    public void cadastrarSaida(String nome, String descricao, double valor, int mes, int ano) {
-        movimentacoes.add(new Saida(nome, descricao, valor, mes, ano));
-    }
-	
-	public boolean verificarDependenteRepetido(Dependentes dependente) {
-		for (Dependentes d : cliente.getDependentes() ) {
-			if (d.equals(dependente)) {
-                
-                return true;
-            }
-        }
-        return false;
-	}
-	
-	public int cadastrarDependente(String nome, String end, String cpf, Data data) {
-	    if (cliente == null) {
-	        return Constantes.ERRO_CLIENTE_NAO_SELECIONADO;
-	    }
-
-	    Dependentes dependente = new Dependentes(nome, end, cpf, data);
-	    if (Util.verificaListaStringPreenchida(nome, end, cpf) == false) {
-	        return Constantes.ERRO_CAMPO_VAZIO;
-	    }
-	    if (verificarDependenteRepetido(dependente)) {
-	        return Constantes.DEPENDENTE_REPETIDO;
-	    } else if (cliente.getDependentes().size() >= 3) {
-	        return Constantes.ERROR_LIMITE_DEPENDENTE;
-	    }
-	    cliente.adicionarDependentes(dependente);
-	    return Constantes.RESULT_OK;
-	}
-	
-	public int getQtdClientes(){
-		return clientes.size();
-	}
-	
-	public int getQtdFuncionarios(){
-		return funcionarios.size();
-	}
-	
-	public int getQtdFilmes(){
-		return filmes.size();
-	}
-	
-	
 	public ArrayList<Cliente> getClientes() {
 		return clientes;
 	}
 
 	public void setClientes(ArrayList<Cliente> clientes) {
 		this.clientes = clientes;
-	}
-	
-	public List<Filme> getFilmes(){
-		return filmes;
 	}
 	
 	public ArrayList<Funcionario> getFuncionarios() {
@@ -173,6 +69,10 @@ public class Controle {
 	public void setMovimentacaos(ArrayList<Movimentacao> movimentacaos) {
 		this.movimentacoes = movimentacaos;
 	}
+	
+	public List<Filme> getFilmes(){
+		return filmes;
+	}
 
 	public void setFilmes(ArrayList<Filme> filmes) {
 		this.filmes = filmes;
@@ -186,7 +86,62 @@ public class Controle {
 		this.cliente = cliente;
 	}
 	
-	public Cliente getClienteNaPosicao(int pos){
+	public double getValorMultaPorDia() {		
+		return valorMultaPorDia;
+	}
+	
+	public void setValorMultaPorDia(double valorMultaPorDia) {
+		if(valorMultaPorDia>0) {
+			this.valorMultaPorDia = valorMultaPorDia;
+		}
+	}
+	
+    public void setLimiteFilmesPorCliente(int limite) {
+        if (limite > 0) {
+            this.quantidadeMaximaFilmesAlugados = limite;
+        }
+    }
+
+    public int getQtdClientes(){
+		return clientes.size();
+	}
+	
+	public int getQtdFuncionarios(){
+		return funcionarios.size();
+	}
+	
+	public int getQtdFilmes(){
+		return filmes.size();
+	}
+	
+	public int getQuantidadeMaximaFilmesAlugados() {
+		return quantidadeMaximaFilmesAlugados;
+	}
+    
+    public boolean podeAlugarFilme(Cliente cliente) {
+        return cliente.getFilmes().size() < quantidadeMaximaFilmesAlugados;
+    }
+    
+    public void aplicarMulta(Cliente cliente, int diasAtraso) {
+        if (diasAtraso > 0) {
+            double multa = diasAtraso * valorMultaPorDia;
+            cliente.setMulta(multa);
+        }        
+    }
+    
+    public double getValorLocacaoDiaria(Filme filme) {
+		if(filme.getTipoFilme().equals("antigo")){
+			return 5;
+		}
+		else if(filme.getTipoFilme().equals("novo")){
+			return 7.5;
+		}
+		else{
+			return 10;
+		}
+	}
+      
+    public Cliente getClienteNaPosicao(int pos){
 		if(pos >=0 && pos < getQtdClientes()){
 			return clientes.get(pos);
 		}
@@ -206,6 +161,26 @@ public class Controle {
 		}
 		return null;
 	}
+    
+	public boolean verificarClienteRepetido(Cliente cliente) {
+		for (Cliente c : clientes ) {
+			if (c.equals(cliente)) {
+                
+                return true;
+            }
+        }
+        return false;
+	}
+	
+	public boolean verificarDependenteRepetido(Dependentes dependente) {
+		for (Dependentes d : cliente.getDependentes() ) {
+			if (d.equals(dependente)) {
+                
+                return true;
+            }
+        }
+        return false;
+	}
 	
 	public boolean verificarFilmeRepetido(Filme filme) {
 		for (Filme f : filmes ) {
@@ -216,6 +191,44 @@ public class Controle {
         }
         return false;
 		
+	}
+	
+	public void cadastrarEntrada(String nome, String descricao, double valor, int mes, int ano) {
+        movimentacoes.add(new Entrada(nome, descricao, valor, mes, ano));
+    }
+
+    public void cadastrarSaida(String nome, String descricao, double valor, int mes, int ano) {
+        movimentacoes.add(new Saida(nome, descricao, valor, mes, ano));
+    }
+	
+	public int cadastrarCliente(String nome, String end, int codigo, String cpf, Data data){
+        cliente = new Cliente(nome, end, codigo, cpf, data);
+        if(Util.verificaListaStringPreenchida(nome, end, cpf) == false ){
+            return Constantes.ERRO_CAMPO_VAZIO;
+        }
+        if(verificarClienteRepetido(cliente)) {
+            return Constantes.CLIENTE_REPETIDO;
+        }
+        this.clientes.add(cliente);
+        return Constantes.RESULT_OK;
+    }
+	
+	public int cadastrarDependente(String nome, String end, String cpf, Data data) {
+	    if (cliente == null) {
+	        return Constantes.ERRO_CLIENTE_NAO_SELECIONADO;
+	    }
+
+	    Dependentes dependente = new Dependentes(nome, end, cpf, data);
+	    if (Util.verificaListaStringPreenchida(nome, end, cpf) == false) {
+	        return Constantes.ERRO_CAMPO_VAZIO;
+	    }
+	    if (verificarDependenteRepetido(dependente)) {
+	        return Constantes.DEPENDENTE_REPETIDO;
+	    } else if (cliente.getDependentes().size() >= 3) {
+	        return Constantes.ERROR_LIMITE_DEPENDENTE;
+	    }
+	    cliente.adicionarDependentes(dependente);
+	    return Constantes.RESULT_OK;
 	}
 	
 	 public int cadastrarFilme(String titulo, int anoLancado, String genero, int quantidadeDvds, int quantidadeBluerays,
@@ -252,6 +265,46 @@ public class Controle {
 		}
 		return resultado;
 	
+	}
+	
+	public List<Cliente> buscaCliente(Object busca) {
+	    List<Cliente> resultado = new ArrayList<>();
+	    for (Cliente c : clientes) {
+	        if (busca instanceof Integer) {
+	            int codigo = (Integer) busca;
+	            if (c.getCodigo() == codigo) {
+	                resultado.add(c);
+	            }
+	        } else if (busca instanceof String) {
+	            String cliente = (String) busca;
+	            if (c.getNome() != null && c.getNome().equalsIgnoreCase(cliente)) {
+	                resultado.add(c);
+	            }
+	        }
+	    }
+	    return resultado;
+	}
+	
+	public List<Cliente> buscaDependentes(String dependente){
+		List<Cliente> resultado = new ArrayList<>();
+		List<Dependentes> listaDependentes = new ArrayList<>();
+		if(dependente.isEmpty()){
+			return resultado;
+		}
+		else{
+			for(Cliente c : clientes){
+				listaDependentes = c.getDependentes();
+				if(!listaDependentes.isEmpty()){
+					for(Dependentes d : listaDependentes){
+						if(d.getNome() != null && d.getNome().equals(dependente))
+						{
+							resultado.add(c);
+						}
+					}	
+				}
+			}
+		}
+		return resultado;
 	}
 	
 	public List<Movimentacao> buscarMovimentacaoPorNome(String nome) {
@@ -302,46 +355,6 @@ public class Controle {
         return saldo;
     }
 	
-	public List<Cliente> buscaCliente(Object busca) {
-	    List<Cliente> resultado = new ArrayList<>();
-	    for (Cliente c : clientes) {
-	        if (busca instanceof Integer) {
-	            int codigo = (Integer) busca;
-	            if (c.getCodigo() == codigo) {
-	                resultado.add(c);
-	            }
-	        } else if (busca instanceof String) {
-	            String cliente = (String) busca;
-	            if (c.getNome() != null && c.getNome().equalsIgnoreCase(cliente)) {
-	                resultado.add(c);
-	            }
-	        }
-	    }
-	    return resultado;
-	}
-	
-	public List<Cliente> buscaDependentes(String dependente){
-		List<Cliente> resultado = new ArrayList<>();
-		List<Dependentes> listaDependentes = new ArrayList<>();
-		if(dependente.isEmpty()){
-			return resultado;
-		}
-		else{
-			for(Cliente c : clientes){
-				listaDependentes = c.getDependentes();
-				if(!listaDependentes.isEmpty()){
-					for(Dependentes d : listaDependentes){
-						if(d.getNome() != null && d.getNome().equals(dependente))
-						{
-							resultado.add(c);
-						}
-					}	
-				}
-			}
-		}
-		return resultado;
-	}
-	
 	public boolean locarFilmeCliente(Cliente cliente, Filme filme, int tipo) {
 	    if (tipo == 1) {
 	    	if (filme.getQuantidadeDvds() == 0) {
@@ -372,25 +385,5 @@ public class Controle {
 				filmes.remove(filme);
 			}
 	}
-	 
-	public void informacoesDoSistema (double locacaoDiaria, double multaPorDia, int maxFilmesAlugados) {
-        valorMultaPorDia = multaPorDia;
-        quantidadeMaximaFilmesAlugados = maxFilmesAlugados;
-    }
-
-	public double getValorLocacaoDiaria(Filme filme) {
-		if(filme.getTipoFilme().equals("antigo")){
-			return 5;
-		}
-		else if(filme.getTipoFilme().equals("novo")){
-			return 7.5;
-		}
-		else{
-			return 10;
-		}
-	}
 	
-	public int getQuantidadeMaximaFilmesAlugados() {
-		return quantidadeMaximaFilmesAlugados;
-	}
 }

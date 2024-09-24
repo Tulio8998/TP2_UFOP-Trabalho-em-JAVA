@@ -34,14 +34,42 @@ public class Cliente extends Pessoa implements Serializable{
 		dependentes =  new ArrayList<Dependentes>();
 	}
 	
-	
-
 	public ArrayList<String> getTipoMidiaLocada(){
 		return tipoMidiaLocada;
 	}
 	
 	public void setTipoMidiaLocada(ArrayList<String> tipoMidiaLocada){
 		this.tipoMidiaLocada = tipoMidiaLocada;
+	}
+	
+	public ArrayList<Dependentes> getDependentes() {
+		return dependentes;
+	}
+	public void setDependentes(ArrayList<Dependentes> dependentes) {
+		this.dependentes = dependentes;
+	}
+	
+	public ArrayList<Filme> getFilmes() {
+		return filmes;
+	}
+
+	public void setFilmes(ArrayList<Filme> filmes){
+		this.filmes = filmes;
+	}
+	
+	public int getCodigo() {
+		return codigo;
+	}
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+	
+	public Data getDataNascimento() {
+		return data;
+	}
+	
+	public void setDataNascimento(Data data) {
+		this.data = data;
 	}
 	
 	public double getMulta() {
@@ -54,38 +82,6 @@ public class Cliente extends Pessoa implements Serializable{
 		}
 	}
 	
-	public void zerarMulta() {
-		this.multa = 0;
-	}
-
-	public int getCodigo() {
-		return codigo;
-	}
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
-	}
-	public Data getDataNascimento() {
-		return data;
-	}
-	public void setDataNascimento(Data data) {
-		this.data = data;
-	}
-	
-	public ArrayList<Filme> getFilmes() {
-		return filmes;
-	}
-
-	public void setFilmes(ArrayList<Filme> filmes){
-		this.filmes = filmes;
-	}
-
-	public ArrayList<Dependentes> getDependentes() {
-		return dependentes;
-	}
-	public void setDependentes(ArrayList<Dependentes> dependentes) {
-		this.dependentes = dependentes;
-	}
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(codigo, getCpf());
@@ -101,6 +97,10 @@ public class Cliente extends Pessoa implements Serializable{
 			return false;
 		Cliente other = (Cliente) obj;
 		return codigo == other.codigo && Objects.equals(getCpf(), other.getCpf());
+	}
+	
+	public void zerarMulta() {
+		this.multa = 0;
 	}
 
 	public boolean adicionarFilme(Filme filme) {
