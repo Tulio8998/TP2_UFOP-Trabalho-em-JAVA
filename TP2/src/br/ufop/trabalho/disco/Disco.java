@@ -41,26 +41,6 @@ public class Disco {
         }
     }
     
-    public void salvarFuncionarios(String nomeArquivo) {
-        try (ObjectOutputStream obj = new ObjectOutputStream(new FileOutputStream(nomeArquivo))) {
-        	obj.writeObject(controle.getFuncionarios());
-            System.out.println("Funcionarios salvos com sucesso!");
-        } catch (IOException e) {
-            System.out.println("Erro ao salvar funcionarios: " + e.getMessage());
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    public void carregarFuncionarios(String nomeArquivo) {
-        try (ObjectInputStream obj = new ObjectInputStream(new FileInputStream(nomeArquivo))) {
-        	ArrayList<Funcionario> funcionariosCarregados = (ArrayList<Funcionario>) obj.readObject();
-        	controle.setFuncionarios(funcionariosCarregados);
-            System.out.println("Funcionarios carregados com sucesso!");
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Erro ao carregar funcionarios: " + e.getMessage());
-        }
-    }
-    
     public void salvarFilmes(String nomeArquivo) {
         try (ObjectOutputStream obj = new ObjectOutputStream(new FileOutputStream(nomeArquivo))) {
         	obj.writeObject(controle.getFilmes());

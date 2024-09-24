@@ -1,4 +1,4 @@
-package br.ufop.trabalho.IOConsole;
+package br.ufop.trabalho.menuIO;
 
 import java.util.ArrayList;
 import java.util.List;

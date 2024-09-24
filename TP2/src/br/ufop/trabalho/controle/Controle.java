@@ -1,12 +1,13 @@
+
 package br.ufop.trabalho.controle;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import br.ufop.trabalho.Util;
-import br.ufop.trabalho.Movimentacao.Entrada;
-import br.ufop.trabalho.Movimentacao.Movimentacao;
-import br.ufop.trabalho.Movimentacao.Saida;
+import br.ufop.trabalho.movimentacao.Entrada;
+import br.ufop.trabalho.movimentacao.Movimentacao;
+import br.ufop.trabalho.movimentacao.Saida;
 import br.ufop.trabalho.entities.Cliente;
 import br.ufop.trabalho.entities.Data;
 import br.ufop.trabalho.entities.Dependentes;
@@ -42,6 +43,7 @@ public class Controle {
 		funcionarios = new ArrayList<Funcionario>();
 		this.valorMultaPorDia = 5.0;
 		this.quantidadeMaximaFilmesAlugados = 5;
+		funcionariosFixos();
 	}
 	
 	public void setValorMultaPorDia(double valorMultaPorDia) {
@@ -72,6 +74,16 @@ public class Controle {
             cliente.setMulta(multa);
         }
     }
+    
+    private void funcionariosFixos() {
+        Funcionario funcionario1 = new Funcionario("Túlio", "Nova Era", "123.123.123-12", 10000, 01);
+        Funcionario funcionario2 = new Funcionario("Chrystian", "João Monlevade", "234.234.234-23", 5000, 02);
+        Funcionario funcionario3 = new Funcionario("Davi", "João Monlevade", "345.345.345-34", 5000, 03);
+        
+        funcionarios.add(funcionario1);
+        funcionarios.add(funcionario2);
+        funcionarios.add(funcionario3);
+    }
 	
 	public boolean verificarClienteRepetido(Cliente cliente) {
 		for (Cliente c : clientes ) {
@@ -91,18 +103,16 @@ public class Controle {
         if (verificarClienteRepetido(cliente)) {
             return Constantes.CLIENTE_REPETIDO;
         }
-
         this.clientes.add(cliente);
-        //salvarClientes();
         return Constantes.RESULT_OK;
     }
 
-	public int cadastrarMovimentacao(Movimentacao movimentacao){       
-		if(movimentacao == null) {
-			return Constantes.ERRO_CAMPO_VAZIO;
-		}
-		movimentacoes.add(movimentacao);
-        return Constantes.RESULT_OK;
+	public void cadastrarEntrada(String descricao, double valor, int mes, int ano) {
+        movimentacoes.add(new Entrada(descricao, valor, mes, ano));
+    }
+
+    public void cadastrarSaida(String descricao, double valor, int mes, int ano) {
+        movimentacoes.add(new Saida(descricao, valor, mes, ano));
     }
 	
 	public boolean verificarDependenteRepetido(Dependentes dependente) {
@@ -254,42 +264,52 @@ public class Controle {
 	
 	}
 	
-	public List<Movimentacao> buscarMovimentacaorNome(String nome) {
+	public List<Movimentacao> buscarMovimentacaoPorNome(String nome) {
         List<Movimentacao> resultados = new ArrayList<>();
-        for(Movimentacao mov : movimentacoes) {
-            if(mov.getNome().equalsIgnoreCase(nome)) {
-                resultados.add(mov);
+        for (Movimentacao m : movimentacoes) {
+            if (m.getNome().equalsIgnoreCase(nome)) {
+                resultados.add(m);
             }
         }
         return resultados;
     }
 	
-	public double calcularEntradas(Data data) {
-        double totalEntradas = 0.0;
+	public double calcularBalancetePorMes(int mes) {
+        double totalEntradas = 0;
+        double totalSaidas = 0;
         for (Movimentacao m : movimentacoes) {
-            if (m instanceof Entrada && m.getData().mesIgual(data)) {
-                totalEntradas += m.getValor();
+            if (m.getMes() == mes) {
+                if (m instanceof Entrada) {
+                    totalEntradas += m.getValor();
+                } else if (m instanceof Saida) {
+                    totalSaidas += m.getValor();
+                }
             }
         }
-        return totalEntradas;
+        double saldo = totalEntradas - totalSaidas;
+        System.out.println("Entradas: R$ " + totalEntradas);
+        System.out.println("Saídas: R$ " + totalSaidas);
+        System.out.println("Saldo do mês: R$ " + saldo);
+        return saldo;
     }
 
-    // Método para calcular o total de saídas em um mês/ano específico
-    public double calcularSaidas(Data data) {
-        double totalSaidas = 0.0;
+	public double calcularBalancetePorAno(int ano) {
+        double totalEntradas = 0;
+        double totalSaidas = 0;
         for (Movimentacao m : movimentacoes) {
-            if (m instanceof Saida && m.getData().mesIgual(data)) {
-                totalSaidas += m.getValor();
+            if (m.getAno() == ano) {
+                if (m instanceof Entrada) {
+                    totalEntradas += m.getValor();
+                } else if (m instanceof Saida) {
+                    totalSaidas += m.getValor();
+                }
             }
         }
-        return totalSaidas;
-    }
-
-    // Método para calcular o saldo do balancete em um mês/ano específico
-    public double calcularBalancete(Data data) {
-        double entradas = calcularEntradas(data);
-        double saidas = calcularSaidas(data);
-        return entradas - saidas;
+        double saldo = totalEntradas - totalSaidas;
+        System.out.println("Entradas: R$ " + totalEntradas);
+        System.out.println("Saídas: R$ " + totalSaidas);
+        System.out.println("Saldo do ano: R$ " + saldo);
+        return saldo;
     }
 	
 	public List<Cliente> buscaCliente(Object busca) {
@@ -379,8 +399,6 @@ public class Controle {
 			return 10;
 		}
 	}
-	
-	
 	
 	public int getQuantidadeMaximaFilmesAlugados() {
 		return quantidadeMaximaFilmesAlugados;

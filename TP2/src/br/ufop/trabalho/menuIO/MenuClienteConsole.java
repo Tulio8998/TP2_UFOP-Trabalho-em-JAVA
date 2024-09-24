@@ -1,4 +1,4 @@
-package br.ufop.trabalho.IOConsole;
+package br.ufop.trabalho.menuIO;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

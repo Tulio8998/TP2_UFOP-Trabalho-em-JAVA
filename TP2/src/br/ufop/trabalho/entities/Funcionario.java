@@ -43,6 +43,6 @@ public class Funcionario extends Pessoa implements Serializable{
 
     @Override
     public String toString() {
-        return "Nome do Funcionário: " + getNome() + " | CPF: " + getCpf() + "| Codigo de Admissão: " + codigoadmissao + "| Salário: " + salario;
+        return "Funcionário: " + getNome() + " | CPF: " + getCpf() + "| Codigo de Admissão: " + codigoadmissao + "| Salário: " + salario;
     }
 }

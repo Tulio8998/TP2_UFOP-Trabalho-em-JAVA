@@ -39,5 +39,23 @@ public class Util {
 		return r;
 	}
 			
+	public static double leDoubleConsole(Scanner in){
+		double r = 0.0;
+		boolean continua = false;
+		do{
+			try{
+				r = in.nextDouble();
+				continua = false;		
+			}
+			catch(InputMismatchException e){
+				System.out.println("Erro ao ler número!\nDigite novamente:");
+				in.nextLine();
+				continua = true;
+			}
+		}while(continua);
+		return r;
+	}
+	
+	
 	
 }

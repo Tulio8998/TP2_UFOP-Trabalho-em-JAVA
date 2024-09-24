@@ -22,11 +22,6 @@ public class Data implements Serializable{
 		setMes(m);
 	}	
 	
-	public Data(int m, int a) {
-		setAno(a);
-		setMes(m);
-	}
-	
 	/**
 	 * M�todo para validar o m�s
 	 * @param mesTeste
@@ -40,11 +35,6 @@ public class Data implements Serializable{
 			return 1; 
 		} 
 	}
-	
-	public boolean mesIgual(Data outraData) {
-        return this.mes == outraData.getMes() && this.ano == outraData.getAno();
-    }
-	
 	/**
 	 * M�todo para validar o dia
 	 * @param diaTeste

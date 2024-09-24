@@ -1,6 +1,6 @@
 package br.ufop.trabalho;
 
-import br.ufop.trabalho.IOConsole.MenuConsole;
+import br.ufop.trabalho.menuIO.MenuConsole;
 
 public class MainClass {
 		

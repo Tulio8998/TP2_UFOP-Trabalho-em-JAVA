@@ -1,4 +1,4 @@
-package br.ufop.trabalho.IOConsole;
+package br.ufop.trabalho.menuIO;
 
 import java.util.Scanner;
 
@@ -15,7 +15,6 @@ public class MenuConsole {
 	private Disco disco;
 	private String arquivoClientes = "clientes.data";
     private String arquivoFilmes = "filmes.data";
-    private String arquivosFuncionarios = "funcionarios.data";
 	/**
 	 * Objetos responsáveis por exibir menus de cada um dos acessos
 	 */
@@ -42,7 +41,6 @@ public class MenuConsole {
 		disco = new Disco(controle);
 		
 		disco.carregarClientes(arquivoClientes);
-		disco.carregarFuncionarios(arquivosFuncionarios);
 		disco.carregarFilmes(arquivoFilmes);
 		//Inicialização da classe de acessoFuncionario. Deverá ser passado como parâmetro o objeto de controle e o objeto de entrada de dados
 		menuCliente = new MenuClienteConsole(controle, input);
@@ -57,7 +55,6 @@ public class MenuConsole {
             continua = exibeMenuPrincipal();
         } while (continua == true);
         disco.salvarClientes(arquivoClientes);
-        disco.salvarFuncionarios(arquivosFuncionarios);
         disco.salvarFilmes(arquivoFilmes);
         System.out.println("Obrigado por usar o sistema!");
     }
