@@ -114,7 +114,7 @@ public class MenuFilmesConsole {
 					break;
 				case 3:
 					System.out.println("Disponibilidade: ");
-					disponibilidade = input.nextInt();
+					disponibilidade = Util.leInteiroConsole(input);
 					resultado = controle.buscarFilme(disponibilidade);
 					break;
 				case 4:

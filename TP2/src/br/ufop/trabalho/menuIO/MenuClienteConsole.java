@@ -28,7 +28,6 @@ public class MenuClienteConsole {
 		boolean continua = true;
 		int op  = 0;
 		do{	
-			// A opção 5 não é necessária. Foi inserida apenas para teste.
 			System.out.println("\nDigite a opção:\n\t1 - Cadastrar Cliente\n\t2 - Buscar clientes\n\t3 - imprime Lista de Clientes\n\t4 - Voltar\n");
 			System.out.print("Informe o que você deseja: ");
 			op = Util.leInteiroConsole(input);
@@ -46,7 +45,6 @@ public class MenuClienteConsole {
 					}
 					break;
 				case 3:
-					//Esta opção não foi solicitada no enunciado. É apenas para testes
 					imprimeListaClientes();
 					break;
 				case 4:
@@ -57,12 +55,8 @@ public class MenuClienteConsole {
 		}while(continua == true);
 	}
 
-	/**
-	 * Este método permitirá a entrada dos dados de um cliente. 
-	 * 		MÉTODO INCOMPLETO. NÃO CADASTRA TODOS OS DADOS.
-	 */
 	private void leDadosCliente(){
-		//Limpa o buffer já que leu um inteiro
+
 		input.nextLine();
         String nome, end, cpf;
         int codigo;
@@ -92,7 +86,6 @@ public class MenuClienteConsole {
 	    
 		String msg = "";
 		switch(retorno){
-		//Verificação do retorno do método de adição de cliente
 			case Constantes.CLIENTE_REPETIDO:
 				msg = "Já exite um cliente com esse cadastro";
 				break;
@@ -320,7 +313,7 @@ public class MenuClienteConsole {
 	
 	private void leDadosDependente() {
 	    boolean continua = true;
-	    int contadorDependentes = 0; // Contador para controlar o número de dependentes cadastrados
+	    int contadorDependentes = 0;
 
 	    do {
 	        if (contadorDependentes < 3) {
@@ -437,12 +430,10 @@ public class MenuClienteConsole {
 							System.out.println("Nao existe DVD disponiveil para este filme");
 						}
 						else{
-							//pode ser reaproveitado para a classe entradas
-							//criar uma função para impressão e chamar ela daqui
+							
 							System.out.println("\nCliente: " + cliente.getNome());
 							System.out.println("Filme: " + filme.getTitulo());
 							System.out.println("Valor: R$" + controle.getValorLocacaoDiaria(filme));
-							//System.out.println("Data: " + funcaoQueColocaADataDeHoje());
 							filme.setQuantidadeDvds(filme.getQuantidadeDvds()-1);
 							cliente.getTipoMidiaLocada().add("DVD");
 							cliente.getFilmes().add(filme);	
@@ -455,12 +446,9 @@ public class MenuClienteConsole {
 							System.out.println("Nao existe Blu-ray disponivel para este filme");
 						}
 						else{
-							//pode ser reaproveitado para a classe entradas
-							//criar uma função para impressão e chamar ela daqui
 							System.out.println("\nCliente: " + cliente.getNome());
 							System.out.println("Filme: " + filme.getTitulo());
 							System.out.println("Valor: R$" + controle.getValorLocacaoDiaria(filme));
-							//System.out.println("Data: " + funcaoQueColocaADataDeHoje());
 							filme.setQuantidadeBluerays(filme.getQuantidadeBluerays()-1);
 							cliente.getTipoMidiaLocada().add("Blu-ray");
 							cliente.getFilmes().add(filme);	
@@ -542,7 +530,6 @@ public class MenuClienteConsole {
 	private void imprimeListaClientes() {
 		System.out.println("******** LISTA DE CLIENTES CADASTRADOS *********");
 		for(int i = 0; i < controle.getQtdClientes(); i++){
-			//É preciso implementar o toString corretamente.
 			System.out.println(controle.getClienteNaPosicao(i).toString());
 		}	
 		System.out.println("******** FIM DA LISTA DE CLIENTES  *********");

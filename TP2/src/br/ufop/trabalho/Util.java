@@ -18,7 +18,6 @@ public class Util {
 		return true;
 	}
 	public static boolean senhaComNumero (String senha){
-		//FALTA IMPLEMENTAR
 		return true;
 	}
 	

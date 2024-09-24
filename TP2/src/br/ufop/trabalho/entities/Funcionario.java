@@ -3,9 +3,7 @@ package br.ufop.trabalho.entities;
 import java.io.Serializable;
 
 public class Funcionario extends Pessoa implements Serializable{
-    /**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
     private double salario;
     private int codigoadmissao;

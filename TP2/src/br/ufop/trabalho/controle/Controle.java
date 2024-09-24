@@ -15,18 +15,8 @@ import br.ufop.trabalho.entities.Filme;
 import br.ufop.trabalho.entities.Funcionario;
 
 
-/***
- * Classe de regra de negócios da aplicação. Esta classe deverá controlar todos os dados que serão armazenados no sistema (clientes, filmes e a parte financeira).
- *  Ela é a porta de entrada para acesso a todos os dados e deverá também fazer as verificações necessárias no momento dos cadastros. 
- * É necessário perceber a importância dessa classe que implementa todas as regras de negócio da aplicação. A classe Controle  poderá 
- * ser utilizada para qualquer tipo de interface gráfica inclusive com janelas.
- * 
- *   IMPORTANTE: ESTA CLASSE NAO DEVE TER ENTRADA E SAÍDA DE DADOS PARA O USUÁRIO
- * @author Filipe
- *
- */
 public class Controle {
-	//Array de clientes
+
 	private ArrayList <Cliente> clientes;
 	private ArrayList <Filme> filmes;
 	private ArrayList<Movimentacao> movimentacoes;
@@ -62,12 +52,12 @@ public class Controle {
         }
     }
 
-    // Verifica se o cliente já alugou o máximo de filmes
+    
     public boolean podeAlugarFilme(Cliente cliente) {
         return cliente.getFilmes().size() < quantidadeMaximaFilmesAlugados;
     }
 
-    // Aplicar multa ao cliente
+    
     public void aplicarMulta(Cliente cliente, int diasAtraso) {
         if (diasAtraso > 0) {
             double multa = diasAtraso * valorMultaPorDia;

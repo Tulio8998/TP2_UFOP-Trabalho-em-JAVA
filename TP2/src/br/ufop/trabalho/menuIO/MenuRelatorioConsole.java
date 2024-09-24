@@ -82,38 +82,30 @@ public class MenuRelatorioConsole {
 	
 	private void gerarRelatorioClientes(List<Cliente>clientes) {
 		
-		//Cabeçario do Relátorio de Clientes da Locadora
 		System.out.println("----------------------------------------- Relatório de Clientes -----------------------------------------");
         System.out.println("--------------------------------------------------------------------------------------------------------");
 		
-        //Imprime as informações de todos os clientes e seus respectivos dependentes
         for(Cliente cliente : clientes) {
 			String infoClientes =
 					"Código de Cadastro: " + cliente.getCodigo() + " | " + "Nome do Cliente: " + cliente.getNome() + " | " + 
 							"CPF: " + cliente.getCpf() + " | " + "Data de Nascimento:" + cliente.getDataNascimento() + " | " + 
 								"Multa: R$ " + cliente.getMulta() + "| " ;
-
-			System.out.println(infoClientes);
-        
-			//Verifica e exibe os filmes alugados pelo cliente em questão
+			System.out.println(infoClientes);      
 			if(!cliente.getFilmes().isEmpty()) {
 				System.out.println("\nFilmes alugados ");
 				for(Filme filme: cliente.getFilmes()) {
 					System.out.print(filme.getTitulo() + "\n");
 				}
-			}
-			else {
+			} else {
 				System.out.println("\nEsse usuário não alugou nenhum filme");
 			}
 			
-			//Verifica e exibe caso o cliente seja responsável por dependentes(menores de idade) da locadora
 			if(!cliente.getDependentes().isEmpty()) {
 				System.out.println("\nDependentes desse cliente: ");
 				for(Dependentes DP: cliente.getDependentes()) {
 					System.out.print(DP.getNome() + "\n");
 				}
-			}
-			else {
+			} else {
 				System.out.println("\nEsse usuário não possuí a responsabilidade de nenhum dependente");
 			}
 	        System.out.println("--------------------------------------------------------------------------------------------------------");
@@ -121,7 +113,6 @@ public class MenuRelatorioConsole {
 	}
 	
 	private void gerarRelatorioFilmesGenero(List<Filme> filmes) {
-		//Cabeçario do Relátorio de Filmes da Locadora
 		System.out.println("----------------------------------------- Relatório de Filmes  -----------------------------------------");
         System.out.println("--------------------------------------------------------------------------------------------------------");
         
@@ -131,8 +122,7 @@ public class MenuRelatorioConsole {
         	if(!generos.contains(filme.getGenero())) {
         		generos.add(filme.getGenero());
         	}
-        }
-        
+        }     
         for(String genero : generos) {
         	System.out.println("Gênero: " + genero);
         
@@ -147,8 +137,7 @@ public class MenuRelatorioConsole {
         	if(!encontrarFPG) {
         		System.out.println("Nenhum filme encontrado para esse gênero");
         		break;
-        	}
-        	else {
+        	} else {
         		System.out.println("Total de Filmes encontrados para o gênero " + genero + ": " + 
         			(int) filmes.stream().filter(f -> f.getGenero().equalsIgnoreCase(genero)).count());
         	}
@@ -158,7 +147,6 @@ public class MenuRelatorioConsole {
 	}
 	
 	private void gerarRelatoriosFilmesAnoLancamento(List<Filme> filmes) {
-		//Cabeçario do Relátorio de Filmes da Locadora
 			System.out.println("----------------------------------------- Relatório de Filmes  -----------------------------------------");
 		    System.out.println("--------------------------------------------------------------------------------------------------------");
 		        
@@ -184,8 +172,7 @@ public class MenuRelatorioConsole {
 		        if(!encontrarAL) {
 		        	System.out.println("Nenhum filme encontrado para esse ano");
 		        	break;
-		        }
-		        else {
+		        } else {
 		        	System.out.println("Total de Filmes encontrados por ano de lançamento " + anolancamento + ": " + 
 		        		(int) filmes.stream().filter(f -> f.getAnoLancado() == anolancamento).count());
 		        }
@@ -195,7 +182,6 @@ public class MenuRelatorioConsole {
 	}
 	
 	private void gerarRelatorioAlfabetico(List<Filme> filmes) {
-		//Cabeçario do Relátorio de Filmes da Locadora
 		System.out.println("----------------------------------------- Relatório de Filmes (Ordem Alfabética)  -----------------------------------------");
 	    System.out.println("--------------------------------------------------------------------------------------------------------");
 	    

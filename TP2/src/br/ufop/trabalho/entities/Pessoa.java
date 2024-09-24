@@ -2,17 +2,9 @@ package br.ufop.trabalho.entities;
 
 import java.io.Serializable;
 
-/**
- * Classe para armazenar os dados de uma Pessoa. Como o sistema deverá controlar clientes e funcionários os dados comuns serão
- * armazenadona superClassePessoa.
- * @author Filipe
- *
- */
+
 public class Pessoa implements Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private String nome, endereco, cpf;
 
