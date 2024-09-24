@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.ufop.trabalho.Util;
+import br.ufop.trabalho.Movimentacao.Entrada;
+import br.ufop.trabalho.Movimentacao.Movimentacao;
+import br.ufop.trabalho.Movimentacao.Saida;
 import br.ufop.trabalho.entities.Cliente;
 import br.ufop.trabalho.entities.Data;
 import br.ufop.trabalho.entities.Dependentes;
 import br.ufop.trabalho.entities.Filme;
+import br.ufop.trabalho.entities.Funcionario;
 
 
 /***
@@ -24,6 +28,8 @@ public class Controle {
 	//Array de clientes
 	private ArrayList <Cliente> clientes;
 	private ArrayList <Filme> filmes;
+	private ArrayList<Movimentacao> movimentacoes;
+	private ArrayList <Funcionario> funcionarios;
 
 	private double valorMultaPorDia;
 	private int quantidadeMaximaFilmesAlugados;
@@ -32,6 +38,8 @@ public class Controle {
 	public Controle(){
 		clientes = new ArrayList<Cliente>();
 		filmes = new ArrayList<Filme>();
+		movimentacoes = new ArrayList<Movimentacao>();
+		funcionarios = new ArrayList<Funcionario>();
 		this.valorMultaPorDia = 5.0;
 		this.quantidadeMaximaFilmesAlugados = 5;
 	}
@@ -89,6 +97,13 @@ public class Controle {
         return Constantes.RESULT_OK;
     }
 
+	public int cadastrarMovimentacao(Movimentacao movimentacao){       
+		if(movimentacao == null) {
+			return Constantes.ERRO_CAMPO_VAZIO;
+		}
+		movimentacoes.add(movimentacao);
+        return Constantes.RESULT_OK;
+    }
 	
 	public boolean verificarDependenteRepetido(Dependentes dependente) {
 		for (Dependentes d : cliente.getDependentes() ) {
@@ -122,16 +137,14 @@ public class Controle {
 		return clientes.size();
 	}
 	
+	public int getQtdFuncionarios(){
+		return funcionarios.size();
+	}
+	
 	public int getQtdFilmes(){
 		return filmes.size();
 	}
 	
-	public Cliente getClienteNaPosicao(int pos){
-		if(pos >=0 && pos < getQtdClientes()){
-			return clientes.get(pos);
-		}
-		return null;
-	}
 	
 	public ArrayList<Cliente> getClientes() {
 		return clientes;
@@ -145,6 +158,22 @@ public class Controle {
 		return filmes;
 	}
 	
+	public ArrayList<Funcionario> getFuncionarios() {
+		return funcionarios;
+	}
+
+	public void setFuncionarios(ArrayList<Funcionario> funcionarios) {
+		this.funcionarios = funcionarios;
+	}
+
+	public ArrayList<Movimentacao> getMovimentacaos() {
+		return movimentacoes;
+	}
+
+	public void setMovimentacaos(ArrayList<Movimentacao> movimentacaos) {
+		this.movimentacoes = movimentacaos;
+	}
+
 	public void setFilmes(ArrayList<Filme> filmes) {
 		this.filmes = filmes;
 	}
@@ -156,8 +185,20 @@ public class Controle {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-
 	
+	public Cliente getClienteNaPosicao(int pos){
+		if(pos >=0 && pos < getQtdClientes()){
+			return clientes.get(pos);
+		}
+		return null;
+	}
+	
+	public Funcionario getFuncionarioNaPosicao(int pos){
+		if(pos >=0 && pos < getQtdFuncionarios()){
+			return funcionarios.get(pos);
+		}
+		return null;
+	}
 	
 	public Filme getFilmesNaPosicao(int pos){
 		if(pos >= 0 && pos < getQtdFilmes()){
@@ -212,6 +253,44 @@ public class Controle {
 		return resultado;
 	
 	}
+	
+	public List<Movimentacao> buscarMovimentacaorNome(String nome) {
+        List<Movimentacao> resultados = new ArrayList<>();
+        for(Movimentacao mov : movimentacoes) {
+            if(mov.getNome().equalsIgnoreCase(nome)) {
+                resultados.add(mov);
+            }
+        }
+        return resultados;
+    }
+	
+	public double calcularEntradas(Data data) {
+        double totalEntradas = 0.0;
+        for (Movimentacao m : movimentacoes) {
+            if (m instanceof Entrada && m.getData().mesIgual(data)) {
+                totalEntradas += m.getValor();
+            }
+        }
+        return totalEntradas;
+    }
+
+    // Método para calcular o total de saídas em um mês/ano específico
+    public double calcularSaidas(Data data) {
+        double totalSaidas = 0.0;
+        for (Movimentacao m : movimentacoes) {
+            if (m instanceof Saida && m.getData().mesIgual(data)) {
+                totalSaidas += m.getValor();
+            }
+        }
+        return totalSaidas;
+    }
+
+    // Método para calcular o saldo do balancete em um mês/ano específico
+    public double calcularBalancete(Data data) {
+        double entradas = calcularEntradas(data);
+        double saidas = calcularSaidas(data);
+        return entradas - saidas;
+    }
 	
 	public List<Cliente> buscaCliente(Object busca) {
 	    List<Cliente> resultado = new ArrayList<>();
