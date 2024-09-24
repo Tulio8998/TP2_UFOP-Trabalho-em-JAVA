@@ -24,7 +24,6 @@ public class MenuFilmesConsole {
 		boolean continua = true;
 		int op  = 0;
 		do{	
-			// A opção 5 não é necessária. Foi inserida apenas para teste.
 			System.out.println("\nDigite a opção:\n\t1 - Cadastrar filme\n\t2 - Buscar filme\n\t3 - imprime Lista de filmes\n\t4 - Voltar\n");
 			System.out.print("Informe o que você deseja: ");
 			op = Util.leInteiroConsole(input);
@@ -38,7 +37,6 @@ public class MenuFilmesConsole {
 				break;
 				
 				case 3:
-					//Esta opção não foi solicitada no enunciado. É apenas para testes
 					imprimeListaFilmes();
 				break;
 				
