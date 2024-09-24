@@ -107,12 +107,12 @@ public class Controle {
         return Constantes.RESULT_OK;
     }
 
-	public void cadastrarEntrada(String descricao, double valor, int mes, int ano) {
-        movimentacoes.add(new Entrada(descricao, valor, mes, ano));
+	public void cadastrarEntrada(String nome, String descricao, double valor, int mes, int ano) {
+        movimentacoes.add(new Entrada(nome, descricao, valor, mes, ano));
     }
 
-    public void cadastrarSaida(String descricao, double valor, int mes, int ano) {
-        movimentacoes.add(new Saida(descricao, valor, mes, ano));
+    public void cadastrarSaida(String nome, String descricao, double valor, int mes, int ano) {
+        movimentacoes.add(new Saida(nome, descricao, valor, mes, ano));
     }
 	
 	public boolean verificarDependenteRepetido(Dependentes dependente) {

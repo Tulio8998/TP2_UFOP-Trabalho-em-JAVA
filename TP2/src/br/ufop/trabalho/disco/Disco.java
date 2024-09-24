@@ -24,9 +24,7 @@ public class Disco {
 	public void salvarClientes(String nomeArquivo) {
         try (ObjectOutputStream obj = new ObjectOutputStream(new FileOutputStream(nomeArquivo))) {
         	obj.writeObject(controle.getClientes());
-            System.out.println("Clientes salvos com sucesso!");
         } catch (IOException e) {
-            System.out.println("Erro ao salvar clientes: " + e.getMessage());
         }
     }
 
@@ -35,18 +33,14 @@ public class Disco {
         try (ObjectInputStream obj = new ObjectInputStream(new FileInputStream(nomeArquivo))) {
         	ArrayList<Cliente> clientesCarregados = (ArrayList<Cliente>) obj.readObject();
         	controle.setClientes(clientesCarregados);
-            System.out.println("Clientes carregados com sucesso!");
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Erro ao carregar clientes: " + e.getMessage());
         }
     }
     
     public void salvarFilmes(String nomeArquivo) {
         try (ObjectOutputStream obj = new ObjectOutputStream(new FileOutputStream(nomeArquivo))) {
         	obj.writeObject(controle.getFilmes());
-            System.out.println("Filmes salvos com sucesso!");
         } catch (IOException e) {
-            System.out.println("Erro ao salvar filmes: " + e.getMessage());
         }
     }
 
@@ -56,9 +50,7 @@ public class Disco {
         try (ObjectInputStream obj = new ObjectInputStream(new FileInputStream(nomeArquivo))) {
         	ArrayList<Filme> filmesCarregados = (ArrayList<Filme>) obj.readObject();
         	controle.setFilmes(filmesCarregados);
-            System.out.println("Filmes carregados com sucesso!");
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Erro ao carregar filmes: " + e.getMessage());
         }
     }
 	

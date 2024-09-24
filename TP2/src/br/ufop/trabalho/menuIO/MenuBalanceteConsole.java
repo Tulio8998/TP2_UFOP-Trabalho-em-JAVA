@@ -6,7 +6,9 @@ import java.util.Scanner;
 import br.ufop.trabalho.Util;
 import br.ufop.trabalho.controle.Controle;
 import br.ufop.trabalho.entities.Funcionario;
+import br.ufop.trabalho.movimentacao.Entrada;
 import br.ufop.trabalho.movimentacao.Movimentacao;
+import br.ufop.trabalho.movimentacao.Saida;
 
 
 public class MenuBalanceteConsole{
@@ -24,7 +26,7 @@ public class MenuBalanceteConsole{
 		do {
 			System.out.println("\nDigite a opção: \n\t1 - Cadastar entradas\n\t2 - Cadastrar Saídas\n\t3 - Busca movimentações\n\t4"
 					+ " - Balancete por mês \n\t5 - Balancete por ano \n\t6 - Imprimir lista funcionarios \n\t7 - Voltar");
-			System.out.println("Infome o que você deseja:");
+			System.out.print("Infome o que você deseja: ");
 			op = Util.leInteiroConsole(input);
 			switch(op) {
 				case 1:
@@ -69,6 +71,8 @@ public class MenuBalanceteConsole{
 		input.nextLine();
         System.out.println("--- Cadastro de Entrada ---");
         System.out.println("Nome da entrada: ");
+        String nome = input.next();
+        System.out.println("Descrição da entrada: ");
         String descricao = input.next();
         System.out.println("Valor da entrada: ");
         double valor = Util.leDoubleConsole(input);
@@ -77,7 +81,9 @@ public class MenuBalanceteConsole{
         if (mes >= 1 && mes <= 12 ) {
         	System.out.println("Ano: ");
             int ano = Util.leInteiroConsole(input);
-            controle.cadastrarEntrada(descricao , valor, mes, ano);
+            controle.cadastrarEntrada(nome, descricao , valor, mes, ano);
+            Entrada entrada = new Entrada(nome, descricao, valor, mes, ano);
+            System.out.println(entrada.toString());
             System.out.println("Entrada cadastrada com sucesso!");
         } else {
         	System.out.println("Mês invalido!");
@@ -86,57 +92,26 @@ public class MenuBalanceteConsole{
     }
 	
 	private void cadastrarSaida() {
-	    input.nextLine();
-	    String descricao = null; 
-	    double valor = 0;
-	    int mes, ano;
-	    
-	    System.out.println("\nEscolha o tipo de saída: ");
-	    System.out.println("\t1 - Aluguel da Locadora. ");
-	    System.out.println("\t2 - Compra de Filmes.");
-	    System.out.println("\t3 - Pagamento de Funcionários.");
-	    System.out.println("\t4 - Outro tipo.");
-
-	    System.out.print("Informe o que você deseja: ");
-	    int tipodeSaida = Util.leInteiroConsole(input);
-	    
-	    switch(tipodeSaida) {
-	    	case 1:
-	    		descricao = "Aluguel da Locadora";
-	    	break;
-	    	
-	    	case 2:
-	    		descricao = "Compra de Filmes";
-	    	break;
-	    	
-	    	case 3:
-	    		descricao = "Pagamento de Funcionários";
-	    	break; 
-	    	
-	    	case 4:
-	    		System.out.println("\nDescreva o outro tipo de saída que você deseja");
-	    		descricao = input.nextLine();
-	    	break; 
-	    	
-	    	default:
-	    		System.out.println("Não entendemos o que você quis dizer, tente novamente!");
-	    	break;
-	    }
-	    
-	    System.out.println("Valor da saída: ");
-        valor = Util.leDoubleConsole(input);
-        System.out.println("Mês (1-12): ");
-        mes = Util.leInteiroConsole(input);
+	    input.nextLine();	  
+	    System.out.println("\nInforme o nome da saída efetuada");
+	    String nome = input.nextLine();
+	    System.out.println("\nDê uma descrição para a saída efetuada: ");
+	    String descricao = input.nextLine();	    
+	    System.out.println("\nValor da saída: ");
+	    double valor = Util.leDoubleConsole(input);      
+        System.out.println("\nMês (1-12): ");
+        int mes = Util.leInteiroConsole(input);      
         if (mes >= 1 && mes <= 12 ) {
-        	System.out.println("Ano: ");
-        	ano = Util.leInteiroConsole(input);
+        	System.out.println("\nAno: ");
+        	int ano = Util.leInteiroConsole(input);
         	input.nextLine();
-            controle.cadastrarSaida(descricao.toLowerCase(), valor, mes, ano);
+            controle.cadastrarSaida(nome, descricao, valor, mes, ano);            
+            Saida saida = new Saida(nome, descricao, valor, mes, ano);
+            System.out.println(saida.toString());          
             System.out.println("Saída cadastrada com sucesso!");
         } else {
         	System.out.println("Mês invalido!");
         }
-         
         
 	}
 	
@@ -145,11 +120,11 @@ public class MenuBalanceteConsole{
         System.out.println("--- Busca de Movimentações ---");
         System.out.println("Digite o nome da movimentação: ");
         String nome = input.next();
-        List<Movimentacao> movimentacoes = controle.buscarMovimentacaoPorNome(nome);
+        List<Movimentacao> movimentacoes = controle.buscarMovimentacaoPorNome(nome.toLowerCase());
         if (!movimentacoes.isEmpty()) {
             System.out.println("Movimentações encontradas:");
             for (int i = 0; i < movimentacoes.size(); i++) {
-                System.out.println((i + 1) + ". " + movimentacoes.get(i).getTipo() + " - " + movimentacoes.get(i).getNome() + " - R$ " + movimentacoes.get(i).getValor());
+                System.out.println((i + 1) + " - " + movimentacoes.get(i).getTipo() + " - " + movimentacoes.get(i).getNome() + " - R$ " + movimentacoes.get(i).getValor());
             }
         } else {
             System.out.println("Nenhuma movimentação encontrada com esse nome.");
@@ -180,7 +155,7 @@ public class MenuBalanceteConsole{
 		for(Funcionario f : funcionarios) {
 			System.out.println(f);
 		}
-		System.out.println("******** FIM DA LISTA DE CLIENTES  *********");
+		System.out.println("******** FIM DA LISTA DE FUNCIONARIOS  *********");
 	}
 	
 }   
