@@ -42,19 +42,19 @@ public class MenuRelatorioConsole {
 						System.out.print("Informe o que você deseja: ");
 						op = Util.leInteiroConsole(input);
 						switch(op) {
-							case 21: 
+							case 1: 
 								gerarRelatorioFilmesGenero(controle.getFilmes());
 							break;
 			
-							case 22:
+							case 2:
 								gerarRelatoriosFilmesAnoLancamento(controle.getFilmes());
 							break;
 						
-							case 23:
+							case 3:
 								gerarRelatorioAlfabetico(controle.getFilmes());
 							break;
 						
-							case 24:
+							case 4:
 								System.out.println("Você está saindo dos Relatórios de Filme\n");
 								rodando = false;
 							break;
