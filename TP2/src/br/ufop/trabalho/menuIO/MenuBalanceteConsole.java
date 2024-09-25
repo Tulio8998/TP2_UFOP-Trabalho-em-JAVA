@@ -125,7 +125,7 @@ public class MenuBalanceteConsole{
         if (!movimentacoes.isEmpty()) {
             System.out.println("Movimentações encontradas:");
             for (int i = 0; i < movimentacoes.size(); i++) {
-                System.out.println((i + 1) + " - " + movimentacoes.get(i).getTipo() + " - " + movimentacoes.get(i).getNome() + " - " + movimentacoes.get(i).getDescricao() + " - R$ " + movimentacoes.get(i).getValor());
+                System.out.println((i + 1) + " - " + movimentacoes.get(i).getTipo() + " | " + movimentacoes.get(i).getNome() + " | " + movimentacoes.get(i).getDescricao() + " | R$ " + movimentacoes.get(i).getValor());
             }
         } else {
             System.out.println("Nenhuma movimentação encontrada com esse nome.");

@@ -1,7 +1,5 @@
 package br.ufop.trabalho.movimentacao;
 
-import br.ufop.trabalho.entities.Data;
-
 public abstract class Movimentacao {
 	
 	private String nome;

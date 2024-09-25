@@ -120,189 +120,181 @@ public class MenuFilmesConsole {
 				default:
 					System.out.println("Opção Inválida!");
 			}
-			exibirFilmes(resultado, genero);
+			exibirFilmes(resultado);
+			return;
 		}while(continua == true);
 	}
 		
-	private void exibirFilmes(List<Filme> filmes, String genero) {
-        if (filmes.isEmpty()) {
-            System.out.println("Não existe esse filme em seu cadastro");
-        } else {
-            int i = 1;
-            for (Filme f : filmes) {
-                System.out.println(i + " - Nome: " + f.getTitulo() +
-                        " | Genero: " + f.getGenero() +
-                        " | Tipo: " + f.getTipoFilme() +
-                        " | Ano: " + f.getAnoLancado() +
-                        " | DVD's disponiveis: " + f.getQuantidadeDvds() +
-                        " | Bluerays disponiveis: " + f.getQuantidadeBluerays());
-                i++;
-            }
-        }
-        if (!filmes.isEmpty()) {
-            System.out.println("Escolha o n° do filme que deseja modificar: ");
-            int op =  Util.leInteiroConsole(input);
-            if (op >= 1 && op <= filmes.size()) {
-                Filme filmeEscolhido = filmes.get(0);
-                modificarFilmes(filmeEscolhido, op);
-            } else {
-                System.out.println("Opção inválida.");
-            }
-        }
-    }
-	
-	public void modificarFilmes(Filme filme, int filmeEscolhindo) {
-		input.nextLine();
-		boolean continua = true;
-		int op  = 0, i = 1, escolhaCliente = 0, tipo = 0, ano, mes;
-		do{	
-			System.out.println("Digite a opção de busca:\n\t1 - Editar filme\n\t2 - Excluir filme\n\t3 - Locar para cliente\n\t4 - Voltar\n");
-			op = Util.leInteiroConsole(input);
-			switch(op){
-				case 1:
-					input.nextLine();
-					String titulo, genero, tipoFilme, nome;  
-					int anoLancado, quantidadeDvds, quantidadeBluerays;
-					System.out.println("Digite o nome do filme: ");
-					titulo = input.nextLine();
-					System.out.println("Digite o genero do filme: ");
-					genero = input.nextLine();
-					System.out.println("Digite o tipo do filme: ");
-					tipoFilme = input.nextLine();
-					System.out.println("Digite o ano lançado do filme: ");
-					anoLancado = Util.leInteiroConsole(input);
-					System.out.println("Digite a quantidade de DVD's do filme: ");
-					quantidadeDvds = Util.leInteiroConsole(input);
-					System.out.println("Digite a quantidade de Bluerays do filme: ");
-					quantidadeBluerays = Util.leInteiroConsole(input);
-					input.nextLine();
-					
-					if (titulo.isBlank() || genero.isBlank() || tipoFilme.isBlank()) {
+	private void exibirFilmes(List<Filme> filmes) {
+	    int i = 1, op = 0;
+	    List<Filme> resultado = new ArrayList<>();
+	    if (filmes.isEmpty()) {
+	        System.out.println("Não existe esse filme em seu cadastro.");
+	    } else {
+	        for (Filme f : filmes) {
+	            System.out.println(i + " - Nome: " + f.getTitulo() +
+	                    " | Gênero: " + f.getGenero() +
+	                    " | Tipo: " + f.getTipoFilme() +
+	                    " | Ano: " + f.getAnoLancado() +
+	                    " | DVD's disponíveis: " + f.getQuantidadeDvds() +
+	                    " | Blu-rays disponíveis: " + f.getQuantidadeBluerays());
+	            i++;
+	            resultado.add(f);
+	        }
+	    }
+	    if (!filmes.isEmpty()) {
+	        System.out.println("Escolha o n° do filme que deseja modificar: ");
+	        op = Util.leInteiroConsole(input);
+	        if (op >= 1 && op <= filmes.size()) {
+	            Filme escolhaFilme = resultado.get(op - 1);
+	            modificarFilmes(escolhaFilme);
+	        } else {
+	            System.out.println("Opção de filme inválida.");
+	        }
+	    }
+	}
+
+	public void modificarFilmes(Filme filme) {
+	    input.nextLine();
+	    boolean continua = true;
+	    int op = 0, escolhaCliente = 0, tipo = 0, ano, mes;
+
+	    do {    
+	        System.out.println("Digite a opção:\n\t1 - Editar filme\n\t2 - Excluir filme\n\t3 - Locar para cliente\n\t4 - Voltar\n");
+	        op = Util.leInteiroConsole(input);
+
+	        switch (op) {
+	            case 1:
+	                input.nextLine();
+	                String titulo, genero, tipoFilme;  
+	                int anoLancado, quantidadeDvds, quantidadeBluerays;
+
+	                System.out.println("Digite o nome do filme: ");
+	                titulo = input.nextLine();
+	                System.out.println("Digite o gênero do filme: ");
+	                genero = input.nextLine();
+	                System.out.println("Digite o tipo do filme: ");
+	                tipoFilme = input.nextLine();
+	                System.out.println("Digite o ano de lançamento do filme: ");
+	                anoLancado = Util.leInteiroConsole(input);
+	                System.out.println("Digite a quantidade de DVD's do filme: ");
+	                quantidadeDvds = Util.leInteiroConsole(input);
+	                System.out.println("Digite a quantidade de Blu-rays do filme: ");
+	                quantidadeBluerays = Util.leInteiroConsole(input);
+
+	                if (titulo.isBlank() || genero.isBlank() || tipoFilme.isBlank()) {
 	                    System.out.println("Todos os campos devem ser preenchidos!");
 	                } else {
-	                	Filme atualizarFilme = new Filme(titulo, anoLancado, genero, quantidadeDvds, quantidadeBluerays, tipoFilme);
-	                	if (!atualizarFilme.setTipoFilme(tipoFilme)) {
-	            			System.out.println("\nTipo de filme inválido. Deve ser Lançamento, Novo ou Antigo.");
-	            		} else if (controle.verificarFilmeRepetido(atualizarFilme)) {
+	                    Filme atualizarFilme = new Filme(titulo, anoLancado, genero, quantidadeDvds, quantidadeBluerays, tipoFilme);
+	                    if (!atualizarFilme.setTipoFilme(tipoFilme)) {
+	                        System.out.println("\nTipo de filme inválido. Deve ser Lançamento, Novo ou Antigo.");
+	                    } else if (controle.verificarFilmeRepetido(atualizarFilme)) {
 	                        System.out.println("Esse filme já existe em seu cadastro!");
-	                    	} else {
-		                        filme.setTitulo(titulo);
-		                        filme.setGenero(genero);
-		                        filme.setTipoFilme(tipoFilme);
-		                        filme.setAnoLancado(anoLancado);
-		                        filme.setQuantidadeDvds(quantidadeDvds);
-		                        filme.setQuantidadeBluerays(quantidadeBluerays);
-		                        System.out.println("Filme atualizado com sucesso!");
-		                    }
+	                    } else {
+	                        filme.setTitulo(titulo);
+	                        filme.setGenero(genero);
+	                        filme.setTipoFilme(tipoFilme);
+	                        filme.setAnoLancado(anoLancado);
+	                        filme.setQuantidadeDvds(quantidadeDvds);
+	                        filme.setQuantidadeBluerays(quantidadeBluerays);
+	                        System.out.println("Filme atualizado com sucesso!");
+	                    }
 	                }
-								
-					break;
-				case 2:
-					controle.exluirFilmes(filme);
-					System.out.println("Filme removido com sucesso!");
-					return;
-				case 3:
-					Filme filmeEscolhido = controle.getFilmes().get(filmeEscolhindo);
-					System.out.println("Deseja locar um DVD ou Blu-ray?\n\t1 - DVD\n\t2 - Blu-ray");
+	                break;
+
+	            case 2:
+	                controle.exluirFilmes(filme);
+	                System.out.println("Filme removido com sucesso!");
+	                return;
+
+	            case 3:
+	                System.out.println("Deseja locar um DVD ou Blu-ray?\n\t1 - DVD\n\t2 - Blu-ray");
+	                
 	                tipo = Util.leInteiroConsole(input);
-	                input.nextLine();	 
+	                input.nextLine();
+	                if(tipo == 1 || tipo ==2) {
+	                } else {
+	                	System.out.println("Opção invalida.");
+	                	return;
+	                }
+
 	                List<Cliente> clientes = controle.getClientes();
-	                for(Cliente cl : clientes) {	                	
-		                if(cl.getMulta() == 0) {
-							if(controle.getFilmes().size() < 5){
-								if (tipo == 1 || tipo == 2) {
-				                	System.out.println("Digite o nome do cliente ou do dependete para locar o filme: ");
-					                nome = input.nextLine();
-					                System.out.println("Digite o mes de locacao:");
-									while(true){
-										mes = Util.leInteiroConsole(input);
-										if(mes<1 || mes>12){
-											System.out.println("Digite um mes valido");
-										}
-										else{
-											break;
-										}
-									}
-									System.out.println("Digite o ano:");
-									ano = Util.leInteiroConsole(input);
-					                List<Cliente> clientesEncontrados = new ArrayList<>();
-					                Cliente clienteEscolhido = null;
-					                for(Cliente c : controle.getClientes()) {					          
-					                    if(c.getNome().equalsIgnoreCase(nome)) {
-					                        clientesEncontrados.add(c);
-					                        controle.cadastrarEntrada("Pagamento de locacao", "Cliente: "+ c.getNome() +" Filme: "+filme.getTitulo(), controle.getValorLocacaoDiaria(filme), mes, ano);
-					                    } else {
-					                    	List<Dependentes> dependentes = c.getDependentes();
-					                        for (Dependentes d : dependentes) {
-					                            if (d.getNome().equalsIgnoreCase(nome)) {
-					                                clienteEscolhido = c;
-					                                clientesEncontrados.add(c);
-					                                controle.cadastrarEntrada("Pagamento de locacao", "Cliente: "+ d.getNome() +" Filme: "+filme.getTitulo(), controle.getValorLocacaoDiaria(filme), mes, ano);
-					                                break;
-					                            }
-					                        }
-					                    }
-					                }
-					                if (clientesEncontrados.isEmpty()) {
-					                    System.out.println("Cliente não encontrado.");
-					                } else if(clientesEncontrados.size() == 1) {
-					                    Cliente cliente = clientesEncontrados.get(0);
-					                    if (controle.locarFilmeCliente(cliente, filmeEscolhido, tipo) == false) {
-				    	                	System.out.println("Filme indisponivel no momento");
-				    	                } else {
-						                    System.out.println("Filme locado com sucesso!");
-					                    }
-					                } else if(clientesEncontrados.size() > 1) {
-					                    System.out.println("Foram encontrados múltiplos clientes com esse nome:");
-					                    for (i = 0; i < clientesEncontrados.size(); i++) {
-					                        Cliente cliente = clientesEncontrados.get(i);
-					                        System.out.println((i + 1) + " - Nome: " + cliente.getNome() + " | Código: " + cliente.getCodigo() + " | CPF: " + cliente.getCpf());
-					                    }
-					                    System.out.println("Escolha o número do cliente que deseja locar o filme: ");
-					                    escolhaCliente = Util.leInteiroConsole(input) - 1;
-					                    System.out.println("Digite o mes de locacao:");
-										while(true){
-											mes = Util.leInteiroConsole(input);
-											if(mes<1 || mes>12){
-												System.out.println("Digite um mes valido");
-											}
-											else{
-												break;
-											}
-										}
-										System.out.println("Digite o ano:");
-										ano = Util.leInteiroConsole(input);
-					                    if(escolhaCliente >= 0 && escolhaCliente < clientesEncontrados.size()) {
-					                        clienteEscolhido = clientesEncontrados.get(escolhaCliente);
-					                        if (controle.locarFilmeCliente(clienteEscolhido, filmeEscolhido, tipo) == false) {
-					    	                	System.out.println("Filme indisponivel no momento");
-					    	                } else {
-						                        controle.locarFilmeCliente(clienteEscolhido, filmeEscolhido, tipo);
-						                        controle.cadastrarEntrada("Pagamento de locacao", "Cliente: "+ clienteEscolhido.getNome() +" Filme: "+filme.getTitulo(), controle.getValorLocacaoDiaria(filme), mes, ano);
-						                        System.out.println("Filme locado com sucesso!");	
-					    	                }
-					                    } else {
-					                        System.out.println("Opção inválida.");
-					                    }
-					                }
-					                
-				                } else {
-			                        System.out.println("Opção inválida.");
-			                    }
-							}
-							else{
-								System.out.println("O cliente atingiu o numero maximo de filmes locados!");
-							}
-						}
-		                return;		             
-	                }    
-					break;
-				case 4:
-					return;
-				default:
-					System.out.println("Opção Inválida!");
-			}
-		}while(continua == true);
+	                System.out.println("Digite o nome do cliente ou dependente para locar o filme: ");
+	                String nome = input.nextLine();
+	                
+	                System.out.println("Digite o mês de locação:");
+	                while (true) {
+	                    mes = Util.leInteiroConsole(input);
+	                    if (mes < 1 || mes > 12) {
+	                        System.out.println("Digite um mês válido.");
+	                    } else {
+	                        break;
+	                    }
+	                }
+
+	                System.out.println("Digite o ano de locação:");
+	                ano = Util.leInteiroConsole(input);
+
+	                List<Cliente> clientesEncontrados = new ArrayList<>();
+	                Cliente clienteEscolhido = null;
+	                
+	                for (Cliente c : clientes) {  
+	                    if (c.getNome().equalsIgnoreCase(nome)) {
+	                        clientesEncontrados.add(c);
+	                    } else {
+	                        for (Dependentes d : c.getDependentes()) {
+	                            if (d.getNome().equalsIgnoreCase(nome)) {
+	                                clientesEncontrados.add(c);
+	                                break;
+	                            }
+	                        }
+	                    }
+	                }
+
+	                if (clientesEncontrados.isEmpty()) {
+	                    System.out.println("Cliente não encontrado.");
+	                } else if (clientesEncontrados.size() == 1) {
+	                    Cliente cliente = clientesEncontrados.get(0);
+	                    if (!controle.podeAlugarFilme(cliente)) {
+	                        System.out.println("O cliente atingiu o número máximo de filmes locados!");
+	                    } else if (!controle.locarFilmeCliente(cliente, filme, tipo)) {
+	                        System.out.println("Filme indisponível no momento.");
+	                    } else {
+	                        controle.cadastrarEntrada("Pagamento de locação", "Cliente: " + cliente.getNome() + " Filme: " + filme.getTitulo(), controle.getValorLocacaoDiaria(filme), mes, ano);
+	                        System.out.println("Filme locado com sucesso!");
+	                    }
+	                } else {
+	                    System.out.println("Foram encontrados múltiplos clientes com esse nome:");
+	                    for (int i = 0; i < clientesEncontrados.size(); i++) {
+	                        Cliente cliente = clientesEncontrados.get(i);
+	                        System.out.println((i + 1) + " - Nome: " + cliente.getNome() + " | Código: " + cliente.getCodigo() + " | CPF: " + cliente.getCpf());
+	                    }
+	                    System.out.println("Escolha o número do cliente que deseja locar o filme: ");
+	                    escolhaCliente = Util.leInteiroConsole(input) - 1;
+
+	                    if (escolhaCliente >= 0 && escolhaCliente < clientesEncontrados.size()) {
+	                        clienteEscolhido = clientesEncontrados.get(escolhaCliente);
+	                        if (!controle.podeAlugarFilme(clienteEscolhido)) {
+	                            System.out.println("O cliente atingiu o número máximo de filmes locados!");
+	                        } else if (!controle.locarFilmeCliente(clienteEscolhido, filme, tipo)) {
+	                            System.out.println("Filme indisponível no momento.");
+	                        } else {
+	                            controle.cadastrarEntrada("Pagamento de locação", "Cliente: " + clienteEscolhido.getNome() + " Filme: " + filme.getTitulo(), controle.getValorLocacaoDiaria(filme), mes, ano);
+	                            System.out.println("Filme locado com sucesso!");
+	                        }
+	                    } else {
+	                        System.out.println("Opção inválida.");
+	                    }
+	                }
+	                break;
+
+	            case 4:
+	                return;
+
+	            default:
+	                System.out.println("Opção inválida!");
+	        }
+	    } while (continua);
 	}
 	
 

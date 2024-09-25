@@ -119,7 +119,7 @@ public class Controle {
 	}
     
     public boolean podeAlugarFilme(Cliente cliente) {
-        return cliente.getFilmes().size() < quantidadeMaximaFilmesAlugados;
+        return cliente.getFilmes().size() <= quantidadeMaximaFilmesAlugados;
     }
     
     public void aplicarMulta(Cliente cliente, int diasAtraso) {
@@ -356,6 +356,9 @@ public class Controle {
     }
 	
 	public boolean locarFilmeCliente(Cliente cliente, Filme filme, int tipo) {
+		if (!podeAlugarFilme(cliente)) {
+	        return false;
+	    }
 	    if (tipo == 1) {
 	    	if (filme.getQuantidadeDvds() == 0) {
 	    		return false;
