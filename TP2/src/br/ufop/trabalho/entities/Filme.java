@@ -14,6 +14,7 @@ public class Filme implements Serializable{
 	private int quantidadeBluerays;
 	private String tipoFilme;
 	public static final String LANCAMENTOS = "lancamento";
+	public static final String LANCAMENTO = "lançamento";
 	public static final String NOVOS = "novo";
 	public static final String ANTIGOS = "antigo";
 	
@@ -77,7 +78,7 @@ public class Filme implements Serializable{
 
 	public boolean setTipoFilme(String tipoFilme) {
 		this.tipoFilme = tipoFilme;
-			return tipoFilme.equalsIgnoreCase(LANCAMENTOS) || tipoFilme.equalsIgnoreCase(NOVOS) || tipoFilme.equalsIgnoreCase(ANTIGOS);
+			return tipoFilme.equalsIgnoreCase(LANCAMENTOS) || tipoFilme.equalsIgnoreCase(LANCAMENTO) || tipoFilme.equalsIgnoreCase(NOVOS) || tipoFilme.equalsIgnoreCase(ANTIGOS);
 	}
 
 	@Override

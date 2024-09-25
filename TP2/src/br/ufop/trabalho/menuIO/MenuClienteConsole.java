@@ -41,7 +41,7 @@ public class MenuClienteConsole {
 						leDadosBuscaCliente();
 					}
 					else{
-						System.out.println("Nao ha clientes cadastrados!");
+						System.out.println("Não há clientes cadastrados!");
 					}
 					break;
 				case 3:
@@ -60,19 +60,19 @@ public class MenuClienteConsole {
         String nome, end, cpf;
         int codigo;
         LocalDate dataNascimento;
-        System.out.println("Digite o nome do cliente");
-        nome = input.nextLine();
-        System.out.println("Digite o endereco do cliente");
-        end = input.nextLine();
-        System.out.println("Digite o codigo do cliente");
+        System.out.print("Digite o nome do cliente: ");
+        nome = Util.leStringConsole(input);
+        System.out.print("Digite o endereco do cliente: ");
+        end = Util.leStringConsole(input);
+        System.out.print("Digite o codigo do cliente: ");
         codigo = Util.leInteiroConsole(input);
         input.nextLine();
-        System.out.println("Digite o CPF do cliente");
-        cpf = input.nextLine();
+        System.out.print("Digite o CPF do cliente: ");
+        cpf = Util.leStringConsole(input);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         while (true) {
-            System.out.println("Digite a data de nascimento do cliente (dd/MM/yyyy)");
-            String dataString = input.nextLine();
+            System.out.print("Digite a data de nascimento do cliente (dd/MM/yyyy): ");
+            String dataString = Util.leStringConsole(input);
             try {
                 dataNascimento = LocalDate.parse(dataString, formatter);
                 break;
@@ -107,22 +107,23 @@ public class MenuClienteConsole {
 		while(rodando){
 			List<Cliente> resultado = new ArrayList<>();
 			System.out.println("Como deseja buscar o cliente?");
-			System.out.println("1 - Nome");
-			System.out.println("2 - Codigo");
-			System.out.println("3 - Nome do dependente");
+			System.out.println("\t1 - Nome");
+			System.out.println("\t2 - Codigo");
+			System.out.println("\t3 - Nome do dependente");
+			System.out.print("Informe o que você deseja: ");
 			op = Util.leInteiroConsole(input);
 			input.nextLine();
 			switch(op){
 				case 1:
-					System.out.println("Digite o nome do cliente: ");
-					nome = input.nextLine();
+					System.out.print("\nDigite o nome do cliente: ");
+					nome = Util.leStringConsole(input);
 					resultado = controle.buscaCliente(nome);
 					exibirBuscaClientes(resultado);
 					rodando=false;
 					break;
 
 				case 2:
-					System.out.println("Digite o codigo: ");
+					System.out.print("\nDigite o codigo: ");
 					codigo = Util.leInteiroConsole(input);
 					resultado = controle.buscaCliente(codigo);
 					exibirBuscaClientes(resultado);
@@ -130,15 +131,15 @@ public class MenuClienteConsole {
 					break;
 
 				case 3:
-					System.out.println("Digite o nome de um dependente: ");
-					dependente = input.nextLine();
+					System.out.print("\nDigite o nome de um dependente: ");
+					dependente = Util.leStringConsole(input);
 					resultado = controle.buscaDependentes(dependente);
 					exibirBuscaClientes(resultado);
 					rodando=false;
 					break;
 
 				default:
-					System.out.println("Opcao invalida!");
+					System.out.println("Opção invalida!");
 					break;
 			}
 		}
@@ -150,13 +151,13 @@ public class MenuClienteConsole {
 		}
 		else{
 			int count=1;
-			System.out.println("Clientes encontrados:");
+			System.out.println("\nClientes encontrados: ");
 			for (Cliente c : clientes){
 				System.out.println(count + " - " + c.getNome());
 				count++;
 			}
 			count=1;
-			System.out.println("\nEscolha um.");
+			System.out.print("\nEscolha um: ");
 			int op = Util.leInteiroConsole(input);
 			for(Cliente c : clientes){
 				if(count==op){
@@ -180,10 +181,11 @@ public class MenuClienteConsole {
 			System.out.println("5 - Devolver filme");
 			System.out.println("6 - Pagar multa");
 			System.out.println("7 - Voltar");
+			System.out.print("Informe o que você deseja: ");
 			op = Util.leInteiroConsole(input);
 			switch(op){
 				case 1:
-					System.out.println("Insira as novas informacoes: ");
+					System.out.print("Insira as novas informacoes: ");
 					editarCliente(cliente);
 					imprimirCliente(cliente);
 					break;
@@ -196,7 +198,7 @@ public class MenuClienteConsole {
 				
 				case 3:
 					removerDependente(cliente);
-					System.out.println("\nAtuais dependentes:");
+					System.out.println("\nAtuais dependentes: ");
 					imprimeListaDependentes(cliente);
 					break;
 
@@ -239,7 +241,7 @@ public class MenuClienteConsole {
 								break;
 							}
 						}
-						System.out.println("Digite o ano do pagamento da multa:");
+						System.out.print("Digite o ano do pagamento da multa: ");
 						int ano = Util.leInteiroConsole(input);
 						controle.cadastrarEntrada("Pagamento de multa", "Cliente: "+cliente.getNome(), cliente.getMulta(), mes, ano);
 						cliente.zerarMulta();
@@ -268,7 +270,7 @@ public class MenuClienteConsole {
 		System.out.println("Filmes locados:\n");
 		imprimirFilmesLocados(cliente);
 		System.out.println("\nMulta: R$" + cliente.getMulta());
-		System.out.println("Dependentes:\n"); 
+		System.out.println("Dependentes:"); 
 		imprimeListaDependentes(cliente);
 	}
 
@@ -279,23 +281,23 @@ public class MenuClienteConsole {
 		LocalDate dataNascimento;
 		boolean rodando = true;
 		while(rodando){
-			System.out.println("Digite o nome do cliente");
-			nome = input.nextLine();
+			System.out.print("Digite o nome do cliente: ");
+			nome = Util.leStringConsole(input);
 
-			System.out.println("Digite o endereco do cliente");
-			end = input.nextLine();
+			System.out.print("Digite o endereco do cliente: ");
+			end = Util.leStringConsole(input);
 
-			System.out.println("Digite o codigo do cliente");		
+			System.out.print("Digite o codigo do cliente: ");		
 			codigo = Util.leInteiroConsole(input);
 			
 			input.nextLine();
-			System.out.println("Digite o CPF do cliente");
-			cpf = input.nextLine();
+			System.out.print("Digite o CPF do cliente: ");
+			cpf = Util.leStringConsole(input);
 
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 			while (true) {
-				System.out.println("Digite a data de nascimento do cliente (dd/MM/yyyy)");
-				String dataString = input.nextLine();
+				System.out.println("Digite a data de nascimento do cliente (dd/MM/yyyy): ");
+				String dataString = Util.leStringConsole(input);
 				try {
 					dataNascimento = LocalDate.parse(dataString, formatter);
 					break;
@@ -310,7 +312,7 @@ public class MenuClienteConsole {
 			else{
 				Cliente teste = new Cliente(nome, end, codigo, cpf, null);
 				if(controle.verificarClienteRepetido(teste)){
-					System.out.println("Ja existe um cliente com estes dados.");
+					System.out.println("Já existe um cliente com estes dados.");
 				}
 				else{
 					cliente.setNome(nome);
@@ -331,22 +333,23 @@ public class MenuClienteConsole {
 	    do {
 	        if (contadorDependentes < 3) {
 	            System.out.println("Deseja cadastrar dependente? \n\t1 - Cadastrar dependente\n\t2 - Não cadastrar dependente\n");
-	            int resp = input.nextInt();
+	            System.out.print("Informe o que você deseja: ");
+	            int resp = Util.leInteiroConsole(input);
 	            switch (resp) {
 	                case 1:
 	                    input.nextLine();
 	                    String nome, end, cpf;
 	                    LocalDate dataNascimento;
-	                    System.out.println("Digite o nome do dependente");
-	                    nome = input.nextLine();
-	                    System.out.println("Digite o endereço do dependente");
-	                    end = input.nextLine();
-	                    System.out.println("Digite o CPF do dependente");
-	                    cpf = input.nextLine();
+	                    System.out.print("Digite o nome do dependente: ");
+	                    nome = Util.leStringConsole(input);
+	                    System.out.print("Digite o endereço do dependente: ");
+	                    end = Util.leStringConsole(input);
+	                    System.out.print("Digite o CPF do dependente: ");
+	                    cpf = Util.leStringConsole(input);
 	                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	                    while (true) {
-	                        System.out.println("Digite a data de nascimento do dependente (dd/MM/yyyy)");
-	                        String dataString = input.nextLine();
+	                        System.out.println("Digite a data de nascimento do dependente (dd/MM/yyyy): ");
+	                        String dataString = Util.leStringConsole(input);
 	                        try {
 	                            dataNascimento = LocalDate.parse(dataString, formatter);
 	                            break;
@@ -391,8 +394,8 @@ public class MenuClienteConsole {
 	private void removerDependente(Cliente cliente){
 		if(cliente.getDependentes() != null){
 			input.nextLine();
-			System.out.println("Digite o nome do dependente que deseja remover ");
-			String nome = input.nextLine();
+			System.out.println("Digite o nome do dependente que deseja remover: ");
+			String nome = Util.leStringConsole(input);
 			if(Util.verificaListaStringPreenchida(nome)!=false){
 				boolean dependenteEncontrado=false;
 				Dependentes ctrl = new Dependentes();
@@ -405,10 +408,10 @@ public class MenuClienteConsole {
 				}
 				if(dependenteEncontrado==true){
 					cliente.excluirDependente(ctrl);
-					System.out.println("Exclusao bem sucedida!");
+					System.out.println("Exclusão bem sucedida!");
 				}
 				else{
-					System.out.println("Nao existe dependente correspondente.");
+					System.out.println("Não existe dependente correspondente.");
 				}
 			}
 			else{
@@ -417,14 +420,14 @@ public class MenuClienteConsole {
 
 		}
 		else{
-			System.out.println("Nao existem dependentes deste cliente!");
+			System.out.println("Não existem dependentes deste cliente!");
 		}
 	}
 	
 	public void locarFilme(Cliente cliente){
 		input.nextLine();
-		System.out.println("Digite o nome do filme que deseja locar");
-		String nome = input.nextLine();
+		System.out.print("Digite o nome do filme que deseja locar: ");
+		String nome = Util.leStringConsole(input);
 		if(controle.buscarFilme(nome).isEmpty()){
 			System.out.println("Sem resultados disponíveis para este filme.");
 		}
@@ -436,25 +439,26 @@ public class MenuClienteConsole {
 			}
 			else{
 				System.out.println("Deseja locar um DVD ou Blu-ray?\n1 - DVD\n2 - Blu-ray");
+				System.out.print("Tipo de locação: ");
 				int op = Util.leInteiroConsole(input);
 				switch(op){
 					case 1:
 						if(filme.getQuantidadeDvds()==0){
-							System.out.println("Nao existe DVD disponiveil para este filme");
+							System.out.println("Não existe DVD disponíveil para este filme");
 						}
 						else{
-							System.out.println("Digite o mes de locacao:");
+							System.out.print("Digite o mês de locacao: ");
 							int mes;
 							while(true){
 								mes = Util.leInteiroConsole(input);
 								if(mes<1 || mes>12){
-									System.out.println("Digite um mes valido");
+									System.out.print("Digite um mês valido");
 								}
 								else{
 									break;
 								}
 							}
-							System.out.println("Digite o ano do pagamento da multa:");
+							System.out.print("Digite o ano do pagamento da multa: ");
 							int ano = Util.leInteiroConsole(input);
 
 							System.out.println("\nCliente: " + cliente.getNome());
@@ -471,21 +475,21 @@ public class MenuClienteConsole {
 
 					case 2:
 						if(filme.getQuantidadeBluerays()==0){
-							System.out.println("Nao existe Blu-ray disponivel para este filme");
+							System.out.println("Não existe Blu-ray disponível para este filme");
 						}
 						else{
-							System.out.println("Digite o mes de locacao:");
+							System.out.println("Digite o mês de locacao: ");
 							int mes;
 							while(true){
 								mes = Util.leInteiroConsole(input);
 								if(mes<1 || mes>12){
-									System.out.println("Digite um mes valido");
+									System.out.print("Digite um mês valido: ");
 								}
 								else{
 									break;
 								}
 							}
-							System.out.println("Digite o ano do pagamento da multa:");
+							System.out.print("Digite o ano do pagamento da multa: ");
 							int ano = Util.leInteiroConsole(input);
 
 							System.out.println("\nCliente: " + cliente.getNome());
@@ -512,8 +516,8 @@ public class MenuClienteConsole {
 		imprimirFilmesLocados(cliente);
 		if(!cliente.getFilmes().isEmpty()){
 			input.nextLine();
-			System.out.println("Digite o nome do filme que deseja devolver:");	
-			String nome = input.nextLine();
+			System.out.print("Digite o nome do filme que deseja devolver: ");	
+			String nome = Util.leStringConsole(input);
 			int count = 0;
 			for(Filme f : cliente.getFilmes()){
 				if(nome.toLowerCase().equals(f.getTitulo().toLowerCase())){
@@ -530,12 +534,13 @@ public class MenuClienteConsole {
 					boolean rodando = true;
 					while(rodando){						
 						System.out.println("Filme removido com sucesso!\n");
-						System.out.println("Houve atraso na devolucao?\n1 - Sim\n2 - Nao");
+						System.out.println("Houve atraso na devolução?\n1 - Sim\n2 - Nao");
 						int op = Util.leInteiroConsole(input);
 						switch(op){
 							case 1:
 								input.nextLine();
 								System.out.println("Quantos dias de atraso?");
+								System.out.print("Respota: ");
 								op = Util.leInteiroConsole(input);
 								controle.aplicarMulta(cliente, op);
 								rodando = false;
@@ -546,7 +551,7 @@ public class MenuClienteConsole {
 								break;
 
 							default:
-								System.out.println("Digite uma opcao valida.");
+								System.out.println("Digite uma opção valida.");
 								break;
 						}
 					}
@@ -554,7 +559,7 @@ public class MenuClienteConsole {
 				}
 				count++;
 			}
-			System.out.println("Voce nao possui filme correspondente locado!");
+			System.out.println("Você não possui filme correspondente locado!");
 		}
 	}
 	

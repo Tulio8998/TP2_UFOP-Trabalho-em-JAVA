@@ -214,15 +214,15 @@ public class Controle {
     }
 	
 	public int cadastrarDependente(String nome, String end, String cpf, Data data) {
-	    if (cliente == null) {
+	    if(cliente == null) {
 	        return Constantes.ERRO_CLIENTE_NAO_SELECIONADO;
 	    }
 
 	    Dependentes dependente = new Dependentes(nome, end, cpf, data);
-	    if (Util.verificaListaStringPreenchida(nome, end, cpf) == false) {
+	    if(Util.verificaListaStringPreenchida(nome, end, cpf) == false) {
 	        return Constantes.ERRO_CAMPO_VAZIO;
 	    }
-	    if (verificarDependenteRepetido(dependente)) {
+	    if(verificarDependenteRepetido(dependente)) {
 	        return Constantes.DEPENDENTE_REPETIDO;
 	    } else if (cliente.getDependentes().size() >= 3) {
 	        return Constantes.ERROR_LIMITE_DEPENDENTE;
@@ -234,11 +234,11 @@ public class Controle {
 	 public int cadastrarFilme(String titulo, int anoLancado, String genero, int quantidadeDvds, int quantidadeBluerays,
              String tipoFilme) {
 		Filme novofilme = new Filme(titulo, anoLancado, genero, quantidadeDvds, quantidadeBluerays, tipoFilme);	
-		if (!novofilme.setTipoFilme(tipoFilme)) {
+		if(!novofilme.setTipoFilme(tipoFilme)) {
 			return Constantes.ERRO_TIPO_FILME;
 		} 
 		
-		if (verificarFilmeRepetido(novofilme)) {
+		if(verificarFilmeRepetido(novofilme)) {
 			return Constantes.FILME_REPETIDO;
 		} else if (titulo.isBlank() || genero.isBlank() ||  tipoFilme.isBlank()) {
 			return Constantes.ERRO_CAMPO_VAZIO;

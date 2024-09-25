@@ -60,7 +60,7 @@ public class MenuRelatorioConsole {
 							break;
 						
 							default:
-								System.out.println("Não entendemos o que você queria fazer, tente novamente!\n");
+								System.out.println("Não entendemos o que você queria fazer, tente novamente!");
 							break;
 						}
 					}
@@ -73,7 +73,7 @@ public class MenuRelatorioConsole {
 				break;
 				
 				default:
-					System.out.println("Não entendemos o que você queria fazer, tente novamente!\n");
+					System.out.println("Não entendemos o que você queria fazer, tente novamente!");
 				break;
 			}
 		}
@@ -81,41 +81,39 @@ public class MenuRelatorioConsole {
 	}
 	
 	private void gerarRelatorioClientes(List<Cliente>clientes) {
-		
-		System.out.println("----------------------------------------- Relatório de Clientes -----------------------------------------");
-        System.out.println("--------------------------------------------------------------------------------------------------------");
-		
+
+		System.out.println("\n----------------------------------------- Relatório de Clientes -----------------------------------------");
+       		
         for(Cliente cliente : clientes) {
 			String infoClientes =
 					"Código de Cadastro: " + cliente.getCodigo() + " | " + "Nome do Cliente: " + cliente.getNome() + " | " + 
 							"CPF: " + cliente.getCpf() + " | " + "Data de Nascimento:" + cliente.getDataNascimento() + " | " + 
-								"Multa: R$ " + cliente.getMulta() + "| " ;
+								"Multa: R$ " + cliente.getMulta();
 			System.out.println(infoClientes);      
 			if(!cliente.getFilmes().isEmpty()) {
-				System.out.println("\nFilmes alugados ");
+				System.out.println("\nFilmes alugados:");
 				for(Filme filme: cliente.getFilmes()) {
-					System.out.print(filme.getTitulo() + "\n");
+					System.out.print("- " + filme.getTitulo() + "\n");
 				}
 			} else {
-				System.out.println("\nEsse usuário não alugou nenhum filme");
+				System.out.println("\nEsse usuário não alugou nenhum filme.");
 			}
 			
 			if(!cliente.getDependentes().isEmpty()) {
 				System.out.println("\nDependentes desse cliente: ");
 				for(Dependentes DP: cliente.getDependentes()) {
-					System.out.print(DP.getNome() + "\n");
+					System.out.print("- " + DP.getNome() + "\n");
 				}
 			} else {
-				System.out.println("\nEsse usuário não possuí a responsabilidade de nenhum dependente");
+				System.out.println("\nEsse usuário não possuí a responsabilidade de nenhum dependente.");
 			}
 	        System.out.println("--------------------------------------------------------------------------------------------------------");
         }
 	}
 	
 	private void gerarRelatorioFilmesGenero(List<Filme> filmes) {
-		System.out.println("----------------------------------------- Relatório de Filmes  -----------------------------------------");
-        System.out.println("--------------------------------------------------------------------------------------------------------");
-        
+		System.out.println("\n----------------------------------------- Relatório de Filmes  -----------------------------------------");
+		
         List<String> generos = new ArrayList<>();
         
         for(Filme filme : filmes) {
@@ -135,7 +133,7 @@ public class MenuRelatorioConsole {
         	}
    
         	if(!encontrarFPG) {
-        		System.out.println("Nenhum filme encontrado para esse gênero");
+        		System.out.println("Nenhum filme encontrado para esse gênero.");
         		break;
         	} else {
         		System.out.println("Total de Filmes encontrados para o gênero " + genero + ": " + 
@@ -147,9 +145,8 @@ public class MenuRelatorioConsole {
 	}
 	
 	private void gerarRelatoriosFilmesAnoLancamento(List<Filme> filmes) {
-			System.out.println("----------------------------------------- Relatório de Filmes  -----------------------------------------");
-		    System.out.println("--------------------------------------------------------------------------------------------------------");
-		        
+			System.out.println("\n----------------------------------------- Relatório de Filmes  -----------------------------------------");
+		   
 		    List<Integer> anolancamentos = new ArrayList<>();
 		        
 		    for(Filme filme : filmes) {
@@ -159,8 +156,7 @@ public class MenuRelatorioConsole {
 		    }
 		        
 		    for(Integer anolancamento : anolancamentos ) {
-		        System.out.println("Ano de Lançamento: " + anolancamento);
-		        
+		        System.out.println("Ano de Lançamento: " + anolancamento);  
 		        boolean encontrarAL = false;
 		        for(Filme filme : filmes) {
 		        	if(filme.getAnoLancado() == anolancamento) {
@@ -170,7 +166,7 @@ public class MenuRelatorioConsole {
 		        }
 		   
 		        if(!encontrarAL) {
-		        	System.out.println("Nenhum filme encontrado para esse ano");
+		        	System.out.println("Nenhum filme encontrado para esse ano.");
 		        	break;
 		        } else {
 		        	System.out.println("Total de Filmes encontrados por ano de lançamento " + anolancamento + ": " + 
@@ -182,9 +178,7 @@ public class MenuRelatorioConsole {
 	}
 	
 	private void gerarRelatorioAlfabetico(List<Filme> filmes) {
-		System.out.println("----------------------------------------- Relatório de Filmes (Ordem Alfabética)  -----------------------------------------");
-	    System.out.println("--------------------------------------------------------------------------------------------------------");
-	    
+		System.out.println("\n-------------------------------- Relatório de Filmes (Ordem Alfabética)  -------------------------------");
 	    Collections.sort(filmes, new Comparator<Filme>(){
 	    	public int compare(Filme F1, Filme F2) {
 	    		return F1.getTitulo().compareToIgnoreCase(F2.getTitulo());
@@ -192,7 +186,9 @@ public class MenuRelatorioConsole {
 	    });
 	    
 	    for(Filme filme : filmes) {
-	    	System.out.println("-> " + filme.getTitulo() + " (" + filme.getAnoLancado()+ ") ");
+	    	System.out.println("- " + filme.getTitulo() + " (" + filme.getAnoLancado()+ ") ");
 	    }
+	    System.out.println("-----------------------------------------------------------------------------------------------------------");
 	}
+	
 }

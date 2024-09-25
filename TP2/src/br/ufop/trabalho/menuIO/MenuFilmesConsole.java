@@ -24,9 +24,10 @@ public class MenuFilmesConsole {
 		boolean continua = true;
 		int op  = 0;
 		do{	
-			System.out.println("\nDigite a opção:\n\t1 - Cadastrar filme\n\t2 - Buscar filme\n\t3 - imprime Lista de filmes\n\t4 - Voltar\n");
+			System.out.print("\nDigite a opção:\n\t1 - Cadastrar filme\n\t2 - Buscar filme\n\t3 - imprime Lista de filmes\n\t4 - Voltar\n");
 			System.out.print("Informe o que você deseja: ");
 			op = Util.leInteiroConsole(input);
+			System.out.println();
 			switch(op){
 				case 1:
 					leDadosFilmes();
@@ -56,24 +57,24 @@ public class MenuFilmesConsole {
 		input.nextLine();
 		String titulo, genero, tipoFilme;  
 		int anoLancado, quantidadeDvds, quantidadeBluerays;
-		System.out.println("\nDigite o nome do filme: ");
-		titulo = input.nextLine();
-		System.out.println("Digite o genero do filme: ");
-		genero = input.nextLine();
-		System.out.println("Digite o tipo do filme: ");
-		tipoFilme = input.nextLine();
-		System.out.println("Digite o ano lançado do filme: ");
+		System.out.print("Digite o nome do filme: ");
+		titulo = Util.leStringConsole(input);
+		System.out.print("Digite o genero do filme: ");
+		genero = Util.leStringConsole(input);
+		System.out.print("Digite o tipo do filme: ");
+		tipoFilme = Util.leStringConsole(input);
+		System.out.print("Digite o ano lançado do filme: ");
 		anoLancado = Util.leInteiroConsole(input);
-		System.out.println("Digite a quantidade de DVD's do filme: ");
+		System.out.print("Digite a quantidade de DVD's do filme: ");
 		quantidadeDvds = Util.leInteiroConsole(input);
-		System.out.println("Digite a quantidade de Bluerays do filme: ");
+		System.out.print("Digite a quantidade de Bluerays do filme: ");
 		quantidadeBluerays = Util.leInteiroConsole(input);
 		input.nextLine();
 		int retorno = controle.cadastrarFilme(titulo, anoLancado, genero, quantidadeDvds, quantidadeBluerays, tipoFilme);
 		String msg = "";
 		switch(retorno){
 			case Constantes.ERRO_TIPO_FILME:
-				msg = "\nTipo de filme inválido. Deve ser Lançamento, Novo ou Antigo.";
+				msg = "\nTipo de filme inválido. Deve ser lançamento, novo ou antigo.";
 				break;
 			case Constantes.FILME_REPETIDO:
 				msg = "\nEsse filme já existe em seu cadastro!";
@@ -95,23 +96,24 @@ public class MenuFilmesConsole {
 		int op  = 0, disponibilidade;
 		String titulo, genero = null;
 		do{	
-			System.out.println("Digite a opção de busca:\n\t1 - Buscar filme por nome\n\t2 - Buscar filme por genero\n\t3 - Buscar filme por disponibilidade\n\t4 - Voltar\n");
+			System.out.print("\nDigite a opção de busca:\n\t1 - Buscar filme por nome\n\t2 - Buscar filme por genero\n\t3 - Buscar filme por disponibilidade\n\t4 - Voltar\n");
+			System.out.print("Informe o que você deseja: ");
 			op = Util.leInteiroConsole(input);
 			List<Filme> resultado = new ArrayList<>();
 			input.nextLine();
 			switch(op){
 				case 1:
-					System.out.println("Nome: ");
-					titulo = input.nextLine();
+					System.out.print("Nome: ");
+					titulo = Util.leStringConsole(input);
 					resultado = controle.buscarFilme(titulo);
 					break;
 				case 2:
-					System.out.println("Genero: ");
-					genero = input.nextLine();
+					System.out.print("Genero: ");
+					genero = Util.leStringConsole(input);
 					resultado = controle.buscarFilme(genero);
 					break;
 				case 3:
-					System.out.println("Disponibilidade: ");
+					System.out.print("Disponibilidade: ");
 					disponibilidade = Util.leInteiroConsole(input);
 					resultado = controle.buscarFilme(disponibilidade);
 					break;
@@ -131,6 +133,7 @@ public class MenuFilmesConsole {
 	    if (filmes.isEmpty()) {
 	        System.out.println("Não existe esse filme em seu cadastro.");
 	    } else {
+	    	System.out.println();
 	        for (Filme f : filmes) {
 	            System.out.println(i + " - Nome: " + f.getTitulo() +
 	                    " | Gênero: " + f.getGenero() +
@@ -143,7 +146,7 @@ public class MenuFilmesConsole {
 	        }
 	    }
 	    if (!filmes.isEmpty()) {
-	        System.out.println("Escolha o n° do filme que deseja modificar: ");
+	        System.out.print("\nEscolha o n° do filme que deseja modificar: ");
 	        op = Util.leInteiroConsole(input);
 	        if (op >= 1 && op <= filmes.size()) {
 	            Filme escolhaFilme = resultado.get(op - 1);
@@ -160,26 +163,27 @@ public class MenuFilmesConsole {
 	    int op = 0, escolhaCliente = 0, tipo = 0, ano, mes;
 
 	    do {    
-	        System.out.println("Digite a opção:\n\t1 - Editar filme\n\t2 - Excluir filme\n\t3 - Locar para cliente\n\t4 - Voltar\n");
+	        System.out.println("\nDigite a opção:\n\t1 - Editar filme\n\t2 - Excluir filme\n\t3 - Locar para cliente\n\t4 - Voltar\n");
+	        System.out.print("Informe o que você deseja: ");
 	        op = Util.leInteiroConsole(input);
-
+	        System.out.println();
 	        switch (op) {
 	            case 1:
 	                input.nextLine();
 	                String titulo, genero, tipoFilme;  
 	                int anoLancado, quantidadeDvds, quantidadeBluerays;
 
-	                System.out.println("Digite o nome do filme: ");
-	                titulo = input.nextLine();
-	                System.out.println("Digite o gênero do filme: ");
-	                genero = input.nextLine();
-	                System.out.println("Digite o tipo do filme: ");
-	                tipoFilme = input.nextLine();
-	                System.out.println("Digite o ano de lançamento do filme: ");
+	                System.out.print("Digite o nome do filme: ");
+	                titulo = Util.leStringConsole(input);
+	                System.out.print("Digite o gênero do filme: ");
+	                genero = Util.leStringConsole(input);
+	                System.out.print("Digite o tipo do filme: ");
+	                tipoFilme = Util.leStringConsole(input);
+	                System.out.print("Digite o ano de lançamento do filme: ");
 	                anoLancado = Util.leInteiroConsole(input);
-	                System.out.println("Digite a quantidade de DVD's do filme: ");
+	                System.out.print("Digite a quantidade de DVD's do filme: ");
 	                quantidadeDvds = Util.leInteiroConsole(input);
-	                System.out.println("Digite a quantidade de Blu-rays do filme: ");
+	                System.out.print("Digite a quantidade de Blu-rays do filme: ");
 	                quantidadeBluerays = Util.leInteiroConsole(input);
 
 	                if (titulo.isBlank() || genero.isBlank() || tipoFilme.isBlank()) {
@@ -197,7 +201,7 @@ public class MenuFilmesConsole {
 	                        filme.setAnoLancado(anoLancado);
 	                        filme.setQuantidadeDvds(quantidadeDvds);
 	                        filme.setQuantidadeBluerays(quantidadeBluerays);
-	                        System.out.println("Filme atualizado com sucesso!");
+	                        System.out.println("\nFilme atualizado com sucesso!");
 	                    }
 	                }
 	                break;
@@ -209,7 +213,7 @@ public class MenuFilmesConsole {
 
 	            case 3:
 	                System.out.println("Deseja locar um DVD ou Blu-ray?\n\t1 - DVD\n\t2 - Blu-ray");
-	                
+	                System.out.print("Tipo de locação: ");
 	                tipo = Util.leInteiroConsole(input);
 	                input.nextLine();
 	                if(tipo == 1 || tipo ==2) {
@@ -219,10 +223,11 @@ public class MenuFilmesConsole {
 	                }
 
 	                List<Cliente> clientes = controle.getClientes();
-	                System.out.println("Digite o nome do cliente ou dependente para locar o filme: ");
-	                String nome = input.nextLine();
+	                System.out.print("Digite o nome do cliente ou dependente para locar o filme: ");
+	                System.out.print("Nome/Dependente: ");
+	                String nome = Util.leStringConsole(input);
 	                
-	                System.out.println("Digite o mês de locação:");
+	                System.out.print("Digite o mês de locação: ");
 	                while (true) {
 	                    mes = Util.leInteiroConsole(input);
 	                    if (mes < 1 || mes > 12) {
@@ -232,7 +237,7 @@ public class MenuFilmesConsole {
 	                    }
 	                }
 
-	                System.out.println("Digite o ano de locação:");
+	                System.out.print("Digite o ano de locação: ");
 	                ano = Util.leInteiroConsole(input);
 
 	                List<Cliente> clientesEncontrados = new ArrayList<>();
@@ -269,7 +274,7 @@ public class MenuFilmesConsole {
 	                        Cliente cliente = clientesEncontrados.get(i);
 	                        System.out.println((i + 1) + " - Nome: " + cliente.getNome() + " | Código: " + cliente.getCodigo() + " | CPF: " + cliente.getCpf());
 	                    }
-	                    System.out.println("Escolha o número do cliente que deseja locar o filme: ");
+	                    System.out.print("Escolha o número do cliente que deseja locar o filme: ");
 	                    escolhaCliente = Util.leInteiroConsole(input) - 1;
 
 	                    if (escolhaCliente >= 0 && escolhaCliente < clientesEncontrados.size()) {

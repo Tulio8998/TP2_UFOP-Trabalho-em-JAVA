@@ -30,7 +30,7 @@ public class Util {
 				continua = false;		
 			}
 			catch(InputMismatchException e){
-				System.out.println("Erro ao ler número!\nDigite novamente:");
+				System.out.print("Erro ao ler número!\nDigite novamente: ");
 				in.nextLine();
 				continua = true;
 			}
@@ -47,13 +47,33 @@ public class Util {
 				continua = false;		
 			}
 			catch(InputMismatchException e){
-				System.out.println("Erro ao ler número!\nDigite novamente:");
+				System.out.print("Erro ao ler número!\nDigite novamente: ");
 				in.nextLine();
 				continua = true;
 			}
 		}while(continua);
 		return r;
 	}
+	
+	public static String leStringConsole(Scanner in){
+		String r = null;
+		boolean continua = false;
+		do{
+			try{
+				r = in.nextLine();
+				r = r.trim();
+				continua = false;		
+			}
+			catch(InputMismatchException e){
+				System.out.print("Erro ao fazer a leitura!\nDigite novamente: ");
+				in.nextLine();
+				continua = true;
+			}
+		}while(continua);
+		return r;
+	}
+	
+	
 	
 	
 	
