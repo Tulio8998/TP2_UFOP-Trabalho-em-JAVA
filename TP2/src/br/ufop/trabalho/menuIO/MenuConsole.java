@@ -12,7 +12,7 @@ public class MenuConsole {
 	private Disco disco;
 	private String arquivoClientes = "clientes.data";
     private String arquivoFilmes = "filmes.data";
-    private String arquivoMovimentacoes = "movimentacoes.data";
+
     
 	private MenuClienteConsole menuCliente;
 	private MenuFilmesConsole menuFilmes;
