@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import br.ufop.trabalho.controle.Controle;
 import br.ufop.trabalho.entities.Cliente;
 import br.ufop.trabalho.entities.Filme;
+import br.ufop.trabalho.movimentacao.Movimentacao;
 
 public class Disco {
 

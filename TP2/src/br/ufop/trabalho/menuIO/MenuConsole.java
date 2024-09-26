@@ -12,7 +12,8 @@ public class MenuConsole {
 	private Disco disco;
 	private String arquivoClientes = "clientes.data";
     private String arquivoFilmes = "filmes.data";
-
+    private String arquivoMovimentacoes = "movimentacoes.data";
+    
 	private MenuClienteConsole menuCliente;
 	private MenuFilmesConsole menuFilmes;
 	private MenuRelatorioConsole menuRelatorio;
@@ -26,7 +27,7 @@ public class MenuConsole {
 		disco = new Disco(controle);
 		disco.carregarClientes(arquivoClientes);
 		disco.carregarFilmes(arquivoFilmes);
-
+		
 		menuCliente = new MenuClienteConsole(controle, input);
 		menuFilmes = new MenuFilmesConsole(controle, input);
 		menuRelatorio = new MenuRelatorioConsole(controle, input);

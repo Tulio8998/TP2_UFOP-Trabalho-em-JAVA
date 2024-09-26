@@ -70,56 +70,82 @@ public class MenuBalanceteConsole{
 	private void cadastrarEntrada() {
 		input.nextLine();
         System.out.println("--- Cadastro de Entrada ---");
-        System.out.println("Nome da entrada: ");
+        System.out.print("Nome da entrada: ");
         String nome = input.nextLine();
-        System.out.println("Descrição da entrada: ");
+        System.out.print("Descrição da entrada: ");
         String descricao = input.nextLine();
-        System.out.println("Valor da entrada: ");
+        System.out.print("Valor da entrada: ");
         double valor = Util.leDoubleConsole(input);
-        System.out.println("Mês (1-12): ");
-        int mes = input.nextInt();
-        if(mes >= 1 && mes <= 12 ) {
-        	System.out.println("Ano: ");
-            int ano = Util.leInteiroConsole(input);
-            controle.cadastrarEntrada(nome, descricao , valor, mes, ano);
-            Entrada entrada = new Entrada(nome, descricao, valor, mes, ano);
-            System.out.println(entrada.toString());
-            System.out.println("Entrada cadastrada com sucesso!");
-        } else {
-        	System.out.println("Mês invalido!");
-        }
+        System.out.print("Mês (1-12): ");
+        int mes;
+		while(true){
+			mes = Util.leInteiroConsole(input);
+			if(mes<1 || mes>12){
+				System.out.print("Digite um mês valido");
+			}
+			else{
+				break;
+			}
+		}
+        System.out.print("Ano: ");
+		int ano;
+		while(true){
+			ano = Util.leInteiroConsole(input);
+			if (String.valueOf(ano).length() == 4) { 
+		        break;
+		    } else {
+		        System.out.print("Digite um ano válido (com 4 dígitos): ");
+		    }
+		}
+        controle.cadastrarEntrada(nome, descricao , valor, mes, ano);
+        Entrada entrada = new Entrada(nome, descricao, valor, mes, ano);
+        System.out.println(entrada.toString());
+        System.out.println("Entrada cadastrada com sucesso!");
         
     }
 	
 	private void cadastrarSaida() {
 	    input.nextLine();	
         System.out.println("--- Cadastro de Saída ---");
-	    System.out.println("\nInforme o nome da saída efetuada");
+	    System.out.print("\nInforme o nome da saída efetuada: ");
 	    String nome = input.nextLine();
-	    System.out.println("\nDê uma descrição para a saída efetuada: ");
+	    System.out.print("\nDê uma descrição para a saída efetuada: ");
 	    String descricao = input.nextLine();	    
-	    System.out.println("\nValor da saída: ");
+	    System.out.print("\nValor da saída: ");
 	    double valor = Util.leDoubleConsole(input);      
-        System.out.println("\nMês (1-12): ");
-        int mes = Util.leInteiroConsole(input);      
-        if (mes >= 1 && mes <= 12 ) {
-        	System.out.println("\nAno: ");
-        	int ano = Util.leInteiroConsole(input);
-        	input.nextLine();
-            controle.cadastrarSaida(nome, descricao, valor, mes, ano);            
-            Saida saida = new Saida(nome, descricao, valor, mes, ano);
-            System.out.println(saida.toString());          
-            System.out.println("Saída cadastrada com sucesso!");
-        } else {
-        	System.out.println("Mês invalido!");
-        }
+        System.out.print("\nMês (1-12): ");
+        int mes = Util.leInteiroConsole(input); 
+        while(true){
+			mes = Util.leInteiroConsole(input);
+			if(mes<1 || mes>12){
+				System.out.print("Digite um mês valido");
+			}
+			else{
+				break;
+			}
+		}
+        System.out.print("\nAno: ");
+		int ano;
+		while(true){
+			ano = Util.leInteiroConsole(input);
+			if (String.valueOf(ano).length() == 4) { 
+		        break;
+		    } else {
+		        System.out.print("Digite um ano válido (com 4 dígitos): ");
+		    }
+		}
+        input.nextLine();
+        controle.cadastrarSaida(nome, descricao, valor, mes, ano);            
+        Saida saida = new Saida(nome, descricao, valor, mes, ano);
+        System.out.println(saida.toString());          
+        System.out.println("Saída cadastrada com sucesso!");
         
 	}
 	
 	private void buscarMovimentacoes() {
         input.nextLine();
         System.out.println("--- Busca de Movimentações ---");
-        System.out.println("Digite o nome da movimentação: ");
+        System.out.print("Digite o nome da movimentação: ");
         String nome = input.nextLine();
         List<Movimentacao> movimentacoes = controle.buscarMovimentacaoPorNome(nome.toLowerCase());
         if (!movimentacoes.isEmpty()) {
@@ -135,18 +161,35 @@ public class MenuBalanceteConsole{
 	
 	private void balancetePorMes() {
 		input.nextLine();
+		int mes;
         System.out.println("--- Balancete por Mês ---");
-        System.out.println("Digite o mês (1-12): ");
-        int mes = input.nextInt();
-        
+        System.out.print("Digite o mês (1-12): ");
+        while(true){
+			mes = Util.leInteiroConsole(input);
+			if(mes<1 || mes>12){
+				System.out.print("Digite um mês valido: ");
+			}
+			else{
+				break;
+			}
+		}
         controle.calcularBalancetePorMes(mes);
     }
 
     private void balancetePorAno() {
     	input.nextLine();
+    	int ano;
         System.out.println("--- Balancete por Ano ---");
-        System.out.println("Digite o ano: ");
-        int ano = input.nextInt();
+        System.out.print("Digite o ano: ");
+        System.out.print("\nAno: ");
+        while(true){
+			ano = Util.leInteiroConsole(input);
+			if (String.valueOf(ano).length() == 4) { 
+		        break;
+		    } else {
+		        System.out.print("Digite um ano válido (com 4 dígitos): ");
+		    }
+		}
         controle.calcularBalancetePorAno(ano);
     }
 	

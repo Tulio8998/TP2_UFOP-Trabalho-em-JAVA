@@ -81,7 +81,7 @@ public class MenuRelatorioConsole {
 	}
 	
 	private void gerarRelatorioClientes(List<Cliente>clientes) {
-
+		
 		System.out.println("\n----------------------------------------- Relatório de Clientes -----------------------------------------");
        		
         for(Cliente cliente : clientes) {
@@ -92,8 +92,10 @@ public class MenuRelatorioConsole {
 			System.out.println(infoClientes);      
 			if(!cliente.getFilmes().isEmpty()) {
 				System.out.println("\nFilmes alugados:");
+				int count=0;
 				for(Filme filme: cliente.getFilmes()) {
-					System.out.print("- " + filme.getTitulo() + "\n");
+					System.out.print("- " + filme.getTitulo() +  " (" + cliente.getTipoMidiaLocada().get(count) + ")\n");
+					count++;
 				}
 			} else {
 				System.out.println("\nEsse usuário não alugou nenhum filme.");

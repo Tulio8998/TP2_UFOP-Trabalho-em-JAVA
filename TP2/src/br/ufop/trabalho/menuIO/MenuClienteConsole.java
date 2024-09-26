@@ -28,7 +28,7 @@ public class MenuClienteConsole {
 		boolean continua = true;
 		int op  = 0;
 		do{	
-			System.out.println("\nDigite a opção:\n\t1 - Cadastrar Cliente\n\t2 - Buscar clientes\n\t3 - imprime Lista de Clientes\n\t4 - Voltar\n");
+			System.out.println("\nDigite a opção:\n\t1 - Cadastrar Cliente\n\t2 - Buscar clientes\n\t3 - Voltar\n");
 			System.out.print("Informe o que você deseja: ");
 			op = Util.leInteiroConsole(input);
 			switch(op){
@@ -45,9 +45,6 @@ public class MenuClienteConsole {
 					}
 					break;
 				case 3:
-					imprimeListaClientes();
-					break;
-				case 4:
 					return;
 				default:
 					System.out.println("Opção Inválida!\n");
@@ -139,7 +136,7 @@ public class MenuClienteConsole {
 					break;
 
 				default:
-					System.out.println("Opção invalida!");
+					System.out.println("Opção invalida!\n");
 					break;
 			}
 		}
@@ -147,7 +144,7 @@ public class MenuClienteConsole {
 	
 	private void exibirBuscaClientes(List<Cliente> clientes){
 		if(clientes.isEmpty()){
-			System.out.println("Cliente inexistente.\n");
+			System.out.println("Cliente inexistente.");
 		}
 		else{
 			int count=1;
@@ -162,6 +159,9 @@ public class MenuClienteConsole {
 			for(Cliente c : clientes){
 				if(count==op){
 					exibeOpcoesCliente(c);
+				} else {
+					System.out.println("Opção Inválida!");
+					break;
 				}
 				count++;
 			}
@@ -185,7 +185,7 @@ public class MenuClienteConsole {
 			op = Util.leInteiroConsole(input);
 			switch(op){
 				case 1:
-					System.out.print("Insira as novas informacoes: ");
+					System.out.println("\nInsira as novas informacoes");
 					editarCliente(cliente);
 					imprimirCliente(cliente);
 					break;
@@ -208,11 +208,11 @@ public class MenuClienteConsole {
 							locarFilme(cliente);
 						}
 						else{
-							System.out.println("O cliente atingiu o numero maximo de filmes locados!");
+							System.out.println("O cliente atingiu o numero maximo de filmes locados\n");
 						}
 					}
 					else{
-						System.out.println("O cliente possui debitos nao pagos. Pague as multas pendentes para poder locar mais filmes!");
+						System.out.println("O cliente possui debitos não pagos. Pague as multas pendentes para poder locar mais filmes!");
 					}
 					break;
 
@@ -227,10 +227,10 @@ public class MenuClienteConsole {
 
 				case 6:
 					if(cliente.getMulta()==0){
-						System.out.println("Nao ha multa para ser paga.");
+						System.out.println("Nao há multa para ser paga.\n");
 					}
 					else{
-						System.out.println("Digite o mes do pagamento da multa:");
+						System.out.print("Digite o mês do pagamento da multa: ");
 						int mes;
 						while(true){
 							mes = Util.leInteiroConsole(input);
@@ -242,10 +242,18 @@ public class MenuClienteConsole {
 							}
 						}
 						System.out.print("Digite o ano do pagamento da multa: ");
-						int ano = Util.leInteiroConsole(input);
+						int ano;
+						while(true){
+		        			ano = Util.leInteiroConsole(input);
+		        			if (String.valueOf(ano).length() == 4) { 
+		        		        break;
+		        		    } else {
+		        		        System.out.print("Digite um ano válido (com 4 dígitos): ");
+		        		    }
+		        		}
 						controle.cadastrarEntrada("Pagamento de multa", "Cliente: "+cliente.getNome(), cliente.getMulta(), mes, ano);
 						cliente.zerarMulta();
-						System.out.println("Multa paga com sucesso!");
+						System.out.println("Multa paga com sucesso!\n");
 					}
 					break;
 
@@ -254,23 +262,23 @@ public class MenuClienteConsole {
 					break;
 
 				default:
-					System.out.println("Opcao invalida!");
+					System.out.println("Opção invalida!\n");
 					break;
 			}
 		}
 	}
 	
 	private void imprimirCliente(Cliente cliente){
-		System.out.println("Dados do cliente:\n");
+		System.out.println("\nDados do cliente");
 		System.out.println("Nome: " + cliente.getNome());
 		System.out.println("Codigo: " + cliente.getCodigo());
 		System.out.println("CPF: " + cliente.getCpf());
 		System.out.println("Data de nascimento: " + cliente.getDataNascimento());
 		System.out.println("Endereco: " + cliente.getEndereco());
-		System.out.println("Filmes locados:\n");
+		System.out.println("Filmes locados:");
 		imprimirFilmesLocados(cliente);
-		System.out.println("\nMulta: R$" + cliente.getMulta());
-		System.out.println("Dependentes:"); 
+		System.out.println("Multa: R$" + cliente.getMulta());
+		System.out.print("Dependentes:\n"); 
 		imprimeListaDependentes(cliente);
 	}
 
@@ -296,7 +304,7 @@ public class MenuClienteConsole {
 
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 			while (true) {
-				System.out.println("Digite a data de nascimento do cliente (dd/MM/yyyy): ");
+				System.out.print("Digite a data de nascimento do cliente (dd/MM/yyyy): ");
 				String dataString = Util.leStringConsole(input);
 				try {
 					dataNascimento = LocalDate.parse(dataString, formatter);
@@ -332,7 +340,7 @@ public class MenuClienteConsole {
 
 	    do {
 	        if (contadorDependentes < 3) {
-	            System.out.println("Deseja cadastrar dependente? \n\t1 - Cadastrar dependente\n\t2 - Não cadastrar dependente\n");
+	            System.out.println("\nDeseja cadastrar dependente? \n\t1 - Cadastrar dependente\n\t2 - Não cadastrar dependente\n");
 	            System.out.print("Informe o que você deseja: ");
 	            int resp = Util.leInteiroConsole(input);
 	            switch (resp) {
@@ -348,7 +356,7 @@ public class MenuClienteConsole {
 	                    cpf = Util.leStringConsole(input);
 	                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	                    while (true) {
-	                        System.out.println("Digite a data de nascimento do dependente (dd/MM/yyyy): ");
+	                        System.out.print("Digite a data de nascimento do dependente (dd/MM/yyyy): ");
 	                        String dataString = Util.leStringConsole(input);
 	                        try {
 	                            dataNascimento = LocalDate.parse(dataString, formatter);
@@ -408,7 +416,7 @@ public class MenuClienteConsole {
 				}
 				if(dependenteEncontrado==true){
 					cliente.excluirDependente(ctrl);
-					System.out.println("Exclusão bem sucedida!");
+					System.out.println("Exclusão bem sucedida!\n");
 				}
 				else{
 					System.out.println("Não existe dependente correspondente.");
@@ -426,7 +434,7 @@ public class MenuClienteConsole {
 	
 	public void locarFilme(Cliente cliente){
 		input.nextLine();
-		System.out.print("Digite o nome do filme que deseja locar: ");
+		System.out.print("\nDigite o nome do filme que deseja locar: ");
 		String nome = Util.leStringConsole(input);
 		if(controle.buscarFilme(nome).isEmpty()){
 			System.out.println("Sem resultados disponíveis para este filme.");
@@ -438,13 +446,13 @@ public class MenuClienteConsole {
 				System.out.println("Desculpe. Todas copias deste filme ja estao locadas!");
 			}
 			else{
-				System.out.println("Deseja locar um DVD ou Blu-ray?\n1 - DVD\n2 - Blu-ray");
+				System.out.println("Deseja locar um DVD ou Blu-ray?\n\t1 - DVD\n\t2 - Blu-ray");
 				System.out.print("Tipo de locação: ");
 				int op = Util.leInteiroConsole(input);
 				switch(op){
 					case 1:
 						if(filme.getQuantidadeDvds()==0){
-							System.out.println("Não existe DVD disponíveil para este filme");
+							System.out.println("Não existe DVD disponível para este filme.\n");
 						}
 						else{
 							System.out.print("Digite o mês de locacao: ");
@@ -458,9 +466,16 @@ public class MenuClienteConsole {
 									break;
 								}
 							}
-							System.out.print("Digite o ano do pagamento da multa: ");
-							int ano = Util.leInteiroConsole(input);
-
+							System.out.print("Digite o ano: ");
+							int ano;
+							while(true){
+			        			ano = Util.leInteiroConsole(input);
+			        			if (String.valueOf(ano).length() == 4) { 
+			        		        break;
+			        		    } else {
+			        		        System.out.print("Digite um ano válido (com 4 dígitos): ");
+			        		    }
+			        		}
 							System.out.println("\nCliente: " + cliente.getNome());
 							System.out.println("Filme: " + filme.getTitulo());
 							System.out.println("Valor: R$" + controle.getValorLocacaoDiaria(filme));
@@ -469,16 +484,16 @@ public class MenuClienteConsole {
 							cliente.getTipoMidiaLocada().add("DVD");
 							cliente.getFilmes().add(filme);	
 							controle.cadastrarEntrada("Pagamento de locacao", "Cliente: "+cliente.getNome()+" Filme: "+filme.getTitulo(), controle.getValorLocacaoDiaria(filme), mes, ano);
-							System.out.println("Filme locado com sucesso!");
+							System.out.println("Filme locado com sucesso!\n");
 						}
 						break;
 
 					case 2:
 						if(filme.getQuantidadeBluerays()==0){
-							System.out.println("Não existe Blu-ray disponível para este filme");
+							System.out.println("Não existe Blu-ray disponível para este filme.\n");
 						}
 						else{
-							System.out.println("Digite o mês de locacao: ");
+							System.out.print("Digite o mês de locacao: ");
 							int mes;
 							while(true){
 								mes = Util.leInteiroConsole(input);
@@ -489,8 +504,16 @@ public class MenuClienteConsole {
 									break;
 								}
 							}
-							System.out.print("Digite o ano do pagamento da multa: ");
-							int ano = Util.leInteiroConsole(input);
+							System.out.print("Digite o ano: ");
+							int ano;
+							while(true){
+			        			ano = Util.leInteiroConsole(input);
+			        			if (String.valueOf(ano).length() == 4) { 
+			        		        break;
+			        		    } else {
+			        		        System.out.print("Digite um ano válido (com 4 dígitos): ");
+			        		    }
+			        		}
 
 							System.out.println("\nCliente: " + cliente.getNome());
 							System.out.println("Filme: " + filme.getTitulo());
@@ -500,12 +523,12 @@ public class MenuClienteConsole {
 							cliente.getTipoMidiaLocada().add("Blu-ray");
 							cliente.getFilmes().add(filme);	
 							controle.cadastrarEntrada("Pagamento de locacao", "Cliente: "+cliente.getNome()+" Filme: "+filme.getTitulo(), controle.getValorLocacaoDiaria(filme), mes, ano);
-							System.out.println("Filme locado com sucesso!");
+							System.out.println("Filme locado com sucesso!\n");
 						}
 						break;
 
 					default:
-						System.out.println("Opcao invalida");
+						System.out.println("Opção invalida!\n");
 						break;
 				}
 			}
@@ -513,6 +536,7 @@ public class MenuClienteConsole {
 	}
 
 	private void devolverFilme(Cliente cliente){
+		System.out.println();
 		imprimirFilmesLocados(cliente);
 		if(!cliente.getFilmes().isEmpty()){
 			input.nextLine();
@@ -533,20 +557,22 @@ public class MenuClienteConsole {
 					}
 					boolean rodando = true;
 					while(rodando){						
-						System.out.println("Filme removido com sucesso!\n");
-						System.out.println("Houve atraso na devolução?\n1 - Sim\n2 - Nao");
+						System.out.println("\nHouve atraso na devolução?\n1 - Sim\n2 - Nao");
+						System.out.print("Resposta: ");
 						int op = Util.leInteiroConsole(input);
 						switch(op){
 							case 1:
 								input.nextLine();
 								System.out.println("Quantos dias de atraso?");
-								System.out.print("Respota: ");
+								System.out.print("Resposta: ");
 								op = Util.leInteiroConsole(input);
 								controle.aplicarMulta(cliente, op);
+								System.out.println("Filme devolvido com sucesso!\n");
 								rodando = false;
 								break;
 
 							case 2:
+								System.out.println("Filme devolvido com sucesso!\n");
 								rodando=false;
 								break;
 
@@ -559,7 +585,7 @@ public class MenuClienteConsole {
 				}
 				count++;
 			}
-			System.out.println("Você não possui filme correspondente locado!");
+			System.out.println("Você não possui filme correspondente locado!\n");
 		}
 	}
 	

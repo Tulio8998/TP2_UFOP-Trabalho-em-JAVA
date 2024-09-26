@@ -24,7 +24,7 @@ public class MenuFilmesConsole {
 		boolean continua = true;
 		int op  = 0;
 		do{	
-			System.out.print("\nDigite a opção:\n\t1 - Cadastrar filme\n\t2 - Buscar filme\n\t3 - imprime Lista de filmes\n\t4 - Voltar\n");
+			System.out.print("\nDigite a opção:\n\t1 - Cadastrar filme\n\t2 - Buscar filme\n\t3- Voltar\n");
 			System.out.print("Informe o que você deseja: ");
 			op = Util.leInteiroConsole(input);
 			System.out.println();
@@ -38,10 +38,6 @@ public class MenuFilmesConsole {
 				break;
 				
 				case 3:
-					imprimeListaFilmes();
-				break;
-				
-				case 4:
 					System.out.println("Você está saindo da área de Filmes...\n");
 					continua = false;
 				break;
@@ -224,21 +220,26 @@ public class MenuFilmesConsole {
 
 	                List<Cliente> clientes = controle.getClientes();
 	                System.out.print("Digite o nome do cliente ou dependente para locar o filme: ");
-	                System.out.print("Nome/Dependente: ");
 	                String nome = Util.leStringConsole(input);
 	                
 	                System.out.print("Digite o mês de locação: ");
 	                while (true) {
 	                    mes = Util.leInteiroConsole(input);
 	                    if (mes < 1 || mes > 12) {
-	                        System.out.println("Digite um mês válido.");
+	                        System.out.print("Digite um mês válido: ");
 	                    } else {
 	                        break;
 	                    }
 	                }
-
-	                System.out.print("Digite o ano de locação: ");
-	                ano = Util.leInteiroConsole(input);
+	                System.out.print("Digite o ano: ");
+	                while(true){
+	        			ano = Util.leInteiroConsole(input);
+	        			if (String.valueOf(ano).length() == 4) { 
+	        		        break;
+	        		    } else {
+	        		        System.out.print("Digite um ano válido (com 4 dígitos): ");
+	        		    }
+	        		}
 
 	                List<Cliente> clientesEncontrados = new ArrayList<>();
 	                Cliente clienteEscolhido = null;
