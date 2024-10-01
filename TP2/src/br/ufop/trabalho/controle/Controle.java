@@ -164,8 +164,7 @@ public class Controle {
     
 	public boolean verificarClienteRepetido(Cliente cliente) {
 		for (Cliente c : clientes ) {
-			if (c.equals(cliente)) {
-                
+			if (c.equals(cliente)) {             
                 return true;
             }
         }
@@ -174,8 +173,7 @@ public class Controle {
 	
 	public boolean verificarDependenteRepetido(Dependentes dependente) {
 		for (Dependentes d : cliente.getDependentes() ) {
-			if (d.equals(dependente)) {
-                
+			if (d.equals(dependente)) {                
                 return true;
             }
         }
@@ -184,8 +182,7 @@ public class Controle {
 	
 	public boolean verificarFilmeRepetido(Filme filme) {
 		for (Filme f : filmes ) {
-			if (f.equals(filme)) {
-                
+			if (f.equals(filme)) {                
                 return true;
             }
         }
@@ -390,6 +387,12 @@ public class Controle {
 			if(!filmes.isEmpty()) {
 				filmes.remove(filme);
 			}
+	}
+	
+	public void exluirMovimentacoes(Movimentacao movimentacao) {
+		if(!movimentacoes.isEmpty()) {
+			movimentacoes.remove(movimentacao);
+		}
 	}
 	
 }

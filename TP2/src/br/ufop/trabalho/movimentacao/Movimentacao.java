@@ -1,6 +1,7 @@
 package br.ufop.trabalho.movimentacao;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public abstract class Movimentacao implements Serializable{
 	
@@ -20,28 +21,67 @@ public abstract class Movimentacao implements Serializable{
     }
 
     public String getNome() {
-        return nome;
-    }
+		return nome;
+	}
 
-    public double getValor() {
-        return valor;
-    }
-    
-    public String getDescricao() {
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getDescricao() {
 		return descricao;
 	}
 
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public double getValor() {
+		return valor;
+	}
+
+	public void setValor(double valor) {
+		this.valor = valor;
+	}
+
 	public int getMes() {
-        return mes;
-    }
+		return mes;
+	}
 
-    public int getAno() {
-        return ano;
-    }
+	public void setMes(int mes) {
+		this.mes = mes;
+	}
 
-    public abstract String getTipo();
+	public int getAno() {
+		return ano;
+	}
 
-    @Override
+	public void setAno(int ano) {
+		this.ano = ano;
+	}
+
+	public abstract String getTipo();
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(ano, descricao, mes, nome, valor);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Movimentacao other = (Movimentacao) obj;
+		return ano == other.ano && Objects.equals(descricao, other.descricao) && mes == other.mes
+				&& Objects.equals(nome, other.nome)
+				&& Double.doubleToLongBits(valor) == Double.doubleToLongBits(other.valor);
+	}
+
+	@Override
     public String toString() {
         return "\nMovimentacao efetuada" + 
                 "\n| Nome: " + nome +

@@ -1,10 +1,14 @@
 package br.ufop.trabalho.menuIO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import br.ufop.trabalho.Util;
 import br.ufop.trabalho.controle.Controle;
+import br.ufop.trabalho.entities.Cliente;
+import br.ufop.trabalho.entities.Dependentes;
+import br.ufop.trabalho.entities.Filme;
 import br.ufop.trabalho.entities.Funcionario;
 import br.ufop.trabalho.movimentacao.Entrada;
 import br.ufop.trabalho.movimentacao.Movimentacao;
@@ -107,14 +111,14 @@ public class MenuBalanceteConsole{
 	private void cadastrarSaida() {
 	    input.nextLine();	
         System.out.println("--- Cadastro de Saída ---");
-	    System.out.print("\nInforme o nome da saída efetuada: ");
+	    System.out.print("Nome da saída: ");
 	    String nome = input.nextLine();
-	    System.out.print("\nDê uma descrição para a saída efetuada: ");
+	    System.out.print("Descrição da saída: ");
 	    String descricao = input.nextLine();	    
-	    System.out.print("\nValor da saída: ");
+	    System.out.print("Valor da saída: ");
 	    double valor = Util.leDoubleConsole(input);      
-        System.out.print("\nMês (1-12): ");
-        int mes = Util.leInteiroConsole(input); 
+        System.out.print("Mês (1-12): ");
+        int mes;
         while(true){
 			mes = Util.leInteiroConsole(input);
 			if(mes<1 || mes>12){
@@ -144,20 +148,102 @@ public class MenuBalanceteConsole{
 	
 	private void buscarMovimentacoes() {
         input.nextLine();
+        int op = 0, i = 1;
+        List<Movimentacao> resultado = new ArrayList<>();
         System.out.println("--- Busca de Movimentações ---");
         System.out.print("Digite o nome da movimentação: ");
         String nome = input.nextLine();
         List<Movimentacao> movimentacoes = controle.buscarMovimentacaoPorNome(nome.toLowerCase());
         if (!movimentacoes.isEmpty()) {
             System.out.println("Movimentações encontradas:");
-            for (int i = 0; i < movimentacoes.size(); i++) {
-                System.out.println((i + 1) + " - " + movimentacoes.get(i).getTipo() + " | " + movimentacoes.get(i).getNome() + " | " + movimentacoes.get(i).getDescricao() + " | R$ " + movimentacoes.get(i).getValor());
+            for (Movimentacao m : movimentacoes) {
+                System.out.println(i + " - " + m.getTipo() + " | " + m.getNome() + " | " + m.getDescricao() + " | R$ " + m.getValor());
+                i++;
+                resultado.add(m);
             }
+            System.out.print("\nEscolha o n° da movimenção que deseja modificar: ");
+	        op = Util.leInteiroConsole(input);
+	        if (op >= 1 && op <= movimentacoes.size()) {
+	        	Movimentacao movimentacaoEscolhida = resultado.get(op - 1);
+	        	modificarMovimentacao(movimentacaoEscolhida);
+	        } else {
+	            System.out.println("Opção de movimentação inválida.");
+	        }
+            System.out.println();
         } else {
             System.out.println("Nenhuma movimentação encontrada com esse nome.");
         }
     }
 	
+	private void modificarMovimentacao(Movimentacao movimentacao) {
+		 input.nextLine();
+		    boolean continua = true;
+		    int op = 0, ano, mes;
+
+		    do {    
+		        System.out.println("\nDigite a opção:\n\t1 - Editar movimentação\n\t2 - Excluir movimentação\n\t3 - Voltar\n");
+		        System.out.print("Informe o que você deseja: ");
+		        op = Util.leInteiroConsole(input);
+		        System.out.println();
+		        switch (op) {
+		            case 1:
+		                input.nextLine();
+		                String nome, descricao;  
+		                double valor; 
+		                
+		                System.out.print("Digite o nome da movimentação: ");
+		                nome = Util.leStringConsole(input);
+		                System.out.print("Digite a descrição da movimentação: ");
+		                descricao = Util.leStringConsole(input);
+		                System.out.print("Valor da saída: ");
+		        	    valor = Util.leDoubleConsole(input);      
+		                System.out.print("Mês (1-12): ");
+		                while(true){
+		        			mes = Util.leInteiroConsole(input);
+		        			if(mes<1 || mes>12){
+		        				System.out.print("Digite um mês valido");
+		        			}
+		        			else{
+		        				break;
+		        			}
+		        		}
+		                System.out.print("Ano: ");
+		        		while(true){
+		        			ano = Util.leInteiroConsole(input);
+		        			if (String.valueOf(ano).length() == 4) { 
+		        		        break;
+		        		    } else {
+		        		        System.out.print("Digite um ano válido (com 4 dígitos): ");
+		        		    }
+		        		}
+		                input.nextLine();
+		                
+		                if (nome.isBlank() || descricao.isBlank()) {
+		                    System.out.println("Todos os campos devem ser preenchidos!");
+		                } else {
+		                	movimentacao.setNome(nome);
+		                	movimentacao.setDescricao(descricao);
+		                	movimentacao.setValor(valor);
+		                	movimentacao.setMes(mes);
+		                	movimentacao.setAno(ano);	                      
+		                    System.out.println("\nMovimentação atualizada com sucesso!");
+		                    return;
+		                  }
+		                break;
+
+		            case 2:
+		            	controle.exluirMovimentacoes(movimentacao);
+		            	System.out.println("Movimentação removido com sucesso!");
+		            	return;
+
+		            case 3:
+		                return;
+
+		            default:
+		                System.out.println("Opção inválida!");
+		        }
+		    } while (continua);
+	}
 	
 	private void balancetePorMes() {
 		input.nextLine();

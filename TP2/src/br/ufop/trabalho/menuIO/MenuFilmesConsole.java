@@ -204,7 +204,7 @@ public class MenuFilmesConsole {
 
 	            case 2:
 	                controle.exluirFilmes(filme);
-	                System.out.println("Filme removido com sucesso!");
+	                System.out.println("\nFilme removido com sucesso!");
 	                return;
 
 	            case 3:
