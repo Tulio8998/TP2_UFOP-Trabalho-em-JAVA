@@ -82,13 +82,13 @@ public class MenuRelatorioConsole {
 	
 	private void gerarRelatorioClientes(List<Cliente>clientes) {
 		
-		System.out.println("\n----------------------------------------- Relatório de Clientes -----------------------------------------");
+		System.out.println("\n------------------------------------------------------------------------------- Relatório de Clientes -------------------------------------------------------------------------------");
        		
         for(Cliente cliente : clientes) {
 			String infoClientes =
 					"Código de Cadastro: " + cliente.getCodigo() + " | " + "Nome do Cliente: " + cliente.getNome() + " | " + 
-							"CPF: " + cliente.getCpf() + " | " + "Data de Nascimento:" + cliente.getDataNascimento() + " | " + 
-								"Multa: R$ " + cliente.getMulta();
+							"CPF: " + cliente.getCpf() + " | " + "Data de Nascimento: " + cliente.getDataNascimento() + " | " + 
+								"Endereço: " + cliente.getEndereco() + " | " + "Multa: R$ " + cliente.getMulta();
 			System.out.println(infoClientes);      
 			if(!cliente.getFilmes().isEmpty()) {
 				System.out.println("\nFilmes alugados:");
@@ -109,7 +109,7 @@ public class MenuRelatorioConsole {
 			} else {
 				System.out.println("\nEsse usuário não possuí a responsabilidade de nenhum dependente.");
 			}
-	        System.out.println("--------------------------------------------------------------------------------------------------------");
+	        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         }
 	}
 	

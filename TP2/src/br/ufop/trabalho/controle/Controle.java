@@ -194,11 +194,11 @@ public class Controle {
 	}
 	
 	public void cadastrarEntrada(String nome, String descricao, double valor, int mes, int ano) {
-        movimentacoes.add(new Entrada(nome, descricao, valor, mes, ano));
+        this.movimentacoes.add(new Entrada(nome, descricao, valor, mes, ano));
     }
 
     public void cadastrarSaida(String nome, String descricao, double valor, int mes, int ano) {
-        movimentacoes.add(new Saida(nome, descricao, valor, mes, ano));
+        this.movimentacoes.add(new Saida(nome, descricao, valor, mes, ano));
     }
 	
 	public int cadastrarCliente(String nome, String end, int codigo, String cpf, Data data){

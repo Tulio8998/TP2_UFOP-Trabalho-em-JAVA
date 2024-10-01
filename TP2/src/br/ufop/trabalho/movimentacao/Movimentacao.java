@@ -1,7 +1,10 @@
 package br.ufop.trabalho.movimentacao;
 
-public abstract class Movimentacao {
+import java.io.Serializable;
+
+public abstract class Movimentacao implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	private String nome;
 	private String descricao;
     private double valor;

@@ -12,7 +12,7 @@ public class MenuConsole {
 	private Disco disco;
 	private String arquivoClientes = "clientes.data";
     private String arquivoFilmes = "filmes.data";
-
+    private String arquivoMovimentacoes = "movimentacoes.data";
     
 	private MenuClienteConsole menuCliente;
 	private MenuFilmesConsole menuFilmes;
@@ -27,6 +27,7 @@ public class MenuConsole {
 		disco = new Disco(controle);
 		disco.carregarClientes(arquivoClientes);
 		disco.carregarFilmes(arquivoFilmes);
+		disco.carregarMovimentacoes(arquivoMovimentacoes);
 		
 		menuCliente = new MenuClienteConsole(controle, input);
 		menuFilmes = new MenuFilmesConsole(controle, input);
@@ -42,6 +43,7 @@ public class MenuConsole {
         } while (continua == true);
         disco.salvarClientes(arquivoClientes);
         disco.salvarFilmes(arquivoFilmes);
+        disco.salvarMovimentacoes(arquivoMovimentacoes);
         System.out.println("Obrigado por usar o sistema!");
     }
 	

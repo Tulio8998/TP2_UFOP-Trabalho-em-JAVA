@@ -443,7 +443,7 @@ public class MenuClienteConsole {
 			Filme filme = new Filme();
 			filme = controle.buscarFilme(nome).get(0);
 			if(filme.getQuantidadeBluerays()==0 && filme.getQuantidadeDvds()==0){
-				System.out.println("Desculpe. Todas copias deste filme ja estao locadas!");
+				System.out.println("Desculpe. Todas copias deste filme ja estao locadas!\n");
 			}
 			else{
 				System.out.println("Deseja locar um DVD ou Blu-ray?\n\t1 - DVD\n\t2 - Blu-ray");
