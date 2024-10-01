@@ -253,8 +253,11 @@ public class Controle {
 		for(Filme f : filmes) {
 			if(busca instanceof Integer) {
 				int quantidade = (Integer) busca;
-				if(f.getQuantidadeBluerays() == quantidade || f.getQuantidadeDvds() == quantidade) {
-					resultado.add(f);
+				if(f.getQuantidadeBluerays() == 0 || f.getQuantidadeDvds() == 0) {
+					return resultado;
+				}
+					if(f.getQuantidadeBluerays() == quantidade || f.getQuantidadeDvds() == quantidade) {
+						resultado.add(f);
 				}
 			} else if (busca instanceof String) {
 				String filme = (String) busca;
